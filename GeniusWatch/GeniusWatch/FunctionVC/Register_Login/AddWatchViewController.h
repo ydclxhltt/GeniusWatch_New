@@ -7,7 +7,10 @@
 //
 
 #import "BasicViewController.h"
+#import <UIKit/UIKit.h>
 
 @interface AddWatchViewController : BasicViewController
+
+@property (nonatomic, assign) ShowType showType;
 
 @end

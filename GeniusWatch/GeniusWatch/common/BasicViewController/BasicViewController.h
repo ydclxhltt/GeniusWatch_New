@@ -31,6 +31,10 @@ typedef enum : NSUInteger {
     PushTypeNewPassword = 1,
 } PushType;
 
+typedef enum : NSUInteger {
+    ShowTypePush,
+    ShowTypePresent,
+} ShowType;
 
 @interface BasicViewController : UIViewController
 {

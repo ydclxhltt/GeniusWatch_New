@@ -28,4 +28,7 @@
 //登录
 #define LOGIN_URL                   MAKE_REQUEST_URL(@"login/land")
 
+//绑定设备
+#define BIND_URL                    MAKE_REQUEST_URL(@"device/bind")
+
 #endif

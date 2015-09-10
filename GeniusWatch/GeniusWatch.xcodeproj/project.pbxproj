@@ -94,7 +94,6 @@
 		CE300BA31B98094E003D71AF /* bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = CE300BA01B98094E003D71AF /* bottom.png */; };
 		CE300BA41B98094E003D71AF /* middle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE300BA11B98094E003D71AF /* middle.png */; };
 		CE300BA51B98094E003D71AF /* top.png in Resources */ = {isa = PBXBuildFile; fileRef = CE300BA21B98094E003D71AF /* top.png */; };
-		CE300BA91B981DB0003D71AF /* Empty.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE300BA81B981DB0003D71AF /* Empty.xib */; };
 		CE300BAB1B983190003D71AF /* personal_watch.png in Resources */ = {isa = PBXBuildFile; fileRef = CE300BAA1B983190003D71AF /* personal_watch.png */; };
 		CE300BB51B983506003D71AF /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = CE300BAE1B983506003D71AF /* error.png */; };
 		CE300BB61B983506003D71AF /* error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE300BAF1B983506003D71AF /* error@2x.png */; };
@@ -102,6 +101,7 @@
 		CE300BB81B983506003D71AF /* success@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE300BB11B983506003D71AF /* success@2x.png */; };
 		CE300BB91B983506003D71AF /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CE300BB21B983506003D71AF /* SVProgressHUD.bundle */; };
 		CE300BBA1B983506003D71AF /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CE300BB41B983506003D71AF /* SVProgressHUD.m */; };
+		CE3435A41BA1D78000E6A430 /* scanning_tip.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3435A31BA1D78000E6A430 /* scanning_tip.png */; };
 		CE49EA401B961432005C00E4 /* homepage_more_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE49EA3E1B961432005C00E4 /* homepage_more_up.png */; };
 		CE49EA461B961C84005C00E4 /* baby_head_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE49EA451B961C84005C00E4 /* baby_head_up.png */; };
 		CE49EA481B961F5D005C00E4 /* homepage_cell.png in Resources */ = {isa = PBXBuildFile; fileRef = CE49EA471B961F5D005C00E4 /* homepage_cell.png */; };
@@ -150,7 +150,6 @@
 		CEA607041B8897E900C4DADE /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA606DD1B8897E900C4DADE /* UIWebView+AFNetworking.m */; };
 		CEA607051B8897E900C4DADE /* UpLoadPhotoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA606DF1B8897E900C4DADE /* UpLoadPhotoTool.m */; };
 		CEA6070E1B889D1B00C4DADE /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6070D1B889D1B00C4DADE /* BasicViewController.m */; };
-		CEA607151B88B55C00C4DADE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA607141B88B55C00C4DADE /* CoreLocation.framework */; };
 		CEA607171B88B58B00C4DADE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA607161B88B58B00C4DADE /* libc++abi.dylib */; };
 		CEA6071D1B88C48A00C4DADE /* register_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6071C1B88C48A00C4DADE /* register_bg.png */; };
 		CEA607211B88C4C900C4DADE /* IndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA607201B88C4C900C4DADE /* IndexViewController.m */; };
@@ -167,8 +166,7 @@
 		CEB7E9DF1B9A090400A6A479 /* AddWatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9DE1B9A090400A6A479 /* AddWatchViewController.m */; };
 		CEB7E9E21B9A0B1000A6A479 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7E9E01B9A0B1000A6A479 /* line.png */; };
 		CEB7E9E31B9A0B1000A6A479 /* pick_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7E9E11B9A0B1000A6A479 /* pick_bg.png */; };
-		CEB7E9E61B9A176900A6A479 /* AutoAddWatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9E51B9A176900A6A479 /* AutoAddWatchViewController.m */; };
-		CEC3D39C1B9AE3A3000E7126 /* land_navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = CEC3D39B1B9AE3A3000E7126 /* land_navigation.png */; };
+		CEB7E9E61B9A176900A6A479 /* CustomAddWatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */; };
 		CEE0888C1B89C0F8008A2D2A /* SetPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE0888B1B89C0F8008A2D2A /* SetPassWordViewController.m */; };
 		CEFD2F9A1B95F0A8007587CD /* LeftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFD2F991B95F0A8007587CD /* LeftTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -313,7 +311,6 @@
 		CE300BA01B98094E003D71AF /* bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom.png; sourceTree = "<group>"; };
 		CE300BA11B98094E003D71AF /* middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = middle.png; sourceTree = "<group>"; };
 		CE300BA21B98094E003D71AF /* top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top.png; sourceTree = "<group>"; };
-		CE300BA81B981DB0003D71AF /* Empty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Empty.xib; sourceTree = "<group>"; };
 		CE300BAA1B983190003D71AF /* personal_watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = personal_watch.png; sourceTree = "<group>"; };
 		CE300BAC1B9832EF003D71AF /* RequestUrlHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestUrlHeader.h; sourceTree = "<group>"; };
 		CE300BAE1B983506003D71AF /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
@@ -323,6 +320,7 @@
 		CE300BB21B983506003D71AF /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		CE300BB31B983506003D71AF /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		CE300BB41B983506003D71AF /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		CE3435A31BA1D78000E6A430 /* scanning_tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scanning_tip.png; sourceTree = "<group>"; };
 		CE49EA3E1B961432005C00E4 /* homepage_more_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = homepage_more_up.png; sourceTree = "<group>"; };
 		CE49EA451B961C84005C00E4 /* baby_head_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baby_head_up.png; sourceTree = "<group>"; };
 		CE49EA471B961F5D005C00E4 /* homepage_cell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = homepage_cell.png; sourceTree = "<group>"; };
@@ -497,9 +495,8 @@
 		CEB7E9DE1B9A090400A6A479 /* AddWatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWatchViewController.m; sourceTree = "<group>"; };
 		CEB7E9E01B9A0B1000A6A479 /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line.png; sourceTree = "<group>"; };
 		CEB7E9E11B9A0B1000A6A479 /* pick_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pick_bg.png; sourceTree = "<group>"; };
-		CEB7E9E41B9A176900A6A479 /* AutoAddWatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoAddWatchViewController.h; sourceTree = "<group>"; };
-		CEB7E9E51B9A176900A6A479 /* AutoAddWatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoAddWatchViewController.m; sourceTree = "<group>"; };
-		CEC3D39B1B9AE3A3000E7126 /* land_navigation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = land_navigation.png; sourceTree = "<group>"; };
+		CEB7E9E41B9A176900A6A479 /* CustomAddWatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAddWatchViewController.h; sourceTree = "<group>"; };
+		CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAddWatchViewController.m; sourceTree = "<group>"; };
 		CEE0888A1B89C0F8008A2D2A /* SetPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetPassWordViewController.h; sourceTree = "<group>"; };
 		CEE0888B1B89C0F8008A2D2A /* SetPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetPassWordViewController.m; sourceTree = "<group>"; };
 		CEFD2F981B95F0A8007587CD /* LeftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftTableViewCell.h; sourceTree = "<group>"; };
@@ -513,7 +510,6 @@
 			files = (
 				CEB7E9DC1B9A089E00A6A479 /* AVFoundation.framework in Frameworks */,
 				CEA607171B88B58B00C4DADE /* libc++abi.dylib in Frameworks */,
-				CEA607151B88B55C00C4DADE /* CoreLocation.framework in Frameworks */,
 				77D354651B8729530055B0B7 /* libz.dylib in Frameworks */,
 				77D354631B8729480055B0B7 /* Foundation.framework in Frameworks */,
 				CEA606F11B8897E900C4DADE /* libbaidumapapi.a in Frameworks */,
@@ -813,7 +809,6 @@
 				77D354411B8722770055B0B7 /* BasicViewController */,
 				77D354421B8722770055B0B7 /* ShellViewController */,
 				77D354431B8722770055B0B7 /* CommonHeader */,
-				CE300BA81B981DB0003D71AF /* Empty.xib */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -1212,8 +1207,8 @@
 		CEA6071B1B88C48A00C4DADE /* register_login */ = {
 			isa = PBXGroup;
 			children = (
+				CE3435A31BA1D78000E6A430 /* scanning_tip.png */,
 				779CAD601BA01C0C00A143FF /* register_bg1.png */,
-				CEC3D39B1B9AE3A3000E7126 /* land_navigation.png */,
 				CEB7E9E01B9A0B1000A6A479 /* line.png */,
 				CEB7E9E11B9A0B1000A6A479 /* pick_bg.png */,
 				CEA607301B88E1FF00C4DADE /* back_up.png */,
@@ -1237,8 +1232,8 @@
 				CEE0888B1B89C0F8008A2D2A /* SetPassWordViewController.m */,
 				CEB7E9DD1B9A090400A6A479 /* AddWatchViewController.h */,
 				CEB7E9DE1B9A090400A6A479 /* AddWatchViewController.m */,
-				CEB7E9E41B9A176900A6A479 /* AutoAddWatchViewController.h */,
-				CEB7E9E51B9A176900A6A479 /* AutoAddWatchViewController.m */,
+				CEB7E9E41B9A176900A6A479 /* CustomAddWatchViewController.h */,
+				CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */,
 			);
 			path = Register_Login;
 			sourceTree = "<group>";
@@ -1338,7 +1333,6 @@
 				777FC0B51BA16E60005B8559 /* charge_stream.png in Resources */,
 				77A7D08F1B9ED686004C621A /* 1.jpeg in Resources */,
 				CE49EA401B961432005C00E4 /* homepage_more_up.png in Resources */,
-				CE300BA91B981DB0003D71AF /* Empty.xib in Resources */,
 				77A7D0851B9ED686004C621A /* chat_ipunt_message.png in Resources */,
 				CE300BA31B98094E003D71AF /* bottom.png in Resources */,
 				776D54001B96E6A800D1DD62 /* homepage_phone_up.png in Resources */,
@@ -1367,12 +1361,12 @@
 				77A7D08E1B9ED686004C621A /* 0.jpeg in Resources */,
 				CE300BA41B98094E003D71AF /* middle.png in Resources */,
 				CE2B70901B9C6A3E00075911 /* location_zoom_shrink_down.png in Resources */,
-				CEC3D39C1B9AE3A3000E7126 /* land_navigation.png in Resources */,
 				CEB7E9D01B99F94D00A6A479 /* personal_add.png in Resources */,
 				77A7D08C1B9ED686004C621A /* chatfrom_doctor_icon.png in Resources */,
 				77A7D0841B9ED686004C621A /* chat_animation_white3.png in Resources */,
 				777FC0B41BA16E60005B8559 /* charge_pay.png in Resources */,
 				CE49EA551B96256D005C00E4 /* set_charge_up.png in Resources */,
+				CE3435A41BA1D78000E6A430 /* scanning_tip.png in Resources */,
 				CE49EA591B96256D005C00E4 /* set_infomation_up.png in Resources */,
 				777FC0B21BA16E60005B8559 /* app_set_after_information.png in Resources */,
 				CEA6071D1B88C48A00C4DADE /* register_bg.png in Resources */,
@@ -1445,7 +1439,7 @@
 				CEA606FE1B8897E900C4DADE /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				CEA606F41B8897E900C4DADE /* AFHTTPRequestOperationManager.m in Sources */,
 				CEE0888C1B89C0F8008A2D2A /* SetPassWordViewController.m in Sources */,
-				CEB7E9E61B9A176900A6A479 /* AutoAddWatchViewController.m in Sources */,
+				CEB7E9E61B9A176900A6A479 /* CustomAddWatchViewController.m in Sources */,
 				CEA606EF1B8897E900C4DADE /* THProgressView.m in Sources */,
 				CEA606E51B8897E900C4DADE /* SDWebImageCompat.m in Sources */,
 				77A755111B9D6CA2006F9B83 /* AddressViewController.m in Sources */,

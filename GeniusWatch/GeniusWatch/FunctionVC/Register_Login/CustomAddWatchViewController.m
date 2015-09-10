@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 
-#import "AutoAddWatchViewController.h"
+#import "CustomAddWatchViewController.h"
 
 
 #define TIP_STRING          @"注:绑定号是16个字母的字符串,请滑动手表屏幕查看!"
@@ -19,14 +19,14 @@
 #define LOADING_SUCESS      @"绑定成功"
 #define LOADING_FAIL        @"绑定失败"
 
-@interface AutoAddWatchViewController ()<UITextFieldDelegate>
+@interface CustomAddWatchViewController ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextField *bindNumberTextField;
 
 @end
 
 
-@implementation AutoAddWatchViewController
+@implementation CustomAddWatchViewController
 
 - (void)viewDidLoad
 {

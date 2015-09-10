@@ -184,6 +184,7 @@
 - (void)addBabyWatch
 {
     AddWatchViewController *addWatchViewController = [[AddWatchViewController alloc] init];
+    addWatchViewController.showType = ShowTypePresent;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:addWatchViewController];
     [self presentViewController:nav animated:YES completion:^{}];
 }

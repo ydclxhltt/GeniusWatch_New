@@ -8,6 +8,6 @@
 
 #import "BasicViewController.h"
 
-@interface AutoAddWatchViewController : BasicViewController
+@interface CustomAddWatchViewController : BasicViewController
 
 @end

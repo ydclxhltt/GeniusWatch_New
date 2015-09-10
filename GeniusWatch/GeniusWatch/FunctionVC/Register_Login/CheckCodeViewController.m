@@ -203,8 +203,7 @@
     else
     {
         [self.codeTextField resignFirstResponder];
-        //[self checkCodeRequest];
-        [self gotoSetPassword];
+        [self checkCodeRequest];
     }
 }
 
@@ -237,6 +236,7 @@
                          }
                          requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
                          {
+                             NSLog(@"CHECK_CODE_error===%@",error);
                              [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
                          }];
 }

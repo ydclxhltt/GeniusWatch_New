@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 #import "MainSideViewController.h"
+#import "AddWatchViewController.h"
 
 #define SPACE_Y             NAVBAR_HEIGHT + 30.0
 #define ADD_Y               10.0
@@ -62,7 +63,7 @@
     [CommonTool setViewLayer:_usernameTextField withLayerColor:TEXTFIELD_COLOR bordWidth:.5];
     [CommonTool clipView:_usernameTextField withCornerRadius:TEXTFIELD_RADIUS];
     _usernameTextField.delegate = self;
-    _usernameTextField.text = @"15820790320";
+    _usernameTextField.text = @"15220230746";
     [self.view addSubview:_usernameTextField];
     
     start_y += _usernameTextField.frame.size.height + ADD_Y;
@@ -73,7 +74,7 @@
     [CommonTool clipView:_passwordTextField withCornerRadius:TEXTFIELD_RADIUS];
     _passwordTextField.delegate = self;
     _passwordTextField.secureTextEntry = YES;
-    _passwordTextField.text = @"15820790320";
+    _passwordTextField.text = @"123456";
     [self.view addSubview:_passwordTextField];
     
     start_y += _passwordTextField.frame.size.height;
@@ -113,9 +114,9 @@
     if ([self isCanCommit])
     {
         //登录请求
-        //[self dismissViewControllerAnimated:YES completion:^{}];
-        //[self loginRequest];
-        [self gotoMainView];
+        [self dismissViewControllerAnimated:YES completion:^{}];
+        [self loginRequest];
+        //[self gotoMainView];
     }
 }
 
@@ -166,15 +167,24 @@
                              NSString *errorCode = dic[@"errorCode"];
                              NSString *description = dic[@"description"];
                              description = (description) ? description : LOADING_FAIL;
-                             //if ([@"0" isEqualToString:errorCode])
+                             if ([@"0" isEqualToString:errorCode])
                              {
-                                 [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
-                                 [weakSelf gotoMainView];
+                                 NSArray *bindArray = ([dic[@"bind"] isKindOfClass:[NSNull class]]) ? nil : dic[@"bind"];
+                                 if (!bindArray || [bindArray count] == 0)
+                                 {
+                                    [weakSelf addWatchView];
+                                 }
+                                 else
+                                 {
+                                    [weakSelf addMainView];
+                                     
+                                 }
+                                [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
                              }
-                             //else
-                             //{
-                             //    [SVProgressHUD showErrorWithStatus:description];
-                             //}
+                             else
+                             {
+                                 [SVProgressHUD showErrorWithStatus:description];
+                             }
                          }
                          requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
                          {
@@ -184,7 +194,7 @@
 
 
 //进入主界面
-- (void)gotoMainView
+- (void)addMainView
 {
     if ([GeniusWatchApplication shareApplication].isLaunchLogin)
     {
@@ -199,6 +209,13 @@
    
 }
 
+//添加手表
+- (void)addWatchView
+{
+    AddWatchViewController *addWatchViewController = [[AddWatchViewController alloc] init];
+    addWatchViewController.showType = ShowTypePush;
+    [self.navigationController pushViewController:addWatchViewController animated:YES];
+}
 
 
 #pragma mark  点击忘记密码按钮

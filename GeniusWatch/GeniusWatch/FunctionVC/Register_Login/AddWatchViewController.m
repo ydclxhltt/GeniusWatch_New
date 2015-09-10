@@ -8,21 +8,19 @@
 
 #import "AddWatchViewController.h"
 #import <AVFoundation/AVFoundation.h>
-#import "AutoAddWatchViewController.h"
+#import "CustomAddWatchViewController.h"
 
-#define SPACE_Y             NAVBAR_HEIGHT + 10.0 * CURRENT_SCALE
-#define SCNNING_WH          280.0
+#define SPACE_Y             NAVBAR_HEIGHT + 20.0 * CURRENT_SCALE
+#define SCNNING_WH          200.0
 #define TIP_LABEL_HEIGHT    30.0
-#define SCANNING_TIP        @"请将手表二维码,放在方框内"
-#define ADD_Y               30.0 * CURRENT_SCALE
-#define LINE_SPACE_X        30.0
-#define LINE_HEIGHT         5.0
-#define SPACE_X             40.0 * CURRENT_SCALE
+#define SCANNING_TIP        @"将手表二维码放在扫描框内,即可自动扫描"
+#define ADD_Y               25.0 * CURRENT_SCALE
+#define BUTTON_SPACE_X      30.0 * CURRENT_SCALE
 
 @interface AddWatchViewController ()<AVCaptureMetadataOutputObjectsDelegate>
 {
     int num;
-    BOOL upOrdown;
+    BOOL upOrDown;
     NSTimer * timer;
 }
 @property (strong,nonatomic)AVCaptureDevice * device;
@@ -49,10 +47,14 @@
     [super viewDidLoad];
     
     [self addBackItem];
-    self.title = @"扫描";
-    self.view.backgroundColor = RGBA(0.0, 0.0, 0.0, 0.5);
+    if (self.showType == ShowTypePush)
+    {
+        [self setNavBarItemWithTitle:@"" navItemType:LeftItem selectorName:@""];
+    }
     
-    upOrdown = NO;
+    self.title = @"扫描手表二维码";
+    
+    upOrDown = NO;
     num =0;
     
     [self initUI];
@@ -71,34 +73,59 @@
 #pragma mark 返回按钮
 - (void)backButtonPressed:(UIButton *)sender
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [timer invalidate];
-    }];
+    if (self.showType == ShowTypePush)
+    {
+        
+    }
+    else if (self.showType == ShowTypePresent)
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [timer invalidate];
+        }];
+    }
+
 }
 
 
 #pragma mark 初始化UI
 - (void)initUI
 {
-    UILabel * tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, SPACE_Y, self.view.frame.size.width, TIP_LABEL_HEIGHT) textString:SCANNING_TIP textColor:[UIColor whiteColor] textFont:FONT(16.0)];
+    UIImage *image = [UIImage imageNamed:@"scanning_tip"];
+    float tipWidth = image.size.width/3 * CURRENT_SCALE;
+    float tipHeight = image.size.height/3 * CURRENT_SCALE;
+    UIImageView *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake((self.view.frame.size.width - tipWidth)/2, SPACE_Y, tipWidth, tipHeight) placeholderImage:image];
+    [self.view addSubview:imageView];
+    
+    start_y = imageView.frame.origin.y + imageView.frame.size.height + ADD_Y;
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        [self setupCamera];
+    }
+
+    UIImage *pickBgImage = [UIImage imageNamed:@"pick_bg"];
+    //float pickBgImageWidth = pickBgImage.size.width/3;
+    //float pickBgImageHeight = pickBgImage.size.height/3;
+    UIImageView * interImageView = [CreateViewTool createImageViewWithFrame:CGRectMake((self.view.frame.size.width - SCNNING_WH)/2, start_y, SCNNING_WH, SCNNING_WH) placeholderImage:pickBgImage];
+    [self.view addSubview:interImageView];
+
+    UIImage *lineImage = [UIImage imageNamed:@"line"];
+    float lineImageWidth = lineImage.size.width/3;
+    float lineImageHeight = lineImage.size.height/3;
+    float lineSpace_x = (pickBgImage.size.width - lineImageWidth)/2;
+    _lineImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(lineSpace_x, 0, SCNNING_WH - 2 * lineSpace_x, lineImageHeight) placeholderImage:[UIImage imageNamed:@"line"]];
+    [interImageView addSubview:_lineImageView];
+    
+    start_y += interImageView.frame.size.height;
+    
+    UILabel * tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, TIP_LABEL_HEIGHT) textString:SCANNING_TIP textColor:[UIColor lightGrayColor] textFont:FONT(12.0)];
     tipLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:tipLabel];
     
-    start_y = tipLabel.frame.origin.y + tipLabel.frame.size.height + ADD_Y;
-    
-     [self setupCamera];
-    
-    UIImageView * interImageView = [CreateViewTool createImageViewWithFrame:CGRectMake((self.view.frame.size.width - SCNNING_WH)/2, start_y, SCNNING_WH, SCNNING_WH) placeholderImage:[UIImage imageNamed:@"pick_bg"]];
-    [self.view addSubview:interImageView];
-
-    _lineImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(LINE_SPACE_X, 0, SCNNING_WH - 2 * LINE_SPACE_X, LINE_HEIGHT) placeholderImage:[UIImage imageNamed:@"line"]];
-    [interImageView addSubview:_lineImageView];
-    
-    start_y += interImageView.frame.size.height + ADD_Y;
-    
-    UIButton *nextButton = [CreateViewTool createButtonWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, BUTTON_HEIGHT) buttonTitle:@"手动输入绑定号" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:[UIColor grayColor] selectorName:@"autoButtonPressed:" tagDelegate:self];
-    [CommonTool setViewLayer:nextButton withLayerColor:[UIColor lightGrayColor] bordWidth:.5];
-    [CommonTool clipView:nextButton withCornerRadius:15.0];
+     start_y = tipLabel.frame.origin.y + tipLabel.frame.size.height + ADD_Y;
+    UIButton *nextButton = [CreateViewTool createButtonWithFrame:CGRectMake(BUTTON_SPACE_X, start_y, self.view.frame.size.width - 2 * BUTTON_SPACE_X, BUTTON_HEIGHT) buttonTitle:@"手动输入绑定号" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"autoButtonPressed:" tagDelegate:self];
+    nextButton.titleLabel.font = BUTTON_FONT;
+    [CommonTool clipView:nextButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:nextButton];
 }
 
@@ -156,21 +183,21 @@
 -(void)lineAnimation
 {
     CGRect frame = _lineImageView.frame;
-    if (upOrdown == NO)
+    if (upOrDown == NO)
     {
         num++;
         
-        if (2 * num > SCNNING_WH - LINE_HEIGHT)
+        if (2 * num >= SCNNING_WH)
         {
-            upOrdown = YES;
+            upOrDown = YES;
         }
     }
     else
     {
         num --;
-        if (num < LINE_HEIGHT)
+        if (2 * num <= 0)
         {
-            upOrdown = NO;
+            upOrDown = NO;
         }
     }
     _lineImageView.frame = CGRectMake(frame.origin.x, 2 * num, frame.size.width, frame.size.height);
@@ -181,7 +208,7 @@
 #pragma mark 手动输入相应事件
 - (void)autoButtonPressed:(UIButton *)sender
 {
-    AutoAddWatchViewController *autoAddWatchViewController = [[AutoAddWatchViewController alloc] init];
+    CustomAddWatchViewController *autoAddWatchViewController = [[CustomAddWatchViewController alloc] init];
     [self.navigationController pushViewController:autoAddWatchViewController animated:YES];
 }
 
@@ -199,12 +226,15 @@
     }
     
     [_session stopRunning];
-    [self dismissViewControllerAnimated:YES completion:^
-     {
-         [timer invalidate];
-         NSLog(@"%@",stringValue);
-         [CommonTool addAlertTipWithMessage:stringValue];
-     }];
+    [timer invalidate];
+    NSLog(@"%@",stringValue);
+    [CommonTool addAlertTipWithMessage:stringValue];
+//    [self dismissViewControllerAnimated:YES completion:^
+//     {
+//         [timer invalidate];
+//         NSLog(@"%@",stringValue);
+//         [CommonTool addAlertTipWithMessage:stringValue];
+//     }];
 }
 
 - (void)didReceiveMemoryWarning
