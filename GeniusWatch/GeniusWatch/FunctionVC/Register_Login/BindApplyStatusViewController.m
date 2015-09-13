@@ -46,13 +46,13 @@
 
 - (void)addTipImageView
 {
-    UIImage *image = [UIImage imageNamed:@"send_sucess_up"];
+    UIImage *image = [UIImage imageNamed:@"send_sucess"];
     float width = image.size.width/3 * CURRENT_SCALE;
     float height = image.size.height/3 * CURRENT_SCALE;
     
     _tipImageView = [CreateViewTool createRoundImageViewWithFrame:CGRectMake((self.view.frame.size.width - width)/2, SPACE_Y, width, height) placeholderImage:image borderColor:nil imageUrl:nil];
     [self.view addSubview:_tipImageView];
-    
+
     start_y = _tipImageView.frame.size.height + _tipImageView.frame.origin.y + ADD_Y;
 }
 
