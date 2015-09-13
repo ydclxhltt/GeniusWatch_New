@@ -113,9 +113,6 @@
 		CE72169C1BA0948200044A9D /* GeniusWatchApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = CE72169B1BA0948200044A9D /* GeniusWatchApplication.m */; };
 		CE79FEA91BA54474005891BB /* ApplyInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE79FEA81BA54474005891BB /* ApplyInformationViewController.m */; };
 		CE79FEAC1BA555F3005891BB /* BindApplyStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE79FEAB1BA555F3005891BB /* BindApplyStatusViewController.m */; };
-		CE79FEBC1BA56FEA005891BB /* apply_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = CE79FEB91BA56FEA005891BB /* apply_fail.png */; };
-		CE79FEBD1BA56FEA005891BB /* apply_sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = CE79FEBA1BA56FEA005891BB /* apply_sucess.png */; };
-		CE79FEBE1BA56FEA005891BB /* send_sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = CE79FEBB1BA56FEA005891BB /* send_sucess.png */; };
 		CEA606E01B8897E900C4DADE /* CommonTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6064D1B8897E900C4DADE /* CommonTool.m */; };
 		CEA606E11B8897E900C4DADE /* CreateViewTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6064F1B8897E900C4DADE /* CreateViewTool.m */; };
 		CEA606E21B8897E900C4DADE /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA606531B8897E900C4DADE /* NSData+GIF.m */; };
@@ -342,9 +339,6 @@
 		CE79FEA81BA54474005891BB /* ApplyInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyInformationViewController.m; sourceTree = "<group>"; };
 		CE79FEAA1BA555F3005891BB /* BindApplyStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindApplyStatusViewController.h; sourceTree = "<group>"; };
 		CE79FEAB1BA555F3005891BB /* BindApplyStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindApplyStatusViewController.m; sourceTree = "<group>"; };
-		CE79FEB91BA56FEA005891BB /* apply_fail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apply_fail.png; sourceTree = "<group>"; };
-		CE79FEBA1BA56FEA005891BB /* apply_sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apply_sucess.png; sourceTree = "<group>"; };
-		CE79FEBB1BA56FEA005891BB /* send_sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = send_sucess.png; sourceTree = "<group>"; };
 		CEA6064C1B8897E900C4DADE /* CommonTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTool.h; sourceTree = "<group>"; };
 		CEA6064D1B8897E900C4DADE /* CommonTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTool.m; sourceTree = "<group>"; };
 		CEA6064E1B8897E900C4DADE /* CreateViewTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewTool.h; sourceTree = "<group>"; };
@@ -1225,9 +1219,6 @@
 		CEA6071B1B88C48A00C4DADE /* register_login */ = {
 			isa = PBXGroup;
 			children = (
-				CE79FEB91BA56FEA005891BB /* apply_fail.png */,
-				CE79FEBA1BA56FEA005891BB /* apply_sucess.png */,
-				CE79FEBB1BA56FEA005891BB /* send_sucess.png */,
 				CE3435A31BA1D78000E6A430 /* scanning_tip.png */,
 				779CAD601BA01C0C00A143FF /* register_bg1.png */,
 				CEB7E9E01B9A0B1000A6A479 /* line.png */,
@@ -1382,12 +1373,10 @@
 				CE2B708C1B9C6A3E00075911 /* location_location_down.png in Resources */,
 				CE300BB81B983506003D71AF /* success@2x.png in Resources */,
 				77C5F44B1B9C3874009996BC /* location_map_model_up.png in Resources */,
-				CE79FEBC1BA56FEA005891BB /* apply_fail.png in Resources */,
 				77A7D0881B9ED686004C621A /* chat_send_message.png in Resources */,
 				CE2B70911B9C6A3E00075911 /* location_zoom_shrink_up.png in Resources */,
 				77A7D0831B9ED686004C621A /* chat_animation_white2.png in Resources */,
 				77A7D08E1B9ED686004C621A /* 0.jpeg in Resources */,
-				CE79FEBE1BA56FEA005891BB /* send_sucess.png in Resources */,
 				CE300BA41B98094E003D71AF /* middle.png in Resources */,
 				CE2B70901B9C6A3E00075911 /* location_zoom_shrink_down.png in Resources */,
 				CEB7E9D01B99F94D00A6A479 /* personal_add.png in Resources */,
@@ -1401,7 +1390,6 @@
 				777FC0B21BA16E60005B8559 /* app_set_after_information.png in Resources */,
 				CEA6071D1B88C48A00C4DADE /* register_bg.png in Resources */,
 				CE49EA481B961F5D005C00E4 /* homepage_cell.png in Resources */,
-				CE79FEBD1BA56FEA005891BB /* apply_sucess.png in Resources */,
 				77A7D07F1B9ED686004C621A /* chat_animation1.png in Resources */,
 				CE300BB91B983506003D71AF /* SVProgressHUD.bundle in Resources */,
 				77A7D0A11B9EE974004C621A /* chat_member_up.png in Resources */,
