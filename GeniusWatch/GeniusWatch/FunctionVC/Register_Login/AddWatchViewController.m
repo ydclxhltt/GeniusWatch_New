@@ -9,6 +9,7 @@
 #import "AddWatchViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "CustomAddWatchViewController.h"
+#import "ApplyInformationViewController.h"
 
 #define SPACE_Y             NAVBAR_HEIGHT + 20.0 * CURRENT_SCALE
 #define SCNNING_WH          200.0
@@ -47,10 +48,6 @@
     [super viewDidLoad];
     
     [self addBackItem];
-    if (self.showType == ShowTypePush)
-    {
-        [self setNavBarItemWithTitle:@"" navItemType:LeftItem selectorName:@""];
-    }
     
     self.title = @"扫描手表二维码";
     
@@ -75,7 +72,7 @@
 {
     if (self.showType == ShowTypePush)
     {
-        
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else if (self.showType == ShowTypePresent)
     {
@@ -229,12 +226,10 @@
     [timer invalidate];
     NSLog(@"%@",stringValue);
     [CommonTool addAlertTipWithMessage:stringValue];
-//    [self dismissViewControllerAnimated:YES completion:^
-//     {
-//         [timer invalidate];
-//         NSLog(@"%@",stringValue);
-//         [CommonTool addAlertTipWithMessage:stringValue];
-//     }];
+    
+    ApplyInformationViewController *applyInformationViewController = [[ApplyInformationViewController alloc] init];
+    applyInformationViewController.watchID = stringValue;
+    [self.navigationController pushViewController:applyInformationViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -111,6 +111,11 @@
 		CE49EA5B1B96256D005C00E4 /* set_linkman_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE49EA511B96256D005C00E4 /* set_linkman_up.png */; };
 		CE49EA5D1B96256D005C00E4 /* set_set_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE49EA531B96256D005C00E4 /* set_set_up.png */; };
 		CE72169C1BA0948200044A9D /* GeniusWatchApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = CE72169B1BA0948200044A9D /* GeniusWatchApplication.m */; };
+		CE79FEA91BA54474005891BB /* ApplyInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE79FEA81BA54474005891BB /* ApplyInformationViewController.m */; };
+		CE79FEAC1BA555F3005891BB /* BindApplyStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE79FEAB1BA555F3005891BB /* BindApplyStatusViewController.m */; };
+		CE79FEB01BA559E4005891BB /* apply_fail_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE79FEAD1BA559E4005891BB /* apply_fail_up.png */; };
+		CE79FEB11BA559E4005891BB /* apply_sucess_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE79FEAE1BA559E4005891BB /* apply_sucess_up.png */; };
+		CE79FEB21BA559E4005891BB /* send_sucess_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE79FEAF1BA559E4005891BB /* send_sucess_up.png */; };
 		CEA606E01B8897E900C4DADE /* CommonTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6064D1B8897E900C4DADE /* CommonTool.m */; };
 		CEA606E11B8897E900C4DADE /* CreateViewTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6064F1B8897E900C4DADE /* CreateViewTool.m */; };
 		CEA606E21B8897E900C4DADE /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA606531B8897E900C4DADE /* NSData+GIF.m */; };
@@ -158,6 +163,8 @@
 		CEA607311B88E1FF00C4DADE /* back_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA607301B88E1FF00C4DADE /* back_up.png */; };
 		CEA607341B88F82700C4DADE /* CheckCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA607331B88F82700C4DADE /* CheckCodeViewController.m */; };
 		CEB114271B9F0D1C00E01851 /* default_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB114261B9F0D1C00E01851 /* default_icon.png */; };
+		CEB7D1191BA47C54001D5E0D /* AddWatchTipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7D1181BA47C54001D5E0D /* AddWatchTipViewController.m */; };
+		CEB7D11B1BA4A2FE001D5E0D /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7D11A1BA4A2FE001D5E0D /* location_icon.png */; };
 		CEB7E9CE1B99CC4D00A6A479 /* PageFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9CD1B99CC4D00A6A479 /* PageFlowView.m */; };
 		CEB7E9D01B99F94D00A6A479 /* personal_add.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7E9CF1B99F94D00A6A479 /* personal_add.png */; };
 		CEB7E9D91B9A059600A6A479 /* left_bg1.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7E9D71B9A059600A6A479 /* left_bg1.png */; };
@@ -331,6 +338,13 @@
 		CE49EA531B96256D005C00E4 /* set_set_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = set_set_up.png; sourceTree = "<group>"; };
 		CE72169A1BA0948200044A9D /* GeniusWatchApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeniusWatchApplication.h; sourceTree = "<group>"; };
 		CE72169B1BA0948200044A9D /* GeniusWatchApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeniusWatchApplication.m; sourceTree = "<group>"; };
+		CE79FEA71BA54474005891BB /* ApplyInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyInformationViewController.h; sourceTree = "<group>"; };
+		CE79FEA81BA54474005891BB /* ApplyInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyInformationViewController.m; sourceTree = "<group>"; };
+		CE79FEAA1BA555F3005891BB /* BindApplyStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindApplyStatusViewController.h; sourceTree = "<group>"; };
+		CE79FEAB1BA555F3005891BB /* BindApplyStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindApplyStatusViewController.m; sourceTree = "<group>"; };
+		CE79FEAD1BA559E4005891BB /* apply_fail_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apply_fail_up.png; sourceTree = "<group>"; };
+		CE79FEAE1BA559E4005891BB /* apply_sucess_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apply_sucess_up.png; sourceTree = "<group>"; };
+		CE79FEAF1BA559E4005891BB /* send_sucess_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = send_sucess_up.png; sourceTree = "<group>"; };
 		CEA6064C1B8897E900C4DADE /* CommonTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTool.h; sourceTree = "<group>"; };
 		CEA6064D1B8897E900C4DADE /* CommonTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTool.m; sourceTree = "<group>"; };
 		CEA6064E1B8897E900C4DADE /* CreateViewTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewTool.h; sourceTree = "<group>"; };
@@ -485,6 +499,9 @@
 		CEA607321B88F82700C4DADE /* CheckCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckCodeViewController.h; sourceTree = "<group>"; };
 		CEA607331B88F82700C4DADE /* CheckCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCodeViewController.m; sourceTree = "<group>"; };
 		CEB114261B9F0D1C00E01851 /* default_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_icon.png; sourceTree = "<group>"; };
+		CEB7D1171BA47C54001D5E0D /* AddWatchTipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWatchTipViewController.h; sourceTree = "<group>"; };
+		CEB7D1181BA47C54001D5E0D /* AddWatchTipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWatchTipViewController.m; sourceTree = "<group>"; };
+		CEB7D11A1BA4A2FE001D5E0D /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
 		CEB7E9CC1B99CC4D00A6A479 /* PageFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageFlowView.h; sourceTree = "<group>"; };
 		CEB7E9CD1B99CC4D00A6A479 /* PageFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageFlowView.m; sourceTree = "<group>"; };
 		CEB7E9CF1B99F94D00A6A479 /* personal_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = personal_add.png; sourceTree = "<group>"; };
@@ -1167,6 +1184,7 @@
 		CEA607111B88ACB500C4DADE /* home */ = {
 			isa = PBXGroup;
 			children = (
+				CEB7D11A1BA4A2FE001D5E0D /* location_icon.png */,
 				CEB114261B9F0D1C00E01851 /* default_icon.png */,
 				77A7D0A01B9EE974004C621A /* chat_member_up.png */,
 				CE2B70861B9C6A3E00075911 /* location_location_down.png */,
@@ -1207,6 +1225,9 @@
 		CEA6071B1B88C48A00C4DADE /* register_login */ = {
 			isa = PBXGroup;
 			children = (
+				CE79FEAD1BA559E4005891BB /* apply_fail_up.png */,
+				CE79FEAE1BA559E4005891BB /* apply_sucess_up.png */,
+				CE79FEAF1BA559E4005891BB /* send_sucess_up.png */,
 				CE3435A31BA1D78000E6A430 /* scanning_tip.png */,
 				779CAD601BA01C0C00A143FF /* register_bg1.png */,
 				CEB7E9E01B9A0B1000A6A479 /* line.png */,
@@ -1234,6 +1255,12 @@
 				CEB7E9DE1B9A090400A6A479 /* AddWatchViewController.m */,
 				CEB7E9E41B9A176900A6A479 /* CustomAddWatchViewController.h */,
 				CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */,
+				CEB7D1171BA47C54001D5E0D /* AddWatchTipViewController.h */,
+				CEB7D1181BA47C54001D5E0D /* AddWatchTipViewController.m */,
+				CE79FEA71BA54474005891BB /* ApplyInformationViewController.h */,
+				CE79FEA81BA54474005891BB /* ApplyInformationViewController.m */,
+				CE79FEAA1BA555F3005891BB /* BindApplyStatusViewController.h */,
+				CE79FEAB1BA555F3005891BB /* BindApplyStatusViewController.m */,
 			);
 			path = Register_Login;
 			sourceTree = "<group>";
@@ -1355,15 +1382,18 @@
 				CE2B708C1B9C6A3E00075911 /* location_location_down.png in Resources */,
 				CE300BB81B983506003D71AF /* success@2x.png in Resources */,
 				77C5F44B1B9C3874009996BC /* location_map_model_up.png in Resources */,
+				CE79FEB01BA559E4005891BB /* apply_fail_up.png in Resources */,
 				77A7D0881B9ED686004C621A /* chat_send_message.png in Resources */,
 				CE2B70911B9C6A3E00075911 /* location_zoom_shrink_up.png in Resources */,
 				77A7D0831B9ED686004C621A /* chat_animation_white2.png in Resources */,
 				77A7D08E1B9ED686004C621A /* 0.jpeg in Resources */,
+				CE79FEB21BA559E4005891BB /* send_sucess_up.png in Resources */,
 				CE300BA41B98094E003D71AF /* middle.png in Resources */,
 				CE2B70901B9C6A3E00075911 /* location_zoom_shrink_down.png in Resources */,
 				CEB7E9D01B99F94D00A6A479 /* personal_add.png in Resources */,
 				77A7D08C1B9ED686004C621A /* chatfrom_doctor_icon.png in Resources */,
 				77A7D0841B9ED686004C621A /* chat_animation_white3.png in Resources */,
+				CEB7D11B1BA4A2FE001D5E0D /* location_icon.png in Resources */,
 				777FC0B41BA16E60005B8559 /* charge_pay.png in Resources */,
 				CE49EA551B96256D005C00E4 /* set_charge_up.png in Resources */,
 				CE3435A41BA1D78000E6A430 /* scanning_tip.png in Resources */,
@@ -1371,6 +1401,7 @@
 				777FC0B21BA16E60005B8559 /* app_set_after_information.png in Resources */,
 				CEA6071D1B88C48A00C4DADE /* register_bg.png in Resources */,
 				CE49EA481B961F5D005C00E4 /* homepage_cell.png in Resources */,
+				CE79FEB11BA559E4005891BB /* apply_sucess_up.png in Resources */,
 				77A7D07F1B9ED686004C621A /* chat_animation1.png in Resources */,
 				CE300BB91B983506003D71AF /* SVProgressHUD.bundle in Resources */,
 				77A7D0A11B9EE974004C621A /* chat_member_up.png in Resources */,
@@ -1418,6 +1449,7 @@
 				CEA606E11B8897E900C4DADE /* CreateViewTool.m in Sources */,
 				CEA606FA1B8897E900C4DADE /* AFURLResponseSerialization.m in Sources */,
 				CEA606EA1B8897E900C4DADE /* SDWebImagePrefetcher.m in Sources */,
+				CE79FEAC1BA555F3005891BB /* BindApplyStatusViewController.m in Sources */,
 				CEA607041B8897E900C4DADE /* UIWebView+AFNetworking.m in Sources */,
 				CEA606E91B8897E900C4DADE /* SDWebImageManager.m in Sources */,
 				77A7D07D1B9ED686004C621A /* MJRefreshHeaderView.m in Sources */,
@@ -1469,8 +1501,10 @@
 				77D3541C1B87210D0055B0B7 /* GeniusWatch.xcdatamodeld in Sources */,
 				CEA606F51B8897E900C4DADE /* AFHTTPSessionManager.m in Sources */,
 				CEA606F91B8897E900C4DADE /* AFURLRequestSerialization.m in Sources */,
+				CE79FEA91BA54474005891BB /* ApplyInformationViewController.m in Sources */,
 				77D354511B8725810055B0B7 /* RightViewController.m in Sources */,
 				77A7D07E1B9ED686004C621A /* NSDate+Utils.m in Sources */,
+				CEB7D1191BA47C54001D5E0D /* AddWatchTipViewController.m in Sources */,
 				77A7D09A1B9ED686004C621A /* Mp3Recorder.m in Sources */,
 				CEA606FC1B8897E900C4DADE /* RequestTool.m in Sources */,
 				77A7D09D1B9ED88A004C621A /* ChatModel.m in Sources */,

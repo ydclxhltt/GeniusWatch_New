@@ -11,7 +11,7 @@
 
 #define TIP_STRING          @"请先输入您的手机号码\n(注:请用家长手机号码注册账号)"
 #define TIP_STRING1         @"请先输入您的手机号"
-#define TIPLABEL_SPAXCE_Y   NAVBAR_HEIGHT + 30.0
+#define TIPLABEL_SPACE_Y    NAVBAR_HEIGHT + 30.0
 #define TIPLABEL_HEIGHT     40.0
 
 #define ADD_Y               40.0
@@ -42,7 +42,7 @@
 #pragma mark 初始化UI
 - (void)initUI
 {
-    start_y = TIPLABEL_SPAXCE_Y;
+    start_y = TIPLABEL_SPACE_Y;
     //[self addTipLabel];
     [self addTextField];
     [self addNextButton];
@@ -52,7 +52,7 @@
 //- (void)addTipLabel
 //{
 //    NSString *tipString = (self.pushType == PushTypeRegister)? TIP_STRING : TIP_STRING1;
-//    UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, TIPLABEL_SPAXCE_Y, self.view.frame.size.width, TIPLABEL_HEIGHT) textString:tipString textColor:[UIColor blackColor] textFont:FONT(15.0)];
+//    UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, TIPLABEL_SPACE_Y, self.view.frame.size.width, TIPLABEL_HEIGHT) textString:tipString textColor:[UIColor blackColor] textFont:FONT(15.0)];
 //    tipLabel.numberOfLines = (self.pushType == PushTypeRegister) ? 2 : 1;
 //    tipLabel.textAlignment = NSTextAlignmentCenter;
 //    [self.view addSubview:tipLabel];

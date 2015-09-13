@@ -14,6 +14,10 @@
 #define SPACE_X         30.0 * CURRENT_SCALE
 #define SPACE_Y         30.0
 
+#define LOADING         @"正在退出..."
+#define LOADING_SUCESS  @"退出成功"
+#define LOADING_FAIL    @"退出失败"
+
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *dataArray;
@@ -60,19 +64,52 @@
     
 }
 
-#pragma mark 退出登录相应时间
+#pragma mark 退出登录
 - (void)registerButtonPressed:(UIButton *)sender
 {
-    [GeniusWatchApplication shareApplication].isLaunchLogin = NO;
     
+    __weak typeof(self) weakSelf = self;
+    [SVProgressHUD showWithStatus:LOADING];
+    NSString *url = [NSString stringWithFormat:@"%@?mobileNo=%@",EXIT_URL,[GeniusWatchApplication shareApplication].userName];
+    [[RequestTool alloc] getRequestWithUrl:url
+                         requestParamas:nil
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+                         {
+                             NSLog(@"EXIT_URL===%@",responseDic);
+                             NSDictionary *dic = (NSDictionary *)responseDic;
+                             //0:成功 1:失败
+                             NSString *errorCode = dic[@"errorCode"];
+                             NSString *description = dic[@"description"];
+                             description = (description) ? description : LOADING_FAIL;
+                             if ([@"0" isEqualToString:errorCode])
+                             {
+                                 [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
+                                 [weakSelf goToLogin];
+                             }
+                             else
+                             {
+                                 [SVProgressHUD showErrorWithStatus:description];
+                             }
+                         }
+                         requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+                         {
+                             NSLog(@"EXIT_URL——error===%@",error);
+                             [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+                         }];
+ }
+
+
+- (void)goToLogin
+{
+    [GeniusWatchApplication shareApplication].isLaunchLogin = NO;
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
     loginViewController.isShowBackItem = NO;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     [self presentViewController:nav animated:YES completion:^
-    {
-        [self.navigationController popToRootViewControllerAnimated:NO];
-    }];
-    
+     {
+         [self.navigationController popToRootViewControllerAnimated:NO];
+     }];
 }
 
 

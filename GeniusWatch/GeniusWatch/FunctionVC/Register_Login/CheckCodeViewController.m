@@ -134,16 +134,14 @@
 - (void)changeCount:(NSTimer *)timer
 {
     count--;
-    NSString *titleStr = CODE_TIP;
     if (count == 0)
     {
         [self resetTimer];
+        return;
     }
-    else
-    {
-        titleStr = [NSString stringWithFormat:@"%@(%ds)",CODE_TIP1,count];
-    }
+    NSString *titleStr = [NSString stringWithFormat:@"%@(%ds)",CODE_TIP1,count];
     [_getCodeButton setTitle:titleStr forState:UIControlStateNormal];
+
 }
 
 //清掉定时器

@@ -18,6 +18,8 @@
 #define BUTTON_N_COLOR      APP_MAIN_COLOR
 #define BUTTON_H_COLOR      [UIColor grayColor]
 #define BUTTON_TITLE_COLOR  [UIColor whiteColor]
+#define TIP_COLOR           RGB(105.0,105.0,105.0)
+#define TIP_FONT            FONT(14.0)
 //#define TEXTFIELD_COLOR     APP_MAIN_COLOR
 
 typedef enum : NSUInteger

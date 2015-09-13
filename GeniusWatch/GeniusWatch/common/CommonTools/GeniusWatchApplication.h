@@ -11,6 +11,9 @@
 @interface GeniusWatchApplication : NSObject
 
 @property (nonatomic, assign) BOOL isLaunchLogin;
+@property (nonatomic, strong) NSMutableArray *deviceList;
+@property (nonatomic, assign) int currentDeviceIndex;
+@property (nonatomic, strong) NSString *userName;
 
 + (instancetype)shareApplication;
 

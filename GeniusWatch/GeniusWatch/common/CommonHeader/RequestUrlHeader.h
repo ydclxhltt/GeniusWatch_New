@@ -31,4 +31,7 @@
 //绑定设备
 #define BIND_URL                    MAKE_REQUEST_URL(@"device/bind")
 
+//退出登录
+#define EXIT_URL                    MAKE_REQUEST_URL(@"user/logout")
+
 #endif

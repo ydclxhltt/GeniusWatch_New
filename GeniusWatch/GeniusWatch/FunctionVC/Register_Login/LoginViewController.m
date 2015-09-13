@@ -9,7 +9,7 @@
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 #import "MainSideViewController.h"
-#import "AddWatchViewController.h"
+#import "AddWatchTipViewController.h"
 
 #define SPACE_Y             NAVBAR_HEIGHT + 30.0
 #define ADD_Y               10.0
@@ -83,7 +83,7 @@
 //添加登陆按钮/忘记密码按钮
 - (void)addButtons
 {
-    UIButton *getPasswordButton = [CreateViewTool createButtonWithFrame:CGRectMake(_passwordTextField.frame.size.width + _passwordTextField.frame.origin.x - PWD_BTN_WIDTH, start_y, PWD_BTN_WIDTH, BUTTON_HEIGHT) buttonTitle:@"忘记密码" titleColor:APP_MAIN_COLOR normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:nil selectorName:@"getPasswordButtonPrssed:" tagDelegate:self];
+    UIButton *getPasswordButton = [CreateViewTool createButtonWithFrame:CGRectMake(_passwordTextField.frame.size.width + _passwordTextField.frame.origin.x - PWD_BTN_WIDTH, start_y, PWD_BTN_WIDTH, BUTTON_HEIGHT) buttonTitle:@"忘记密码" titleColor:APP_MAIN_COLOR normalBackgroundColor:[UIColor clearColor] highlightedBackgroundColor:nil selectorName:@"getPasswordButtonPressed:" tagDelegate:self];
     getPasswordButton.titleLabel.font = BUTTON_FONT;
     getPasswordButton.showsTouchWhenHighlighted = YES;
     [self.view addSubview:getPasswordButton];
@@ -169,14 +169,17 @@
                              description = (description) ? description : LOADING_FAIL;
                              if ([@"0" isEqualToString:errorCode])
                              {
-                                 NSArray *bindArray = ([dic[@"bind"] isKindOfClass:[NSNull class]]) ? nil : dic[@"bind"];
-                                 if (!bindArray || [bindArray count] == 0)
+                                 NSArray *devicesArray = ([dic[@"bind"][@"devices"] isKindOfClass:[NSNull class]]) ? nil : dic[@"bind"][@"devices"];
+                                 NSString *phoneString = dic[@"bind"][@"binder"];
+                                 phoneString = (phoneString) ? phoneString : @"";
+                                 [GeniusWatchApplication shareApplication].userName = phoneString;
+                                 if (!devicesArray || [devicesArray count] == 0)
                                  {
                                     [weakSelf addWatchView];
                                  }
                                  else
                                  {
-                                    [weakSelf addMainView];
+                                     [weakSelf addMainViewWithData:devicesArray];
                                      
                                  }
                                 [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
@@ -194,11 +197,12 @@
 
 
 //进入主界面
-- (void)addMainView
+- (void)addMainViewWithData:(NSArray *)deviceArray
 {
     if ([GeniusWatchApplication shareApplication].isLaunchLogin)
     {
-         [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginSucess" object:nil];
+        [GeniusWatchApplication shareApplication].deviceList = [NSMutableArray arrayWithArray:deviceArray];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginSucess" object:nil];
     }
     else
     {
@@ -212,14 +216,13 @@
 //添加手表
 - (void)addWatchView
 {
-    AddWatchViewController *addWatchViewController = [[AddWatchViewController alloc] init];
-    addWatchViewController.showType = ShowTypePush;
-    [self.navigationController pushViewController:addWatchViewController animated:YES];
+    AddWatchTipViewController *addWatchTipViewController = [[AddWatchTipViewController alloc] init];
+    [self.navigationController pushViewController:addWatchTipViewController animated:YES];
 }
 
 
 #pragma mark  点击忘记密码按钮
-- (void)getPasswordButtonPrssed:(UIButton *)sender
+- (void)getPasswordButtonPressed:(UIButton *)sender
 {
     RegisterViewController *registerViewController = [[RegisterViewController alloc] init];
     registerViewController.pushType = PushTypeNewPassword;

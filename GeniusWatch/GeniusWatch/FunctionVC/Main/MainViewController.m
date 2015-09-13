@@ -7,7 +7,6 @@
 //
 
 #import "MainViewController.h"
-//#import "SliderViewController.h"
 #import "MainSideViewController.h"
 #import "BMapKit.h"
 #import "LocationViewController.h"
@@ -15,9 +14,9 @@
 #import "WeChatViewController.h"
 
 //地图
-#define MAP_SPACE_Y         80.0 * CURRENT_SCALE
+#define MAP_SPACE_Y         240.0/2 * CURRENT_SCALE
 #define MAP_SPACE_X         40.0 * CURRENT_SCALE
-#define MAP_HEIGHT          300.0 * CURRENT_SCALE
+#define MAP_HEIGHT          580.0/2 * CURRENT_SCALE
 //左右按钮
 #define MENU_SPAXCE_Y       44.0
 #define BABY_SPAXCE_Y       35.0
@@ -25,16 +24,25 @@
 #define MENU_SPACE_X        10.0
 #define BABY_LAYER_COLOR    RGB(86.0,151.0,142.0)
 
-//守护按钮
-//#define ADD_Y           5.0 * CURRENT_SCALE
+//手表信息
+#define BABY_INFO_HEIGHT    20.0 * CURRENT_SCALE
+#define BABY_INFO_SPACE_X   390.0/3 * CURRENT_SCALE
+#define BABY_LOC_SPACE_X    310.0/3 * CURRENT_SCALE
+#define BABY_LOC_SPACE_Y    5.0 * CURRENT_SCALE
+#define BABY_LOC_HEIGHT     115.0/3 * CURRENT_SCALE
+
 
 @interface MainViewController ()<BMKMapViewDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>
 {
-    BMKLocationService *locationService;
     BMKGeoCodeSearch *geocodesearch;
+    int currentDeviceIndex;
 }
-//@property (nonatomic, strong) UIButton *savePeaceButton;
+
 @property (nonatomic, strong) BMKMapView *mapView;
+@property (nonatomic, strong) NSMutableArray *deviceArray;
+@property (nonatomic, strong) UIImageView *bageImageView;
+@property (nonatomic, strong) UILabel *safeLable;
+@property (nonatomic, strong) UILabel *addressLabel;
 
 @end
 
@@ -45,8 +53,12 @@
 {
     [super viewDidLoad];
     
-    [self initUI];
+    _deviceArray = [NSMutableArray arrayWithArray:[GeniusWatchApplication shareApplication].deviceList];
+    currentDeviceIndex = [GeniusWatchApplication shareApplication].currentDeviceIndex;
+    
+    [self getReverseGeocodeWithLocation:[self getBabyLocation]];
 
+    [self initUI];
     
     // Do any additional setup after loading the view.
 }
@@ -67,10 +79,52 @@
 #pragma mark 设置定位/地图代理
 - (void)setAboutLocationDelegate:(id)delegate
 {
-    if (locationService)
-        locationService.delegate = delegate;
     if (_mapView)
         _mapView.delegate = delegate;
+}
+
+#pragma mark 获取头像
+- (NSString *)getBabyIcon
+{
+    NSString *iconUrl = @"";
+    if (self.deviceArray && [self.deviceArray count] > currentDeviceIndex)
+    {
+        NSDictionary *dic = self.deviceArray[currentDeviceIndex];
+        iconUrl = dic[@"headShot"];
+        iconUrl = (iconUrl) ? iconUrl : @"";
+    }
+    return iconUrl;
+}
+
+#pragma mark 获取坐标 
+- (CLLocationCoordinate2D)getBabyLocation
+{
+    CLLocationCoordinate2D coorfinate;
+    if (self.deviceArray && [self.deviceArray count] > currentDeviceIndex)
+    {
+        NSDictionary *dic = self.deviceArray[currentDeviceIndex][@"lastPosition"];
+        if (dic)
+        {
+            coorfinate = CLLocationCoordinate2DMake([dic[@"point"][@"lat"] floatValue], [dic[@"point"][@"lng"] floatValue]);
+        }
+    }
+    return coorfinate;
+}
+
+#pragma mark 获取坐标
+- (NSString *)getBabyLastTime
+{
+    NSString *timeStr = @"";
+    if (self.deviceArray && [self.deviceArray count] > currentDeviceIndex)
+    {
+        NSDictionary *dic = self.deviceArray[currentDeviceIndex][@"lastPosition"];
+        if (dic)
+        {
+            timeStr = dic[@"datetime"];
+            timeStr = (timeStr) ? timeStr : @"";
+        }
+    }
+    return timeStr;
 }
 
 #pragma mark 初始化UI
@@ -79,14 +133,14 @@
     [self addMapView];
     [self addBgImageView];
     [self addMenuButtons];
+    [self addInfoLables];
     [self addFunctionButtons];
 }
 
 //添加背景
 - (void)addBgImageView
 {
-//    UIImageView *bgImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) placeholderImage:[UIImage imageNamed:@"homepage_bg"]];
-//    [self.view addSubview:bgImageView];
+    
     NSArray *imageArray = @[@"top",@"middle",@"bottom"];
     float y = 0.0;
     for (int i = 0; i < [imageArray count]; i++)
@@ -95,6 +149,7 @@
         float width = image.size.width/3 * CURRENT_SCALE;
         float height = image.size.height/3 * CURRENT_SCALE;
         UIImageView *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, y, width, height) placeholderImage:image];
+        imageView.tag = i + 100;
         [self.view addSubview:imageView];
          y += height;
     }
@@ -142,63 +197,42 @@
     UIImageView *babyView = [CreateViewTool createImageViewWithFrame:CGRectMake(BABY_SPACE_X, BABY_SPAXCE_Y, babyWidth, babyHeight) placeholderImage:nil];
     [self.view addSubview:babyView];
     
-    UIButton *babyButton = [CreateViewTool  createButtonWithFrame:CGRectMake(0, 0, babyWidth, babyHeight) buttonImage:@"baby_head" selectorName:@"babyButtonPressed:" tagDelegate:self];
-    [CommonTool setViewLayer:babyButton withLayerColor:[UIColor whiteColor] bordWidth:1.0];
-    [CommonTool clipView:babyButton withCornerRadius:babyWidth/2];
-    [babyView addSubview:babyButton];
+    NSString *iconUrl = @"http://download.easyicon.net/png/1187306/128/";
+    //iconUrl = [self getBabyIcon];
+    
+    _bageImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, babyWidth, babyHeight) placeholderImage:babyImage imageUrl:iconUrl isShowProcess:NO];
+    [CommonTool setViewLayer:_bageImageView withLayerColor:[UIColor whiteColor] bordWidth:1.0];
+    [CommonTool clipView:_bageImageView withCornerRadius:babyWidth/2];
+    [babyView addSubview:_bageImageView];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(babyImageViewPressed:)];
+    [_bageImageView addGestureRecognizer:tapGesture];
+
     
     UIImage *cellImage = [UIImage imageNamed:@"homepage_cell"];
     float cellWidth = cellImage.size.width/3 * CURRENT_SCALE;
     float cellHeight = cellImage.size.height/3 * CURRENT_SCALE;
-    UIImageView *cellImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(babyButton.frame.size.width - cellWidth, babyButton.frame.size.height - cellHeight, cellWidth, cellHeight) placeholderImage:cellImage];
+    UIImageView *cellImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(_bageImageView.frame.size.width - cellWidth, _bageImageView.frame.size.height - cellHeight, cellWidth, cellHeight) placeholderImage:cellImage];
     [babyView addSubview:cellImageView];
 }
 
-/*
- *******************屏蔽小天才UI效果***************
-- (void)addFunctionButtons
+//添加手表信息视图
+- (void)addInfoLables
 {
-    float savePeaceButton_y = self.mapView.frame.origin.y + self.mapView.frame.size.height + ADD_Y;
-    UIImage *savePeaceButtonImage = [UIImage imageNamed:@"homepage_school_up"];
-    float savePeaceButtonImageWidth = savePeaceButtonImage.size.width/3 * CURRENT_SCALE;
-    float savePeaceButtonImageHeight = savePeaceButtonImage.size.height/3 * CURRENT_SCALE;
-    self.savePeaceButton = [CreateViewTool  createButtonWithFrame:CGRectMake((self.view.frame.size.width - savePeaceButtonImageWidth)/2, savePeaceButton_y , savePeaceButtonImageWidth, savePeaceButtonImageHeight) buttonImage:@"homepage_school" selectorName:@"savePeaceButtonPressed:" tagDelegate:self];
-    [self.view addSubview:self.savePeaceButton];
+    //上面的视图
+    UIImageView *imageView = (UIImageView *)[self.view viewWithTag:100];
     
-    NSArray *imageArray = @[@"homepage_location",@"homepage_phone",@"homepage_chat"];
-    float totleWidth = 0.0;
-    float y1 = self.savePeaceButton.frame.size.height + self.savePeaceButton.frame.origin.y + FUNC_ADD_Y;
-    float y2 = y1;
-    for (int i = 0; i < [imageArray count]; i++)
-    {
-        UIImage *image = [UIImage imageNamed:[imageArray[i] stringByAppendingString:@"_up"]];
-        float width = image.size.width/3 * CURRENT_SCALE;
-        float height = image.size.height/3 * CURRENT_SCALE;
-        if (i != 1)
-        {
-            y2 = y1 + height/3;
-        }
-        totleWidth += width;
-    }
-    float functionButtonAddX = (self.view.frame.size.width - 2 * FUNC_SPACE_X - totleWidth)/2;
-
-    for (int i = 0; i < [imageArray count]; i++)
-    {
-        UIImage *image = [UIImage imageNamed:[imageArray[i] stringByAppendingString:@"_up"]];
-        float width = image.size.width/3 * CURRENT_SCALE;
-        float height = image.size.height/3 * CURRENT_SCALE;
-        float x = FUNC_SPACE_X + i * (width + functionButtonAddX);
-        float y = (i != 1) ? y2 : y1;
-        UIButton *button = [CreateViewTool createButtonWithFrame:CGRectMake(x, y, width, height) buttonImage:imageArray[i] selectorName:@"" tagDelegate:self];
-        button.tag = i + 1;
-        [self.view addSubview:button];
-    }
-   
+    _addressLabel = [CreateViewTool createLabelWithFrame:CGRectMake(BABY_LOC_SPACE_X, imageView.frame.size.height - BABY_LOC_HEIGHT, imageView.frame.size.width - 2 * BABY_LOC_SPACE_X, BABY_LOC_HEIGHT  - BABY_LOC_SPACE_Y) textString:@"正在获取地址..." textColor:[UIColor whiteColor] textFont:FONT(13.0)];
+    _addressLabel.numberOfLines = 2;
+    _addressLabel.adjustsFontSizeToFitWidth = YES;
+    [imageView addSubview:_addressLabel];
+    
+    _safeLable = [CreateViewTool createLabelWithFrame:CGRectMake(BABY_INFO_SPACE_X, _addressLabel.frame.origin.y - BABY_INFO_HEIGHT, imageView.frame.size.width - 2 * BABY_INFO_SPACE_X, BABY_INFO_HEIGHT) textString:@"上学守护未开启" textColor:APP_MAIN_COLOR textFont:BOLD_FONT(14.0)];
+    _safeLable.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:_safeLable];
 }
-*******************屏蔽小天才UI效果***************
-*/
 
-//添加
+//添加功能按钮
 - (void)addFunctionButtons
 {
     float add_y = 43.0  * CURRENT_SCALE;
@@ -222,8 +256,6 @@
     float phoneHeight = phoneImage.size.height/3 * CURRENT_SCALE;
     float space_phone_x = (self.view.frame.size.width - phoneWidth)/2;
     
-    
-    
     NSValue *point1 = [NSValue valueWithCGRect:CGRectMake(space_hx, space_hy, hWidth, hHeight)];
     NSValue *point2 = [NSValue valueWithCGRect:CGRectMake(space_vx, space_vy, vWidth, vHeight)];
     NSValue *point3 = [NSValue valueWithCGRect:CGRectMake(space_vx + vWidth, space_vy, vWidth, vHeight)];
@@ -243,16 +275,14 @@
 
 
 #pragma mark 点击头像按钮
-- (void)babyButtonPressed:(UIButton *)sender
+- (void)babyImageViewPressed:(UITapGestureRecognizer *)tapGesture
 {
-    //[[SliderViewController sharedSliderController] showLeftViewController];
     [[MainSideViewController sharedSliderController] showLeftViewController:YES];
 }
 
 #pragma mark 点击更多按钮
 - (void)moreButtonPressed:(UIButton *)sender
 {
-    //[[SliderViewController sharedSliderController] showRightViewController];
     [[MainSideViewController sharedSliderController] showRightViewController:YES];
 }
 
@@ -307,47 +337,11 @@
     }
 }
 
-#pragma mark 开始获取地址
-- (void)getCurrentAddress
-{
-    [self setLocation];
-    [self startLocation];
-}
-
-#pragma mark  定位相关
-- (void)setLocation
-{
-    locationService = [[BMKLocationService alloc]init];
-    //定位的最小更新距离
-    [BMKLocationService setLocationDistanceFilter:kCLDistanceFilterNone];
-    //定位精确度
-    [BMKLocationService setLocationDesiredAccuracy:kCLLocationAccuracyBest];
-}
-
-- (void)startLocation
-{
-    locationService.delegate = self;
-    [locationService startUserLocationService];
-}
-
-
-- (void)stopLocation
-{
-    locationService.delegate = nil;
-    [locationService stopUserLocationService];
-    
-}
-
-
-#pragma mark 坐标转换地址Delegate
--(void) onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error
-{
-    NSLog(@"result====%@",[[result addressDetail] city]);
-}
 
 #pragma mark 编译地址
 - (void)getReverseGeocodeWithLocation:(CLLocationCoordinate2D)locaotion
 {
+    NSLog(@"locaotion===%f===%f",locaotion.latitude,locaotion.longitude);
     if (!geocodesearch)
     {
         geocodesearch = [[BMKGeoCodeSearch alloc] init];
@@ -366,28 +360,18 @@
     }
 }
 
-#pragma mark locationManageDelegate
 
-/**
- *用户位置更新后，会调用此函数
- *@param userLocation 新的用户位置
- */
-- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+#pragma mark 坐标转换地址Delegate
+-(void) onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error
 {
-    NSLog(@"userLocation====%@",[userLocation.location description]);
-    [self getReverseGeocodeWithLocation:userLocation.location.coordinate];
-    [self stopLocation];
+    NSLog(@"result====%@",[result  address]);
+    self.addressLabel.text = [NSString stringWithFormat:@"%@  %@",[self getBabyLastTime],[result  address]];
+    [self setLocationCoordinate:result.location locationText:@""];
 }
 
-/**
- *定位失败后，会调用此函数
- *@param error 错误号
- */
-- (void)didFailToLocateUserWithError:(NSError *)error
-{
-    
-}
 
+
+#pragma mark 添加地图标注
 - (void)setLocationCoordinate:(CLLocationCoordinate2D)coordinate  locationText:(NSString *)location
 {
     [self.mapView removeAnnotations:self.mapView.annotations];
@@ -397,6 +381,29 @@
     [self.mapView addAnnotation:point];
     [self.mapView setCenterCoordinate:coordinate animated:YES];
 }
+
+
+#pragma mark MapViewDelegate
+/**
+ *根据anntation生成对应的View
+ *@param mapView 地图View
+ *@param annotation 指定的标注
+ *@return 生成的标注View
+ */
+- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[BMKPointAnnotation class]])
+    {
+        BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
+        newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        newAnnotationView.image = [UIImage imageNamed:@"location_icon"];
+        newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
+        return newAnnotationView;
+    }
+    return nil;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -409,10 +416,10 @@
     {
         _mapView = nil;
     }
-    if (locationService)
+    if (geocodesearch)
     {
-        [self stopLocation];
-        locationService = nil;
+        geocodesearch.delegate = nil;
+        geocodesearch = nil;
     }
 }
 

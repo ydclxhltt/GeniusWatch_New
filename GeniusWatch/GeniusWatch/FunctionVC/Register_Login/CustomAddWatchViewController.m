@@ -7,17 +7,16 @@
 //
 
 #import "CustomAddWatchViewController.h"
+#import "ApplyInformationViewController.h"
 
 
 #define TIP_STRING          @"注:绑定号是16个字母的字符串,请滑动手表屏幕查看!"
-#define TEXTFEILD_SPAXCE_Y  NAVBAR_HEIGHT + 15.0
+#define SPACE_Y             NAVBAR_HEIGHT + 30.0
 #define TIPLABEL_HEIGHT     40.0
 #define ADD_Y               10.0
+#define BUTTON_ADD_Y        40.0
 #define SPACE_X             20.0 * CURRENT_SCALE
 
-#define LOADING             @"正在绑定..."
-#define LOADING_SUCESS      @"绑定成功"
-#define LOADING_FAIL        @"绑定失败"
 
 @interface CustomAddWatchViewController ()<UITextFieldDelegate>
 
@@ -50,11 +49,10 @@
 //添加输入框
 - (void)addTextField
 {
-    _bindNumberTextField = [CreateViewTool createTextFieldWithFrame:CGRectMake(SPACE_X, TEXTFEILD_SPAXCE_Y, self.view.frame.size.width - 2 * SPACE_X, TEXTFIELD_HEIGHT) textColor:[UIColor blackColor] textFont:FONT(16.0) placeholderText:@"请输入绑定号"];
+    _bindNumberTextField = [CreateViewTool createTextFieldWithFrame:CGRectMake(SPACE_X, SPACE_Y, self.view.frame.size.width - 2 * SPACE_X, TEXTFIELD_HEIGHT) textColor:[UIColor blackColor] textFont:TEXTFIELD_FONT placeholderText:@"请输入绑定号"];
     //_phoneNumberTextField.borderStyle = UITextBorderStyleLine;
-    [CommonTool setViewLayer:_bindNumberTextField withLayerColor:[UIColor lightGrayColor] bordWidth:.5];
-    [CommonTool clipView:_bindNumberTextField withCornerRadius:15.0];
-    _bindNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
+    [CommonTool setViewLayer:_bindNumberTextField withLayerColor:TEXTFIELD_COLOR bordWidth:.5];
+    [CommonTool clipView:_bindNumberTextField withCornerRadius:TEXTFIELD_RADIUS];
     _bindNumberTextField.delegate = self;
     [self.view addSubview:_bindNumberTextField];
     
@@ -65,11 +63,11 @@
 - (void)addTipLabel
 {
     NSString *tipString = TIP_STRING;
-    UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, TIPLABEL_HEIGHT) textString:tipString textColor:[UIColor blackColor] textFont:FONT(15.0)];
+    UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, TIPLABEL_HEIGHT) textString:tipString textColor:TIP_COLOR textFont:TIP_FONT];
     tipLabel.numberOfLines = 2;
     //tipLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:tipLabel];
-    start_y +=  tipLabel.frame.size.height + ADD_Y;
+    start_y +=  tipLabel.frame.size.height + BUTTON_ADD_Y;
 }
 
 
@@ -77,72 +75,27 @@
 //添加下一步按钮
 - (void)addNextButton
 {
-    UIButton *bindButton = [CreateViewTool createButtonWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, BUTTON_HEIGHT) buttonTitle:@"绑定" titleColor:[UIColor whiteColor] normalBackgroundColor:APP_MAIN_COLOR highlightedBackgroundColor:[UIColor grayColor] selectorName:@"bindButtonPressed:" tagDelegate:self];
-    [CommonTool setViewLayer:bindButton withLayerColor:[UIColor lightGrayColor] bordWidth:.5];
-    [CommonTool clipView:bindButton withCornerRadius:15.0];
+    UIButton *bindButton = [CreateViewTool createButtonWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, BUTTON_HEIGHT) buttonTitle:@"绑定" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"bindButtonPressed:" tagDelegate:self];
+    [CommonTool clipView:bindButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:bindButton];
 }
 
 #pragma mark 下一步按钮响应事件
 - (void)bindButtonPressed:(UIButton *)sender
 {
-//    NSString *phoneNumberStr = (_phoneNumberTextField.text) ? _phoneNumberTextField.text : @"";
-//    if (![CommonTool isEmailOrPhoneNumber:phoneNumberStr])
-//    {
-//        [CommonTool addAlertTipWithMessage:@"请输入正确的手机号"];
-//    }
-//    else
-//    {
-//        //下一步
-//        [self checkPhoneNumber];
-//        
-//    }
+    NSString *watchID = _bindNumberTextField.text;
+    watchID = (watchID) ? watchID : @"";
+    if (watchID.length != 16)
+    {
+        [CommonTool addAlertTipWithMessage:@"请输入正确的手表绑定号"];
+    }
+    else
+    {
+        ApplyInformationViewController *applyInformationViewController = [[ApplyInformationViewController alloc] init];
+        applyInformationViewController.watchID = watchID;
+        [self.navigationController pushViewController:applyInformationViewController animated:YES];
+    }
 }
-
-
-//#pragma mark 验证手机号
-//- (void)checkPhoneNumber
-//{
-//    __weak typeof(self) weakSelf = self;
-//    [SVProgressHUD showWithStatus:LOADING];
-//    NSString *type = (self.pushType == PushTypeRegister) ? @"reg" : @"chgpwd";
-//    NSDictionary *requestDic = @{@"mobileNo":_phoneNumberTextField.text,@"type":type};
-//    [[RequestTool alloc] requestWithUrl:CHECK_PHONENUMBER_URL
-//                         requestParamas:requestDic
-//                            requestType:RequestTypeAsynchronous
-//                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-//     {
-//         NSLog(@"CHECK_PHONENUMBER===%@",responseDic);
-//         NSDictionary *dic = (NSDictionary *)responseDic;
-//         //0:成功 403.3 手机号码已注册 413.10 未找到手机号
-//         NSString *errorCode = dic[@"errorCode"];
-//         NSString *description = dic[@"description"];
-//         description = (description) ? description : LOADING_FAIL;
-//         if ([@"0" isEqualToString:errorCode])
-//         {
-//             [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
-//             [weakSelf gotoCheckCode];
-//         }
-//         else
-//         {
-//             [SVProgressHUD showErrorWithStatus:description];
-//         }
-//     }
-//                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-//     {
-//         [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
-//     }];
-//}
-//
-//
-//#pragma mark 跳转到获取验证码
-//- (void)gotoCheckCode
-//{
-//    CheckCodeViewController *checkViewController = [[CheckCodeViewController alloc] init];
-//    checkViewController.pushType = self.pushType;
-//    checkViewController.phoneNumberStr = _phoneNumberTextField.text;
-//    [self.navigationController pushViewController:checkViewController animated:YES];
-//}
 
 
 #pragma UITextFieldDelegate

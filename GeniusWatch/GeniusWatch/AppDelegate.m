@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 
 #import "IndexViewController.h"
-//#import "SliderViewController.h"
 #import "MainSideViewController.h"
 #import "LeftViewController.h"
 #import "RightViewController.h"
@@ -64,25 +63,6 @@
     [sideViewController setLeftViewController:leftViewController];
     [sideViewController setRootViewController:mainViewController];
     [sideViewController setRightViewController:rightViewController];
-    
-//    [SliderViewController sharedSliderController].LeftVC = leftViewController;
-//    [SliderViewController sharedSliderController].MainVC = mainViewController;
-//    [SliderViewController sharedSliderController].RightVC = rightViewController;
-//    [SliderViewController sharedSliderController].LeftSContentOffset = LeftContentOffset;
-//    [SliderViewController sharedSliderController].LeftContentViewSContentOffset = LeftContentViewOffset;
-//    [SliderViewController sharedSliderController].LeftSContentScale = 0.75;
-//    [SliderViewController sharedSliderController].LeftSJudgeOffset = LeftJudgeOffset;
-//    [SliderViewController sharedSliderController].changeLeftView = ^(CGFloat sca, CGFloat transX)
-//    {
-//        CGAffineTransform ltransS = CGAffineTransformMakeScale(sca, sca);
-//        CGAffineTransform ltransT = CGAffineTransformMakeTranslation(transX, 0);
-//        CGAffineTransform lconT = CGAffineTransformConcat(ltransT, ltransS);
-//        leftViewController.contentView.transform = lconT;
-//    };
-//    [SliderViewController sharedSliderController].RightSContentOffset = RIGHTContentOffset;
-//    [SliderViewController sharedSliderController].RightSContentScale = 1;
-//    [SliderViewController sharedSliderController].RightSJudgeOffset = LeftJudgeOffset;
-   
     
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:sideViewController];
     self.window.rootViewController = navVC;
