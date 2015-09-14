@@ -195,7 +195,7 @@
     {
         imageView = [[UIImageView alloc] init] ;
     }
-    [self setImageForView:imageView withIndex:index];
+    [self setImageForView:imageView withIndex:(int)index];
     return imageView;
 }
 
@@ -203,7 +203,7 @@
 - (void)didReloadData:(UIView *)cell cellForPageAtIndex:(NSInteger)index
 {
     UIImageView *imageView = (UIImageView *)cell;
-    [self setImageForView:imageView withIndex:index];
+    [self setImageForView:imageView withIndex:(int)index];
 }
 
 - (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(PageFlowView *)flowView
