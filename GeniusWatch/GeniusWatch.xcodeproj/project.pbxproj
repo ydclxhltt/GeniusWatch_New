@@ -118,6 +118,7 @@
 		CE72169C1BA0948200044A9D /* GeniusWatchApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = CE72169B1BA0948200044A9D /* GeniusWatchApplication.m */; };
 		CE79FEA91BA54474005891BB /* ApplyInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE79FEA81BA54474005891BB /* ApplyInformationViewController.m */; };
 		CE79FEAC1BA555F3005891BB /* BindApplyStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE79FEAB1BA555F3005891BB /* BindApplyStatusViewController.m */; };
+		CEA5A2D41BA71140007BC651 /* LeftRightLableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA5A2D31BA71140007BC651 /* LeftRightLableCell.m */; };
 		CEA606E01B8897E900C4DADE /* CommonTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6064D1B8897E900C4DADE /* CommonTool.m */; };
 		CEA606E11B8897E900C4DADE /* CreateViewTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6064F1B8897E900C4DADE /* CreateViewTool.m */; };
 		CEA606E21B8897E900C4DADE /* NSData+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA606531B8897E900C4DADE /* NSData+GIF.m */; };
@@ -351,6 +352,8 @@
 		CE79FEA81BA54474005891BB /* ApplyInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyInformationViewController.m; sourceTree = "<group>"; };
 		CE79FEAA1BA555F3005891BB /* BindApplyStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindApplyStatusViewController.h; sourceTree = "<group>"; };
 		CE79FEAB1BA555F3005891BB /* BindApplyStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindApplyStatusViewController.m; sourceTree = "<group>"; };
+		CEA5A2D21BA71140007BC651 /* LeftRightLableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftRightLableCell.h; sourceTree = "<group>"; };
+		CEA5A2D31BA71140007BC651 /* LeftRightLableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftRightLableCell.m; sourceTree = "<group>"; };
 		CEA6064C1B8897E900C4DADE /* CommonTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTool.h; sourceTree = "<group>"; };
 		CEA6064D1B8897E900C4DADE /* CommonTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTool.m; sourceTree = "<group>"; };
 		CEA6064E1B8897E900C4DADE /* CreateViewTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewTool.h; sourceTree = "<group>"; };
@@ -850,6 +853,8 @@
 		77D3543F1B8722770055B0B7 /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
+				CEA5A2D21BA71140007BC651 /* LeftRightLableCell.h */,
+				CEA5A2D31BA71140007BC651 /* LeftRightLableCell.m */,
 				CEFD2F981B95F0A8007587CD /* LeftTableViewCell.h */,
 				CEFD2F991B95F0A8007587CD /* LeftTableViewCell.m */,
 			);
@@ -1508,6 +1513,7 @@
 				CEA6070E1B889D1B00C4DADE /* BasicViewController.m in Sources */,
 				CEA606ED1B8897E900C4DADE /* UIImage+MultiFormat.m in Sources */,
 				CEA606FB1B8897E900C4DADE /* AFURLSessionManager.m in Sources */,
+				CEA5A2D41BA71140007BC651 /* LeftRightLableCell.m in Sources */,
 				CEB7E9CE1B99CC4D00A6A479 /* PageFlowView.m in Sources */,
 				CEA606E81B8897E900C4DADE /* SDWebImageDownloaderOperation.m in Sources */,
 				CEA606F71B8897E900C4DADE /* AFSecurityPolicy.m in Sources */,
