@@ -197,7 +197,7 @@
     UIImageView *babyView = [CreateViewTool createImageViewWithFrame:CGRectMake(BABY_SPACE_X, BABY_SPAXCE_Y, babyWidth, babyHeight) placeholderImage:nil];
     [self.view addSubview:babyView];
     
-    NSString *iconUrl = @"http://download.easyicon.net/png/1187306/128/";
+    NSString *iconUrl = @"http://p1.qqyou.com/touxiang/UploadPic/2014-7/24/2014072412362223172.jpg";
     //iconUrl = [self getBabyIcon];
     
     _bageImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, babyWidth, babyHeight) placeholderImage:babyImage imageUrl:iconUrl isShowProcess:NO];

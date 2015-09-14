@@ -9,6 +9,7 @@
 #import "LeftViewController.h"
 #import "PageFlowView.h"
 #import "AddWatchViewController.h"
+#import "AboutWatchViewController.h"
 
 
 #define NUMBER_OF_VISIBLE_ITEMS     2
@@ -28,7 +29,7 @@
 @property (nonatomic, strong) PageFlowView  *flowView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSArray *imageArray;
-@property (nonatomic, strong) NSArray *babyImageArray;
+@property (nonatomic, strong) NSMutableArray *babyDevicesArray;
 @end
 
 @implementation LeftViewController
@@ -37,13 +38,9 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     self.titleArray = @[@"宝贝资料",@"手表设置",@"关于手表"];
     self.imageArray = @[@"personal_baby",@"personal_watch_set",@"personal_watch"];
-    
-    //添加试图方便整体移动
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    [self.view addSubview:self.contentView];
     
     [self initUI];
     
@@ -61,8 +58,8 @@
 //添加背景图
 - (void)addBgImageView
 {
-    UIImageView *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height) placeholderImage:[UIImage imageNamed:(SCREEN_HEIGHT == 480.0) ? @"left_bg1" : @"left_bg2"]];
-    [self.contentView addSubview:imageView];
+    UIImageView *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) placeholderImage:[UIImage imageNamed:(SCREEN_HEIGHT == 480.0) ? @"left_bg1" : @"left_bg2"]];
+    [self.view addSubview:imageView];
 }
 
 //添加头视图
@@ -73,8 +70,6 @@
     flowViewHeight = image.size.height * 2 / 5 * CURRENT_SCALE;
     flowViewWidth = image.size.width * 2 /5 * CURRENT_SCALE;
     
-    self.babyImageArray = @[@"baby_head_up",@"personal_add"];
-    
     _flowView = [[PageFlowView alloc] initWithFrame:CGRectMake(0, SPACE_Y, LEFT_SIDE_WIDTH, flowViewHeight)];
     _flowView.delegate = self;
     _flowView.dataSource = self;
@@ -82,9 +77,9 @@
     _flowView.minimumPageScale = 0.7;
     _flowView.defaultImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"baby_head_up"]];
     [self.view addSubview:_flowView];
-    [_flowView reloadData];
-
-    [self.contentView addSubview:_flowView];
+    
+    [self initDevicesData];
+   
 }
 
 //添加tableView
@@ -96,8 +91,37 @@
     tableView.scrollEnabled = NO;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.contentView addSubview:tableView];
+    [self.view addSubview:tableView];
 }
+
+#pragma mark 初始化数据
+- (void)initDevicesData
+{
+    self.babyDevicesArray = [NSMutableArray arrayWithArray:[GeniusWatchApplication shareApplication].deviceList];
+    if ([self.babyDevicesArray count] < 5)
+    {
+        [self.babyDevicesArray addObject:@{@"headShot":@"personal_add"}];
+    }
+    [_flowView reloadData];
+}
+
+#pragma mark 设置图片
+- (void)setImageForView:(UIImageView *)imageView withIndex:(int)index
+{
+    NSDictionary *dic = self.babyDevicesArray[index];
+    NSString *url = dic[@"headShot"];
+    url = url ? url : @"";
+    if ([@"personal_add" isEqualToString:url])
+    {
+        imageView.image = [UIImage imageNamed:url];
+    }
+    else
+    {
+        url = @"http://p1.qqyou.com/touxiang/UploadPic/2014-7/24/2014072412362223172.jpg";
+        [imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"baby_head_up"]];
+    }
+}
+
 
 #pragma mark UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -132,6 +156,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    int index = (int)indexPath.row;
+    UIViewController *viewController = nil;
+    switch (index)
+    {
+        case 2:
+            viewController = [[AboutWatchViewController alloc] init];
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (viewController)
+    {
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 
@@ -139,7 +179,7 @@
 //返回显示View的个数
 - (NSInteger)numberOfPagesInFlowView:(PageFlowView *)flowView
 {
-    return [self.babyImageArray count];
+    return [self.babyDevicesArray count];
 }
 
 - (CGSize)sizeForPageInFlowView:(PageFlowView *)flowView
@@ -155,7 +195,7 @@
     {
         imageView = [[UIImageView alloc] init] ;
     }
-    imageView.image = [UIImage imageNamed:[self.babyImageArray objectAtIndex:index]];
+    [self setImageForView:imageView withIndex:index];
     return imageView;
 }
 
@@ -163,7 +203,7 @@
 - (void)didReloadData:(UIView *)cell cellForPageAtIndex:(NSInteger)index
 {
     UIImageView *imageView = (UIImageView *)cell;
-    imageView.image = [UIImage imageNamed:[self.babyImageArray objectAtIndex:index]];
+    [self setImageForView:imageView withIndex:index];
 }
 
 - (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(PageFlowView *)flowView
@@ -174,7 +214,7 @@
 - (void)didSelectItemAtIndex:(NSInteger)index inFlowView:(PageFlowView *)flowView
 {
     NSLog(@"didSelectItemAtIndex: %ld", (long)index);
-    if (index == [self.babyImageArray count] - 1)
+    if (index == [self.babyDevicesArray count] - 1 && [[GeniusWatchApplication shareApplication].deviceList count]< 5)
     {
         [self addBabyWatch];
     }

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		775075371BA6BBBA0048C69A /* apply_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 775075341BA6BBBA0048C69A /* apply_fail.png */; };
+		775075381BA6BBBA0048C69A /* apply_sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = 775075351BA6BBBA0048C69A /* apply_sucess.png */; };
+		775075391BA6BBBA0048C69A /* send_sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = 775075361BA6BBBA0048C69A /* send_sucess.png */; };
+		775075401BA6D61A0048C69A /* AboutWatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7750753F1BA6D61A0048C69A /* AboutWatchViewController.m */; };
+		775075431BA6D6930048C69A /* WatchVersionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775075421BA6D6930048C69A /* WatchVersionViewController.m */; };
 		776D53D01B9694C200D1DD62 /* MainSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776D53CF1B9694C200D1DD62 /* MainSideViewController.m */; };
 		776D54001B96E6A800D1DD62 /* homepage_phone_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 776D53FA1B96E6A800D1DD62 /* homepage_phone_up.png */; };
 		776D54021B96E6A800D1DD62 /* homepage_chat_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 776D53FC1B96E6A800D1DD62 /* homepage_chat_up.png */; };
@@ -186,6 +191,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		775075341BA6BBBA0048C69A /* apply_fail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apply_fail.png; sourceTree = "<group>"; };
+		775075351BA6BBBA0048C69A /* apply_sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apply_sucess.png; sourceTree = "<group>"; };
+		775075361BA6BBBA0048C69A /* send_sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = send_sucess.png; sourceTree = "<group>"; };
+		7750753E1BA6D61A0048C69A /* AboutWatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutWatchViewController.h; sourceTree = "<group>"; };
+		7750753F1BA6D61A0048C69A /* AboutWatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutWatchViewController.m; sourceTree = "<group>"; };
+		775075411BA6D6930048C69A /* WatchVersionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchVersionViewController.h; sourceTree = "<group>"; };
+		775075421BA6D6930048C69A /* WatchVersionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchVersionViewController.m; sourceTree = "<group>"; };
 		776D53CE1B9694C200D1DD62 /* MainSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainSideViewController.h; sourceTree = "<group>"; };
 		776D53CF1B9694C200D1DD62 /* MainSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSideViewController.m; sourceTree = "<group>"; };
 		776D53FA1B96E6A800D1DD62 /* homepage_phone_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = homepage_phone_up.png; sourceTree = "<group>"; };
@@ -540,6 +552,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7750753D1BA6D61A0048C69A /* AboutWatch */ = {
+			isa = PBXGroup;
+			children = (
+				7750753E1BA6D61A0048C69A /* AboutWatchViewController.h */,
+				7750753F1BA6D61A0048C69A /* AboutWatchViewController.m */,
+				775075411BA6D6930048C69A /* WatchVersionViewController.h */,
+				775075421BA6D6930048C69A /* WatchVersionViewController.m */,
+			);
+			path = AboutWatch;
+			sourceTree = "<group>";
+		};
 		777FC0A21BA16B70005B8559 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -887,6 +910,7 @@
 		77D354451B8723530055B0B7 /* Left */ = {
 			isa = PBXGroup;
 			children = (
+				7750753D1BA6D61A0048C69A /* AboutWatch */,
 				77D354491B87254C0055B0B7 /* LeftViewController.h */,
 				77D3544A1B87254C0055B0B7 /* LeftViewController.m */,
 			);
@@ -1219,6 +1243,9 @@
 		CEA6071B1B88C48A00C4DADE /* register_login */ = {
 			isa = PBXGroup;
 			children = (
+				775075341BA6BBBA0048C69A /* apply_fail.png */,
+				775075351BA6BBBA0048C69A /* apply_sucess.png */,
+				775075361BA6BBBA0048C69A /* send_sucess.png */,
 				CE3435A31BA1D78000E6A430 /* scanning_tip.png */,
 				779CAD601BA01C0C00A143FF /* register_bg1.png */,
 				CEB7E9E01B9A0B1000A6A479 /* line.png */,
@@ -1373,10 +1400,12 @@
 				CE2B708C1B9C6A3E00075911 /* location_location_down.png in Resources */,
 				CE300BB81B983506003D71AF /* success@2x.png in Resources */,
 				77C5F44B1B9C3874009996BC /* location_map_model_up.png in Resources */,
+				775075371BA6BBBA0048C69A /* apply_fail.png in Resources */,
 				77A7D0881B9ED686004C621A /* chat_send_message.png in Resources */,
 				CE2B70911B9C6A3E00075911 /* location_zoom_shrink_up.png in Resources */,
 				77A7D0831B9ED686004C621A /* chat_animation_white2.png in Resources */,
 				77A7D08E1B9ED686004C621A /* 0.jpeg in Resources */,
+				775075391BA6BBBA0048C69A /* send_sucess.png in Resources */,
 				CE300BA41B98094E003D71AF /* middle.png in Resources */,
 				CE2B70901B9C6A3E00075911 /* location_zoom_shrink_down.png in Resources */,
 				CEB7E9D01B99F94D00A6A479 /* personal_add.png in Resources */,
@@ -1390,6 +1419,7 @@
 				777FC0B21BA16E60005B8559 /* app_set_after_information.png in Resources */,
 				CEA6071D1B88C48A00C4DADE /* register_bg.png in Resources */,
 				CE49EA481B961F5D005C00E4 /* homepage_cell.png in Resources */,
+				775075381BA6BBBA0048C69A /* apply_sucess.png in Resources */,
 				77A7D07F1B9ED686004C621A /* chat_animation1.png in Resources */,
 				CE300BB91B983506003D71AF /* SVProgressHUD.bundle in Resources */,
 				77A7D0A11B9EE974004C621A /* chat_member_up.png in Resources */,
@@ -1427,9 +1457,11 @@
 				CEB7E9DF1B9A090400A6A479 /* AddWatchViewController.m in Sources */,
 				777FC0BE1BA183DA005B8559 /* MessageListViewController.m in Sources */,
 				77A7550E1B9D653F006F9B83 /* SetAddressViewController.m in Sources */,
+				775075431BA6D6930048C69A /* WatchVersionViewController.m in Sources */,
 				777FC0C71BA18450005B8559 /* MessageDetailViewController.m in Sources */,
 				77A7D0911B9ED686004C621A /* UUAVAudioPlayer.m in Sources */,
 				CEA606F31B8897E900C4DADE /* AFHTTPRequestOperation.m in Sources */,
+				775075401BA6D61A0048C69A /* AboutWatchViewController.m in Sources */,
 				777FC0C41BA1843E005B8559 /* FeedbackViewController.m in Sources */,
 				77A7550D1B9D653F006F9B83 /* SchoolGuardViewController.m in Sources */,
 				77D354191B87210D0055B0B7 /* AppDelegate.m in Sources */,

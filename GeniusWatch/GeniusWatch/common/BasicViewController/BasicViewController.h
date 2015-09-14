@@ -8,19 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-#define TEXTFIELD_HEIGHT    35.0
-#define BUTTON_HEIGHT       40.0
-#define BUTTON_RADIUS       5.0
-#define TEXTFIELD_RADIUS    5.0
-#define BUTTON_FONT         FONT(16.0)
-#define TEXTFIELD_FONT      FONT(16.0)
-#define TEXTFIELD_COLOR     RGB(86.0,86.0,86.0)
-#define BUTTON_N_COLOR      APP_MAIN_COLOR
-#define BUTTON_H_COLOR      [UIColor grayColor]
-#define BUTTON_TITLE_COLOR  [UIColor whiteColor]
-#define TIP_COLOR           RGB(105.0,105.0,105.0)
-#define TIP_FONT            FONT(14.0)
+#define TEXTFIELD_HEIGHT        35.0
+#define BUTTON_HEIGHT           40.0
+#define BUTTON_RADIUS           5.0
+#define TEXTFIELD_RADIUS        5.0
+#define BUTTON_FONT             FONT(16.0)
+#define TEXTFIELD_FONT          FONT(16.0)
+#define TEXTFIELD_COLOR         RGB(86.0,86.0,86.0)
+#define BUTTON_N_COLOR          APP_MAIN_COLOR
+#define BUTTON_H_COLOR          [UIColor grayColor]
+#define BUTTON_TITLE_COLOR      [UIColor whiteColor]
+#define TIP_COLOR               RGB(105.0,105.0,105.0)
+#define TIP_FONT                FONT(14.0)
 //#define TEXTFIELD_COLOR     APP_MAIN_COLOR
+
+//左侧相关
+#define SECTION_HEADER_COLOR    RGB(237.0,237.0,237.0)
+#define SECTION_LABEL_COLOR     RGB(137.0,137.0,137.0)
 
 typedef enum : NSUInteger
 {

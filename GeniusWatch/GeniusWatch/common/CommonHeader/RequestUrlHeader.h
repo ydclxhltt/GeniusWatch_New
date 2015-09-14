@@ -34,4 +34,10 @@
 //退出登录
 #define EXIT_URL                    MAKE_REQUEST_URL(@"user/logout")
 
+//宝贝资料
+//#define BABY_INFO_URL
+
+//关于手表
+#define WATCH_INFO_URL              MAKE_REQUEST_URL(@"device/basicinfo/")
+
 #endif

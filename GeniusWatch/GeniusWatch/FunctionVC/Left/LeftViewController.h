@@ -10,6 +10,5 @@
 
 @interface LeftViewController : UIViewController
 
-@property (nonatomic, strong) UIView *contentView;
 
 @end
