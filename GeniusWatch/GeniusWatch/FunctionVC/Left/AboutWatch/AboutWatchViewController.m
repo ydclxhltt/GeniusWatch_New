@@ -7,20 +7,26 @@
 //
 
 #import "AboutWatchViewController.h"
+#import "LeftRightLableCell.h"
+#import "WatchVersionViewController.h"
 
 //二维码
-#define SCANNING_VIEW_WH     130.0
+#define SCANNING_VIEW_WH     130.0 * CURRENT_SCALE
 #define SPACE_Y              15.0
-#define INFO_LABEL           20.0
-#define TIP_LABEL            30.0
-#define FIRST_CELL_HEIGHT    SCANNING_VIEW_WH + SPACE_Y + INFO_LABEL + TIP_LABEL
+#define INFO_LABEL_HEIGHT    20.0
+#define TIP_LABEL_HEIGHT     20.0
+#define FIRST_CELL_HEIGHT    SCANNING_VIEW_WH + SPACE_Y + INFO_LABEL_HEIGHT + TIP_LABEL_HEIGHT + 5.0
 //按钮
 #define BUTTON_SPACE_X       20.0 * CURRENT_SCALE
 #define BUTTON_SPACE_Y       10.0
 
 
 @interface AboutWatchViewController ()<UITableViewDataSource,UITableViewDelegate>
-
+{
+    UIImageView *bgView;
+}
+@property (nonatomic, strong) UILabel *infoLable;
+@property (nonatomic, strong) UIImageView *scanningView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) NSArray *headerHeightArray;
@@ -35,8 +41,10 @@
     self.title = @"关于手表";
     [self addBackItem];
     
-    self.headerHeightArray = @[@(0.0),@(2.0),@(10.0),@(30.0)];
+    self.headerHeightArray = @[@(0.0),@(2.0),@(5.0),@(20.0)];
     self.titleArray = @[@[@"扫一扫,绑定手表"],@[@"手表绑定号"],@[@"手表固件版本",@"手表运营商",@"型号"],@[@"GPS",@"WIFI",@"三轴传感器"]];
+    NSArray *array = @[@[],@[@"zritaohrgcnqecah"],@[@"2.01",@"中国移动",@"Y01"],@[@"主要用于室外定位",@"主要用于室内定位",@"用于体感接听"]];
+    self.dataArray = [NSMutableArray arrayWithArray:array];
     
     [self initUI];
     // Do any additional setup after loading the view.
@@ -60,6 +68,34 @@
     revokeButton.titleLabel.font = BUTTON_FONT;
     [CommonTool clipView:revokeButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:revokeButton];
+}
+
+
+- (void)addScanningViewToView:(UIView *)contentView
+{
+    if (!bgView)
+    {
+        float width = self.view.frame.size.width;
+        float height = self.view.frame.size.height;
+        bgView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, width, height) placeholderImage:nil];
+        
+        _scanningView = [CreateViewTool createImageViewWithFrame:CGRectMake((width - SCANNING_VIEW_WH)/2, SPACE_Y, SCANNING_VIEW_WH, SCANNING_VIEW_WH) placeholderImage:nil];
+        _scanningView.backgroundColor = APP_MAIN_COLOR;
+        [bgView addSubview:_scanningView];
+        
+        start_y = _scanningView.frame.size.height + _scanningView.frame.origin.y;
+        _infoLable = [CreateViewTool createLabelWithFrame:CGRectMake(0, start_y, width, INFO_LABEL_HEIGHT) textString:@"宝贝的二维码" textColor:TIP_COLOR textFont:FONT(12.0)];
+        _infoLable.textAlignment = NSTextAlignmentCenter;
+        [bgView addSubview:_infoLable];
+        
+        start_y += _infoLable.frame.size.height;
+        UILabel *tipLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, start_y, width, TIP_LABEL_HEIGHT) textString:@"扫一扫,绑定手表" textColor:[UIColor blackColor] textFont:TIP_FONT];
+        tipLabel.textAlignment = NSTextAlignmentCenter;
+        [bgView addSubview:tipLabel];
+
+    }
+    
+    [contentView addSubview:bgView];
 }
 
 
@@ -92,7 +128,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UILabel *label = [CreateViewTool createLabelWithFrame:CGRectMake(0, 0, tableView.frame.size.width, [self.headerHeightArray[section] floatValue]) textString:(section == 3) ? @" 配置" : @"" textColor:SECTION_LABEL_COLOR textFont:FONT(14.0)];
+    UILabel *label = [CreateViewTool createLabelWithFrame:CGRectMake(0, 0, tableView.frame.size.width, [self.headerHeightArray[section] floatValue]) textString:(section == 3) ? @"  配置" : @"" textColor:SECTION_LABEL_COLOR textFont:FONT(12.0)];
     label.backgroundColor = SECTION_HEADER_COLOR;
     return label;
 }
@@ -100,30 +136,64 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"cellID";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (!cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    static NSString *lfCellID = @"lfCellID";
     
-    if (indexPath.section == 2 && indexPath.row == 0)
+    if (indexPath.section == 0)
     {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        if (bgView)
+        {
+            [bgView removeFromSuperview];
+        }
+        
+        [self addScanningViewToView:cell.contentView];
+        
+        return cell;
     }
     else
     {
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        LeftRightLableCell *cell = (LeftRightLableCell *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:lfCellID];
+        if (!cell)
+        {
+            cell = [[LeftRightLableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:lfCellID];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        if (indexPath.section == 2 && indexPath.row == 0)
+        {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        else
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
+        [cell setDataWithLeftText:self.titleArray[indexPath.section][indexPath.row] rightText:self.dataArray[indexPath.section][indexPath.row]];
+        
+        return cell;
     }
-    cell.textLabel.text = self.titleArray[indexPath.section][indexPath.row];
-    cell.textLabel.font = FONT(16.0);
-    return cell;
+
+    
+
+    
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 2 && indexPath.row == 0)
+    {
+        WatchVersionViewController *watchVersionViewController = [[WatchVersionViewController alloc] init];
+        [self.navigationController pushViewController:watchVersionViewController animated:YES];
+    }
 }
 
 
