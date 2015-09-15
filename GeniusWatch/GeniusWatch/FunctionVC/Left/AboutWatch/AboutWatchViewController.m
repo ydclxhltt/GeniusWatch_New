@@ -159,7 +159,7 @@
     }
     else
     {
-        LeftRightLableCell *cell = (LeftRightLableCell *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:lfCellID];
+        LeftRightLableCell *cell = (LeftRightLableCell *)[tableView dequeueReusableCellWithIdentifier:lfCellID];
         if (!cell)
         {
             cell = [[LeftRightLableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:lfCellID];

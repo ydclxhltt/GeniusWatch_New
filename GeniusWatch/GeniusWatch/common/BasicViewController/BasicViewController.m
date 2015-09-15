@@ -19,7 +19,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     
     UIImageView *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height - 1.0, self.navigationController.navigationBar.frame.size.width, 1.0) placeholderImage:nil];
@@ -116,8 +116,16 @@
     _table.dataSource=delegate;
     _table.delegate=delegate;
     [self.view addSubview:_table];
+    [self setExtraCellLineHidden:_table];
 }
 
+
+- (void)setExtraCellLineHidden: (UITableView *)tableView
+{
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

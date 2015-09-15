@@ -10,6 +10,8 @@
 #import "PageFlowView.h"
 #import "AddWatchViewController.h"
 #import "AboutWatchViewController.h"
+#import "WatchSettingViewController.h"
+#import "WatchInfoViewController.h"
 
 
 #define NUMBER_OF_VISIBLE_ITEMS     2
@@ -160,6 +162,12 @@
     UIViewController *viewController = nil;
     switch (index)
     {
+        case 0:
+            viewController = [[WatchInfoViewController alloc] init];
+            break;
+        case 1:
+            viewController = [[WatchSettingViewController alloc] init];
+            break;
         case 2:
             viewController = [[AboutWatchViewController alloc] init];
             break;
