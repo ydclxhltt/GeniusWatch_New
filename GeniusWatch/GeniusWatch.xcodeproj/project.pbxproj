@@ -111,6 +111,7 @@
 		77D354651B8729530055B0B7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77D354641B8729530055B0B7 /* libz.dylib */; };
 		77E9AD861BA93CA1007FF34C /* LinkManListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD851BA93CA1007FF34C /* LinkManListCell.m */; };
 		77E9AD891BA967FB007FF34C /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD881BA967FB007FF34C /* WebViewController.m */; };
+		77E9AD8D1BA979DE007FF34C /* AddPicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD8C1BA979DE007FF34C /* AddPicView.m */; };
 		CE2B708C1B9C6A3E00075911 /* location_location_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70861B9C6A3E00075911 /* location_location_down.png */; };
 		CE2B708D1B9C6A3E00075911 /* location_location_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70871B9C6A3E00075911 /* location_location_up.png */; };
 		CE2B708E1B9C6A3E00075911 /* location_zoom_amplification_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70881B9C6A3E00075911 /* location_zoom_amplification_down.png */; };
@@ -368,6 +369,8 @@
 		77E9AD851BA93CA1007FF34C /* LinkManListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkManListCell.m; sourceTree = "<group>"; };
 		77E9AD871BA967FB007FF34C /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		77E9AD881BA967FB007FF34C /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		77E9AD8B1BA979DE007FF34C /* AddPicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPicView.h; sourceTree = "<group>"; };
+		77E9AD8C1BA979DE007FF34C /* AddPicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPicView.m; sourceTree = "<group>"; };
 		CE2B70861B9C6A3E00075911 /* location_location_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_location_down.png; sourceTree = "<group>"; };
 		CE2B70871B9C6A3E00075911 /* location_location_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_location_up.png; sourceTree = "<group>"; };
 		CE2B70881B9C6A3E00075911 /* location_zoom_amplification_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_zoom_amplification_down.png; sourceTree = "<group>"; };
@@ -949,6 +952,7 @@
 		77D354401B8722770055B0B7 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				77E9AD8A1BA979DE007FF34C /* AddPicView */,
 				7753189B1BA813EF00EA7ECC /* PickerView */,
 				775318961BA7FC6F00EA7ECC /* BabyIconView */,
 				77A7D0401B9ED686004C621A /* UUChat */,
@@ -1025,6 +1029,15 @@
 				77A7550B1B9D653F006F9B83 /* WeChat */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		77E9AD8A1BA979DE007FF34C /* AddPicView */ = {
+			isa = PBXGroup;
+			children = (
+				77E9AD8B1BA979DE007FF34C /* AddPicView.h */,
+				77E9AD8C1BA979DE007FF34C /* AddPicView.m */,
+			);
+			path = AddPicView;
 			sourceTree = "<group>";
 		};
 		CE300BAD1B983506003D71AF /* LoadingView */ = {
@@ -1591,6 +1604,7 @@
 				777FC0C71BA18450005B8559 /* MessageDetailViewController.m in Sources */,
 				77A7D0911B9ED686004C621A /* UUAVAudioPlayer.m in Sources */,
 				CEA606F31B8897E900C4DADE /* AFHTTPRequestOperation.m in Sources */,
+				77E9AD8D1BA979DE007FF34C /* AddPicView.m in Sources */,
 				775075401BA6D61A0048C69A /* AboutWatchViewController.m in Sources */,
 				77E9AD861BA93CA1007FF34C /* LinkManListCell.m in Sources */,
 				775318861BA7AF4500EA7ECC /* WatchSettingViewController.m in Sources */,
