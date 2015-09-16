@@ -7,19 +7,27 @@
 //
 
 #import "FeedbackViewController.h"
+#import "AddPicView.h"
 
 #define SPACE_X             5.0
 #define SPACE_Y             10.0
 #define TEXTVIEW_HEIGHT     150.0 * CURRENT_SCALE
 #define LABLE_HEIGHT        15.0
 #define PLACEHOLDER_TEXT    @"请在这里输入文字..."
+#define INPUT_WORD_MAX      @"400"
+#define ADDPICVIEW_HEIGHT   100.0 * CURRENT_SCALE
+#define ADDPIC_MAX          3
+#define BUTTON_ADD_Y        40.0
+#define BUTTON_SPACE_X      30.0 * CURRENT_SCALE
 
 
 @interface FeedbackViewController ()<UITextViewDelegate>
 
+@property (nonatomic, strong) AddPicView *addPicView;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UILabel *placeholderLabel;
 @property (nonatomic, strong) UILabel *countLabel;
+@property (nonatomic, strong) UIButton *sendButton;
 
 @end
 
@@ -76,13 +84,33 @@
 
 - (void)addImageViews
 {
+    _addPicView = [[AddPicView alloc] initWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, ADDPICVIEW_HEIGHT) maxPicCount:ADDPIC_MAX superViewController:self];
+    [self.view addSubview:_addPicView];
     
+    start_y += _addPicView.frame.size.height;
+    
+    UIImageView *lineImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, 0.5) placeholderImage:nil];
+    lineImageView.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:lineImageView];
+    
+    start_y += lineImageView.frame.size.height + BUTTON_ADD_Y;
 }
 
 - (void)addButton
 {
+    _sendButton = [CreateViewTool createButtonWithFrame:CGRectMake(BUTTON_SPACE_X, start_y, self.view.frame.size.width - 2 * BUTTON_SPACE_X, BUTTON_HEIGHT) buttonTitle:@"发送" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"sendButtonPressed:" tagDelegate:self];
+    _sendButton.titleLabel.font = BUTTON_FONT;
+    [CommonTool clipView:_sendButton withCornerRadius:BUTTON_RADIUS];
+    [self.view addSubview:_sendButton];
+}
+
+
+#pragma mark 发送
+- (void)sendButtonPressed:(UIButton *)sender
+{
     
 }
+
 
 #pragma mark -UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -92,9 +120,15 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    if (textView.text.length > 400)
-        [CommonTool addAlertTipWithMessage:@"文字长度不能超过400"];
-    textView.text = (textView.text.length > 400) ? [textView.text stringByReplacingCharactersInRange:NSMakeRange(400, 1) withString:@""] : textView.text;
+    self.sendButton.enabled = (textView.text.length > 0) ? YES : NO;
+    
+    if (textView.text.length > [INPUT_WORD_MAX intValue])
+    {
+         [CommonTool addAlertTipWithMessage:[NSString stringWithFormat:@"%@%@",@"文字长度不能超过",INPUT_WORD_MAX]];
+    }
+
+    textView.text = (textView.text.length > [INPUT_WORD_MAX intValue]) ? [textView.text stringByReplacingCharactersInRange:NSMakeRange([INPUT_WORD_MAX intValue], 1) withString:@""] : textView.text;
+    self.countLabel.text = [NSString stringWithFormat:@"%d",[INPUT_WORD_MAX intValue] - (int)textView.text.length];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView

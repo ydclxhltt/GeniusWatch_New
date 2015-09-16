@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "LoginViewController.h"
+#import "AboutUsViewController.h"
 
 #define ROW_HEIGHT      50.0
 #define HEADER_HEIGHT   2.0
@@ -151,6 +152,37 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    UIViewController *viewController;
+    
+    switch (indexPath.row)
+    {
+        case 0:
+            
+            break;
+        case 1:
+            
+            break;
+        case 2:
+            [self clearData];
+            break;
+        case 3:
+            viewController = [[AboutUsViewController alloc] init];
+            break;
+        default:
+            break;
+    }
+    if (viewController)
+    {
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
+    
+}
+
+#pragma mark 清除数据
+- (void)clearData
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"是否一键清除微聊,手机话费等本地数据" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"清除", nil];
+    [alertView show];
 }
 
 

@@ -1,35 +1,26 @@
 //
-//  AfterServiceViewController.m
+//  AboutUsViewController.m
 //  GeniusWatch
 //
-//  Created by clei on 15/9/10.
+//  Created by 陈磊 on 15/9/16.
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 
-#import "AfterServiceViewController.h"
-#import "FeedbackViewController.h"
+#import "AboutUsViewController.h"
 
-@interface AfterServiceViewController ()
+@interface AboutUsViewController ()
 
 @end
 
-@implementation AfterServiceViewController
+@implementation AboutUsViewController
 
 - (void)viewDidLoad
 {
-    self.title = @"问题与反馈";
+    self.title = @"关于";
     self.urlString = @"http://www.baidu.com";
-    [self setNavBarItemWithTitle:@" 意见反馈" navItemType:RightItem selectorName:@"feedbackButtonPressed:"];
+    [super viewDidLoad];
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-
-#pragma mark 意见反馈
-- (void)feedbackButtonPressed:(UIButton *)sender
-{
-    FeedbackViewController * feedbackViewController = [[FeedbackViewController alloc] init];
-    [self.navigationController pushViewController:feedbackViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

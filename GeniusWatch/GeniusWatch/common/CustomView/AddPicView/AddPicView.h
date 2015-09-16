@@ -8,15 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+#define PIC_SPACE_Y       15.0 * CURRENT_SCALE
+#define PIC_SPACE_X       10.0 * CURRENT_SCALE
+
 @protocol  AddPicViewDelegate;
 
 @interface AddPicView : UIView
-@property (nonatomic, assign) int maxPicCount;
-@property (nonatomic, strong) NSArray *dataArray;
-@property (nonatomic, assign) id<AddPicViewDelegate> delegate;
-@property (nonatomic, strong) NSMutableArray *picListArray;
 
-- (void)setDataWithImageArray:(NSArray *)array upLoadType:(int)type;
+
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) id<AddPicViewDelegate> delegate;
+@property (nonatomic, strong) UIImage *addImage;
+
+- (void)setDataWithImageArray:(NSArray *)array;
+- (void)selectImages;
+- (instancetype)initWithFrame:(CGRect)frame maxPicCount:(int)maxCount superViewController:(UIViewController *)viewController;
+
 @end
 
 @protocol AddPicViewDelegate <NSObject>

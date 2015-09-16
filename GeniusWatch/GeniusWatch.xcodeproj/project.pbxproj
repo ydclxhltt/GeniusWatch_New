@@ -112,6 +112,12 @@
 		77E9AD861BA93CA1007FF34C /* LinkManListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD851BA93CA1007FF34C /* LinkManListCell.m */; };
 		77E9AD891BA967FB007FF34C /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD881BA967FB007FF34C /* WebViewController.m */; };
 		77E9AD8D1BA979DE007FF34C /* AddPicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD8C1BA979DE007FF34C /* AddPicView.m */; };
+		CE1D97C41BA99F9C008AD527 /* AssetPicker.Bundle in Resources */ = {isa = PBXBuildFile; fileRef = CE1D97C11BA99F9C008AD527 /* AssetPicker.Bundle */; };
+		CE1D97C51BA99F9C008AD527 /* AssetPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1D97C31BA99F9C008AD527 /* AssetPickerController.m */; };
+		CE1D97C71BA9A867008AD527 /* Detail_add_pic.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1D97C61BA9A867008AD527 /* Detail_add_pic.png */; };
+		CE1D97CA1BA9BEA0008AD527 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1D97C91BA9BEA0008AD527 /* AboutUsViewController.m */; };
+		CE1D97CD1BA9C03B008AD527 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1D97CC1BA9C03B008AD527 /* ChangePasswordViewController.m */; };
+		CE1D97D01BA9C04C008AD527 /* MessageSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1D97CF1BA9C04C008AD527 /* MessageSettingViewController.m */; };
 		CE2B708C1B9C6A3E00075911 /* location_location_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70861B9C6A3E00075911 /* location_location_down.png */; };
 		CE2B708D1B9C6A3E00075911 /* location_location_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70871B9C6A3E00075911 /* location_location_up.png */; };
 		CE2B708E1B9C6A3E00075911 /* location_zoom_amplification_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70881B9C6A3E00075911 /* location_zoom_amplification_down.png */; };
@@ -371,6 +377,16 @@
 		77E9AD881BA967FB007FF34C /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		77E9AD8B1BA979DE007FF34C /* AddPicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPicView.h; sourceTree = "<group>"; };
 		77E9AD8C1BA979DE007FF34C /* AddPicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPicView.m; sourceTree = "<group>"; };
+		CE1D97C11BA99F9C008AD527 /* AssetPicker.Bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AssetPicker.Bundle; sourceTree = "<group>"; };
+		CE1D97C21BA99F9C008AD527 /* AssetPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetPickerController.h; sourceTree = "<group>"; };
+		CE1D97C31BA99F9C008AD527 /* AssetPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetPickerController.m; sourceTree = "<group>"; };
+		CE1D97C61BA9A867008AD527 /* Detail_add_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Detail_add_pic.png; sourceTree = "<group>"; };
+		CE1D97C81BA9BEA0008AD527 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		CE1D97C91BA9BEA0008AD527 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		CE1D97CB1BA9C03B008AD527 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		CE1D97CC1BA9C03B008AD527 /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		CE1D97CE1BA9C04C008AD527 /* MessageSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageSettingViewController.h; sourceTree = "<group>"; };
+		CE1D97CF1BA9C04C008AD527 /* MessageSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageSettingViewController.m; sourceTree = "<group>"; };
 		CE2B70861B9C6A3E00075911 /* location_location_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_location_down.png; sourceTree = "<group>"; };
 		CE2B70871B9C6A3E00075911 /* location_location_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_location_up.png; sourceTree = "<group>"; };
 		CE2B70881B9C6A3E00075911 /* location_zoom_amplification_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_zoom_amplification_down.png; sourceTree = "<group>"; };
@@ -659,6 +675,12 @@
 			children = (
 				777FC0A31BA16B70005B8559 /* SettingViewController.h */,
 				777FC0A41BA16B70005B8559 /* SettingViewController.m */,
+				CE1D97C81BA9BEA0008AD527 /* AboutUsViewController.h */,
+				CE1D97C91BA9BEA0008AD527 /* AboutUsViewController.m */,
+				CE1D97CB1BA9C03B008AD527 /* ChangePasswordViewController.h */,
+				CE1D97CC1BA9C03B008AD527 /* ChangePasswordViewController.m */,
+				CE1D97CE1BA9C04C008AD527 /* MessageSettingViewController.h */,
+				CE1D97CF1BA9C04C008AD527 /* MessageSettingViewController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -1034,10 +1056,21 @@
 		77E9AD8A1BA979DE007FF34C /* AddPicView */ = {
 			isa = PBXGroup;
 			children = (
+				CE1D97C01BA99F9C008AD527 /* AssetPickerController */,
 				77E9AD8B1BA979DE007FF34C /* AddPicView.h */,
 				77E9AD8C1BA979DE007FF34C /* AddPicView.m */,
 			);
 			path = AddPicView;
+			sourceTree = "<group>";
+		};
+		CE1D97C01BA99F9C008AD527 /* AssetPickerController */ = {
+			isa = PBXGroup;
+			children = (
+				CE1D97C11BA99F9C008AD527 /* AssetPicker.Bundle */,
+				CE1D97C21BA99F9C008AD527 /* AssetPickerController.h */,
+				CE1D97C31BA99F9C008AD527 /* AssetPickerController.m */,
+			);
+			path = AssetPickerController;
 			sourceTree = "<group>";
 		};
 		CE300BAD1B983506003D71AF /* LoadingView */ = {
@@ -1057,6 +1090,7 @@
 		CE49EA491B96256D005C00E4 /* right */ = {
 			isa = PBXGroup;
 			children = (
+				CE1D97C61BA9A867008AD527 /* Detail_add_pic.png */,
 				775318C21BA81E0000EA7ECC /* linkbook.png */,
 				775318C01BA81BFE00EA7ECC /* app.png */,
 				775318A21BA81BDA00EA7ECC /* address_book_circle.png */,
@@ -1513,11 +1547,13 @@
 				CE300BA31B98094E003D71AF /* bottom.png in Resources */,
 				776D54001B96E6A800D1DD62 /* homepage_phone_up.png in Resources */,
 				77A7D0861B9ED686004C621A /* chat_message_back.png in Resources */,
+				CE1D97C71BA9A867008AD527 /* Detail_add_pic.png in Resources */,
 				77A7D08B1B9ED686004C621A /* chatfrom_bg_normal.png in Resources */,
 				CEA606F21B8897E900C4DADE /* mapapi.bundle in Resources */,
 				77C5F44A1B9C3874009996BC /* location_map_model_down.png in Resources */,
 				77A7D08D1B9ED686004C621A /* chatto_bg_normal.png in Resources */,
 				CE49EA5D1B96256D005C00E4 /* set_set_up.png in Resources */,
+				CE1D97C41BA99F9C008AD527 /* AssetPicker.Bundle in Resources */,
 				CE49EA5B1B96256D005C00E4 /* set_linkman_up.png in Resources */,
 				CE300B9F1B97FEAA003D71AF /* personal_watch_set.png in Resources */,
 				7753188E1BA7C62500EA7ECC /* tip.png in Resources */,
@@ -1624,6 +1660,7 @@
 				77A755141B9D988E006F9B83 /* WeChatViewController.m in Sources */,
 				77D3544E1B8725730055B0B7 /* MainViewController.m in Sources */,
 				CE300BBA1B983506003D71AF /* SVProgressHUD.m in Sources */,
+				CE1D97C51BA99F9C008AD527 /* AssetPickerController.m in Sources */,
 				CEA607031B8897E900C4DADE /* UIRefreshControl+AFNetworking.m in Sources */,
 				CEA606FD1B8897E900C4DADE /* AFNetworkActivityIndicatorManager.m in Sources */,
 				CEA607281B88DAD200C4DADE /* RegisterViewController.m in Sources */,
@@ -1648,6 +1685,7 @@
 				77A7D07C1B9ED686004C621A /* MJRefreshFooterView.m in Sources */,
 				CEA606F01B8897E900C4DADE /* UIImageView+LK.m in Sources */,
 				777FC0A51BA16B70005B8559 /* SettingViewController.m in Sources */,
+				CE1D97CD1BA9C03B008AD527 /* ChangePasswordViewController.m in Sources */,
 				CEA606E61B8897E900C4DADE /* SDWebImageDecoder.m in Sources */,
 				777FC0B91BA17E42005B8559 /* LinkManListViewController.m in Sources */,
 				77A7D0931B9ED686004C621A /* UUInputFunctionView.m in Sources */,
@@ -1670,6 +1708,7 @@
 				775318991BA7FC9700EA7ECC /* BabyIocnView.m in Sources */,
 				CEA606F51B8897E900C4DADE /* AFHTTPSessionManager.m in Sources */,
 				CEA606F91B8897E900C4DADE /* AFURLRequestSerialization.m in Sources */,
+				CE1D97D01BA9C04C008AD527 /* MessageSettingViewController.m in Sources */,
 				CE79FEA91BA54474005891BB /* ApplyInformationViewController.m in Sources */,
 				77D354511B8725810055B0B7 /* RightViewController.m in Sources */,
 				77A7D07E1B9ED686004C621A /* NSDate+Utils.m in Sources */,
@@ -1682,6 +1721,7 @@
 				CEA606E41B8897E900C4DADE /* SDImageCache.m in Sources */,
 				776D53D01B9694C200D1DD62 /* MainSideViewController.m in Sources */,
 				CEA606EB1B8897E900C4DADE /* UIButton+WebCache.m in Sources */,
+				CE1D97CA1BA9BEA0008AD527 /* AboutUsViewController.m in Sources */,
 				CEA606E31B8897E900C4DADE /* NSData+ImageContentType.m in Sources */,
 				775318951BA7F36900EA7ECC /* WatchInfoViewController.m in Sources */,
 				CEA607051B8897E900C4DADE /* UpLoadPhotoTool.m in Sources */,
