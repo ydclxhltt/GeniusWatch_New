@@ -114,9 +114,8 @@
     if ([self isCanCommit])
     {
         //登录请求
-        [self dismissViewControllerAnimated:YES completion:^{}];
+        //[self dismissViewControllerAnimated:YES completion:^{}];
         [self loginRequest];
-        //[self gotoMainView];
     }
 }
 
@@ -191,6 +190,7 @@
                          }
                          requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
                          {
+                             NSLog(@"LOGINerror====%@",error);
                              [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
                          }];
 }

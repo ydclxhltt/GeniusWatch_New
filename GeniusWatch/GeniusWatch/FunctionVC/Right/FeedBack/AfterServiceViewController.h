@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 
-#import "BasicViewController.h"
+#import "WebViewController.h"
 
-@interface AfterServiceViewController : BasicViewController
+@interface AfterServiceViewController : WebViewController
 
 @end

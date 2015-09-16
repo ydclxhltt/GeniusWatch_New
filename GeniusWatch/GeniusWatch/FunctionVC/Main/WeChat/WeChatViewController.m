@@ -224,6 +224,11 @@
 }
 
 
+- (void)dealloc
+{
+    [self.refreshHeaderView free];
+}
+
 /*
 #pragma mark - Navigation
 

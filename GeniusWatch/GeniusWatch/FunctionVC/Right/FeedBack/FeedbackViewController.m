@@ -14,9 +14,19 @@
 
 @implementation FeedbackViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    self.title = @"意见反馈";
+    [self addBackItem];
+    [self initUI];
     // Do any additional setup after loading the view.
+}
+
+#pragma mark 初始化UI
+- (void)initUI
+{
+    
 }
 
 - (void)didReceiveMemoryWarning {

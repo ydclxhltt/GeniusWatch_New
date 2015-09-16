@@ -10,8 +10,18 @@
 #define ADD_X              10.0 * CURRENT_SCALE
 
 #import "TelephoneChargeViewController.h"
+#import "UUInputFunctionView.h"
+#import "MJRefresh.h"
+#import "UUMessageCell.h"
+#import "ChatModel.h"
+#import "UUMessageFrame.h"
+#import "UUMessage.h"
 
-@interface TelephoneChargeViewController ()
+@interface TelephoneChargeViewController ()<UUMessageCellDelegate,UITableViewDataSource,UITableViewDelegate>
+
+@property (strong, nonatomic) MJRefreshHeaderView *refreshHeaderView;
+@property (strong, nonatomic) ChatModel *chatModel;
+@property (strong, nonatomic) UITableView *chatTableView;
 
 @end
 
@@ -25,10 +35,14 @@
     // Do any additional setup after loading the view.
 }
 
+
 #pragma mark 初始化UI
 - (void)initUI
 {
     [self addButtons];
+    [self addTableView];
+    [self addRefreshViews];
+    [self loadBaseViewsAndData];
 }
 
 
@@ -72,6 +86,61 @@
     }
 }
 
+//添加表格
+- (void)addTableView
+{
+    [self addTableViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - IMAGEVIEW_HEIGHT) tableType:UITableViewStylePlain tableDelegate:self];
+    self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.chatTableView = self.table;
+}
+
+//添加刷新视图
+- (void)addRefreshViews
+{
+    __weak typeof(self) weakSelf = self;
+    
+    //load more
+    int pageNum = 3;
+    
+    _refreshHeaderView = [MJRefreshHeaderView header];
+    _refreshHeaderView.scrollView = self.chatTableView;
+    _refreshHeaderView.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView) {
+        
+        [weakSelf.chatModel addRandomItemsToDataSource:pageNum];
+        
+        if (weakSelf.chatModel.dataSource.count > pageNum) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:pageNum inSection:0];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.chatTableView reloadData];
+                [weakSelf.chatTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            });
+        }
+        [weakSelf.refreshHeaderView endRefreshing];
+    };
+}
+
+//添加输入框
+- (void)loadBaseViewsAndData
+{
+    self.chatModel = [[ChatModel alloc]init];
+    self.chatModel.isGroupChat = NO;
+    [self.chatModel populateRandomDataSource];
+    
+    [self.chatTableView reloadData];
+    [self tableViewScrollToBottom];
+}
+
+
+//tableView Scroll to bottom
+- (void)tableViewScrollToBottom
+{
+    if (self.chatModel.dataSource.count==0)
+        return;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.chatModel.dataSource.count-1 inSection:0];
+    [self.chatTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+}
 
 #pragma mark 按钮响应时间
 - (void)chargeButtonPressed:(UIButton *)sender
@@ -79,9 +148,67 @@
     
 }
 
+
+//#pragma mark - InputFunctionViewDelegate
+//- (void)UUInputFunctionView:(UUInputFunctionView *)funcView sendMessage:(NSString *)message
+//{
+//    NSDictionary *dic = @{@"strContent": message,
+//                          @"type": @(UUMessageTypeText)};
+//    funcView.TextViewInput.text = @"";
+//    [funcView changeSendBtnWithPhoto:YES];
+//    [self dealTheFunctionData:dic];
+//}
+//
+//- (void)dealTheFunctionData:(NSDictionary *)dic
+//{
+//    [self.chatModel addSpecifiedItem:dic];
+//    [self.chatTableView reloadData];
+//    [self tableViewScrollToBottom];
+//}
+
+#pragma mark - tableView delegate & datasource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.chatModel.dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UUMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
+    if (cell == nil) {
+        cell = [[UUMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellID"];
+        cell.delegate = self;
+    }
+    [cell setMessageFrame:self.chatModel.dataSource[indexPath.row]];
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [self.chatModel.dataSource[indexPath.row] cellHeight];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.view endEditing:YES];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self.view endEditing:YES];
+}
+
+#pragma mark - cellDelegate
+- (void)headImageDidClick:(UUMessageCell *)cell userId:(NSString *)userId{
+    // headIamgeIcon is clicked
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:cell.messageFrame.message.strName message:@"headImage clicked" delegate:nil cancelButtonTitle:@"sure" otherButtonTitles:nil];
+    [alert show];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [self.refreshHeaderView free];
 }
 
 /*

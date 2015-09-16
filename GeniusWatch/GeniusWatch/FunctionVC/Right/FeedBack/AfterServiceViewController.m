@@ -7,6 +7,7 @@
 //
 
 #import "AfterServiceViewController.h"
+#import "FeedbackViewController.h"
 
 @interface AfterServiceViewController ()
 
@@ -16,9 +17,19 @@
 
 - (void)viewDidLoad
 {
+    self.title = @"问题与反馈";
+    self.urlString = @"http://www.baidu.com";
+    [self setNavBarItemWithTitle:@"意见反馈" navItemType:RightItem selectorName:@"feedbackButtonPressed:"];
     [super viewDidLoad];
-    [self addBackItem];
     // Do any additional setup after loading the view.
+}
+
+
+#pragma mark 意见反馈
+- (void)feedbackButtonPressed:(UIButton *)sender
+{
+    FeedbackViewController * feedbackViewController = [[FeedbackViewController alloc] init];
+    [self.navigationController pushViewController:feedbackViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

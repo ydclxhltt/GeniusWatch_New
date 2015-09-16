@@ -109,6 +109,8 @@
 		77D3545F1B8729020055B0B7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77D3545E1B8729020055B0B7 /* CoreGraphics.framework */; };
 		77D354631B8729480055B0B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77D354621B8729480055B0B7 /* Foundation.framework */; };
 		77D354651B8729530055B0B7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77D354641B8729530055B0B7 /* libz.dylib */; };
+		77E9AD861BA93CA1007FF34C /* LinkManListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD851BA93CA1007FF34C /* LinkManListCell.m */; };
+		77E9AD891BA967FB007FF34C /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD881BA967FB007FF34C /* WebViewController.m */; };
 		CE2B708C1B9C6A3E00075911 /* location_location_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70861B9C6A3E00075911 /* location_location_down.png */; };
 		CE2B708D1B9C6A3E00075911 /* location_location_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70871B9C6A3E00075911 /* location_location_up.png */; };
 		CE2B708E1B9C6A3E00075911 /* location_zoom_amplification_down.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2B70881B9C6A3E00075911 /* location_zoom_amplification_down.png */; };
@@ -199,7 +201,6 @@
 		CEB7E9E31B9A0B1000A6A479 /* pick_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7E9E11B9A0B1000A6A479 /* pick_bg.png */; };
 		CEB7E9E61B9A176900A6A479 /* CustomAddWatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */; };
 		CEE0888C1B89C0F8008A2D2A /* SetPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE0888B1B89C0F8008A2D2A /* SetPassWordViewController.m */; };
-		CEFD2F9A1B95F0A8007587CD /* LeftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFD2F991B95F0A8007587CD /* LeftTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -363,6 +364,10 @@
 		77D3545E1B8729020055B0B7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		77D354621B8729480055B0B7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		77D354641B8729530055B0B7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		77E9AD841BA93CA1007FF34C /* LinkManListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkManListCell.h; sourceTree = "<group>"; };
+		77E9AD851BA93CA1007FF34C /* LinkManListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkManListCell.m; sourceTree = "<group>"; };
+		77E9AD871BA967FB007FF34C /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		77E9AD881BA967FB007FF34C /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		CE2B70861B9C6A3E00075911 /* location_location_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_location_down.png; sourceTree = "<group>"; };
 		CE2B70871B9C6A3E00075911 /* location_location_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_location_up.png; sourceTree = "<group>"; };
 		CE2B70881B9C6A3E00075911 /* location_zoom_amplification_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_zoom_amplification_down.png; sourceTree = "<group>"; };
@@ -571,8 +576,6 @@
 		CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAddWatchViewController.m; sourceTree = "<group>"; };
 		CEE0888A1B89C0F8008A2D2A /* SetPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetPassWordViewController.h; sourceTree = "<group>"; };
 		CEE0888B1B89C0F8008A2D2A /* SetPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetPassWordViewController.m; sourceTree = "<group>"; };
-		CEFD2F981B95F0A8007587CD /* LeftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftTableViewCell.h; sourceTree = "<group>"; };
-		CEFD2F991B95F0A8007587CD /* LeftTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -937,8 +940,8 @@
 			children = (
 				CEA5A2D21BA71140007BC651 /* LeftRightLableCell.h */,
 				CEA5A2D31BA71140007BC651 /* LeftRightLableCell.m */,
-				CEFD2F981B95F0A8007587CD /* LeftTableViewCell.h */,
-				CEFD2F991B95F0A8007587CD /* LeftTableViewCell.m */,
+				77E9AD841BA93CA1007FF34C /* LinkManListCell.h */,
+				77E9AD851BA93CA1007FF34C /* LinkManListCell.m */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -960,6 +963,8 @@
 			children = (
 				CEA6070C1B889D1B00C4DADE /* BasicViewController.h */,
 				CEA6070D1B889D1B00C4DADE /* BasicViewController.m */,
+				77E9AD871BA967FB007FF34C /* WebViewController.h */,
+				77E9AD881BA967FB007FF34C /* WebViewController.m */,
 			);
 			path = BasicViewController;
 			sourceTree = "<group>";
@@ -1587,6 +1592,7 @@
 				77A7D0911B9ED686004C621A /* UUAVAudioPlayer.m in Sources */,
 				CEA606F31B8897E900C4DADE /* AFHTTPRequestOperation.m in Sources */,
 				775075401BA6D61A0048C69A /* AboutWatchViewController.m in Sources */,
+				77E9AD861BA93CA1007FF34C /* LinkManListCell.m in Sources */,
 				775318861BA7AF4500EA7ECC /* WatchSettingViewController.m in Sources */,
 				777FC0C41BA1843E005B8559 /* FeedbackViewController.m in Sources */,
 				77A7550D1B9D653F006F9B83 /* SchoolGuardViewController.m in Sources */,
@@ -1599,6 +1605,7 @@
 				CEA607041B8897E900C4DADE /* UIWebView+AFNetworking.m in Sources */,
 				CEA606E91B8897E900C4DADE /* SDWebImageManager.m in Sources */,
 				77A7D07D1B9ED686004C621A /* MJRefreshHeaderView.m in Sources */,
+				77E9AD891BA967FB007FF34C /* WebViewController.m in Sources */,
 				77A7D0921B9ED686004C621A /* UUImageAvatarBrowser.m in Sources */,
 				77A755141B9D988E006F9B83 /* WeChatViewController.m in Sources */,
 				77D3544E1B8725730055B0B7 /* MainViewController.m in Sources */,
@@ -1621,7 +1628,6 @@
 				CEA606EF1B8897E900C4DADE /* THProgressView.m in Sources */,
 				CEA606E51B8897E900C4DADE /* SDWebImageCompat.m in Sources */,
 				77A755111B9D6CA2006F9B83 /* AddressViewController.m in Sources */,
-				CEFD2F9A1B95F0A8007587CD /* LeftTableViewCell.m in Sources */,
 				CE72169C1BA0948200044A9D /* GeniusWatchApplication.m in Sources */,
 				77A7D0951B9ED686004C621A /* UUMessageCell.m in Sources */,
 				CEA607021B8897E900C4DADE /* UIProgressView+AFNetworking.m in Sources */,

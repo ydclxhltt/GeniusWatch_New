@@ -46,7 +46,6 @@
     
     //添加登录成功,注销通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSucess:) name:@"LoginSucess" object:nil];
-    
     return YES;
 }
 
