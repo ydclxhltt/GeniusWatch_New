@@ -1,22 +1,24 @@
 //
-//  SetAddressViewController.m
+//  SetSchoolInfoViewController.m
 //  GeniusWatch
 //
-//  Created by clei on 15/9/7.
+//  Created by 陈磊 on 15/9/18.
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 
-#import "SetAddressViewController.h"
+#import "SetSchoolInfoViewController.h"
 
-@interface SetAddressViewController ()
+@interface SetSchoolInfoViewController ()
 
 @end
 
-@implementation SetAddressViewController
+@implementation SetSchoolInfoViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"学校";
+    [self addBackItem];
     // Do any additional setup after loading the view.
 }
 

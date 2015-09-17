@@ -17,7 +17,8 @@
 #define BUTTON_SPACE_Y      10.0
 
 #import "SchoolGuardViewController.h"
-#import "AddressViewController.h"
+#import "SetHouseInfoViewController.h"
+#import "SetSchoolInfoViewController.h"
 #import "SpaceSchoolView.h"
 
 @interface SchoolGuardViewController ()<UIActionSheetDelegate>
@@ -101,11 +102,15 @@
 #pragma mark UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex != 2)
+    if (buttonIndex == 0)
     {
-        AddressViewController *addressViewController = [[AddressViewController alloc] init];
-        addressViewController.addressType = (buttonIndex == 0) ? SetAddressTypeSchool : SetAddressTypeHouse;
-        [self.navigationController pushViewController:addressViewController animated:YES];
+        SetSchoolInfoViewController *setSchoolInfoViewController = [[SetSchoolInfoViewController alloc] init];
+        [self.navigationController pushViewController:setSchoolInfoViewController animated:YES];
+    }
+    if (buttonIndex == 1)
+    {
+        SetHouseInfoViewController *setHouseInfoViewController = [[SetHouseInfoViewController alloc] init];
+        [self.navigationController pushViewController:setHouseInfoViewController animated:YES];
     }
 }
 

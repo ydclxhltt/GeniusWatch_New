@@ -17,8 +17,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = (self.addressType == SetAddressTypeHouse) ? @"家-小区" : @"学校";
+    self.title = (self.addressType == SetAddressTypeHouse) ? @"设置家—小区区域" : @"";
+    [self initUI];
     // Do any additional setup after loading the view.
+}
+
+#pragma mark 初始化UI
+- (void)initUI
+{
+    [self addMapView];
+    [self addLocationButton];
+    [self addZoomButton];
+    [self addTypeButton];
+    locaitonButton.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {

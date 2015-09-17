@@ -55,7 +55,6 @@
 		77A754FC1B9D566E006F9B83 /* BasicMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A754FB1B9D566E006F9B83 /* BasicMapViewController.m */; };
 		77A7550C1B9D653F006F9B83 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A755051B9D653F006F9B83 /* LocationViewController.m */; };
 		77A7550D1B9D653F006F9B83 /* SchoolGuardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A755081B9D653F006F9B83 /* SchoolGuardViewController.m */; };
-		77A7550E1B9D653F006F9B83 /* SetAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A7550A1B9D653F006F9B83 /* SetAddressViewController.m */; };
 		77A755111B9D6CA2006F9B83 /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A755101B9D6CA2006F9B83 /* AddressViewController.m */; };
 		77A755141B9D988E006F9B83 /* WeChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A755131B9D988E006F9B83 /* WeChatViewController.m */; };
 		77A7D0791B9ED686004C621A /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 77A7D0421B9ED686004C621A /* MJRefresh.bundle */; };
@@ -198,6 +197,8 @@
 		CEA607341B88F82700C4DADE /* CheckCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA607331B88F82700C4DADE /* CheckCodeViewController.m */; };
 		CEB114271B9F0D1C00E01851 /* default_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB114261B9F0D1C00E01851 /* default_icon.png */; };
 		CEB643EF1BAB038300369A01 /* SpaceSchoolView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB643EE1BAB038300369A01 /* SpaceSchoolView.m */; };
+		CEB643F21BAB278000369A01 /* SetSchoolInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB643F11BAB278000369A01 /* SetSchoolInfoViewController.m */; };
+		CEB643F51BAB279600369A01 /* SetHouseInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB643F41BAB279600369A01 /* SetHouseInfoViewController.m */; };
 		CEB7D1191BA47C54001D5E0D /* AddWatchTipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7D1181BA47C54001D5E0D /* AddWatchTipViewController.m */; };
 		CEB7D11B1BA4A2FE001D5E0D /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7D11A1BA4A2FE001D5E0D /* location_icon.png */; };
 		CEB7E9CE1B99CC4D00A6A479 /* PageFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9CD1B99CC4D00A6A479 /* PageFlowView.m */; };
@@ -288,8 +289,6 @@
 		77A755051B9D653F006F9B83 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
 		77A755071B9D653F006F9B83 /* SchoolGuardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolGuardViewController.h; sourceTree = "<group>"; };
 		77A755081B9D653F006F9B83 /* SchoolGuardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolGuardViewController.m; sourceTree = "<group>"; };
-		77A755091B9D653F006F9B83 /* SetAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetAddressViewController.h; sourceTree = "<group>"; };
-		77A7550A1B9D653F006F9B83 /* SetAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetAddressViewController.m; sourceTree = "<group>"; };
 		77A7550F1B9D6CA2006F9B83 /* AddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressViewController.h; sourceTree = "<group>"; };
 		77A755101B9D6CA2006F9B83 /* AddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressViewController.m; sourceTree = "<group>"; };
 		77A755121B9D988E006F9B83 /* WeChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeChatViewController.h; sourceTree = "<group>"; };
@@ -584,6 +583,10 @@
 		CEB114261B9F0D1C00E01851 /* default_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_icon.png; sourceTree = "<group>"; };
 		CEB643ED1BAB038300369A01 /* SpaceSchoolView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceSchoolView.h; sourceTree = "<group>"; };
 		CEB643EE1BAB038300369A01 /* SpaceSchoolView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpaceSchoolView.m; sourceTree = "<group>"; };
+		CEB643F01BAB278000369A01 /* SetSchoolInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetSchoolInfoViewController.h; sourceTree = "<group>"; };
+		CEB643F11BAB278000369A01 /* SetSchoolInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetSchoolInfoViewController.m; sourceTree = "<group>"; };
+		CEB643F31BAB279600369A01 /* SetHouseInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetHouseInfoViewController.h; sourceTree = "<group>"; };
+		CEB643F41BAB279600369A01 /* SetHouseInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetHouseInfoViewController.m; sourceTree = "<group>"; };
 		CEB7D1171BA47C54001D5E0D /* AddWatchTipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWatchTipViewController.h; sourceTree = "<group>"; };
 		CEB7D1181BA47C54001D5E0D /* AddWatchTipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWatchTipViewController.m; sourceTree = "<group>"; };
 		CEB7D11A1BA4A2FE001D5E0D /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
@@ -745,10 +748,12 @@
 			children = (
 				77A755071B9D653F006F9B83 /* SchoolGuardViewController.h */,
 				77A755081B9D653F006F9B83 /* SchoolGuardViewController.m */,
-				77A755091B9D653F006F9B83 /* SetAddressViewController.h */,
-				77A7550A1B9D653F006F9B83 /* SetAddressViewController.m */,
 				77A7550F1B9D6CA2006F9B83 /* AddressViewController.h */,
 				77A755101B9D6CA2006F9B83 /* AddressViewController.m */,
+				CEB643F01BAB278000369A01 /* SetSchoolInfoViewController.h */,
+				CEB643F11BAB278000369A01 /* SetSchoolInfoViewController.m */,
+				CEB643F31BAB279600369A01 /* SetHouseInfoViewController.h */,
+				CEB643F41BAB279600369A01 /* SetHouseInfoViewController.m */,
 			);
 			path = SchoolGuard;
 			sourceTree = "<group>";
@@ -1653,7 +1658,6 @@
 			files = (
 				CEB7E9DF1B9A090400A6A479 /* AddWatchViewController.m in Sources */,
 				777FC0BE1BA183DA005B8559 /* MessageListViewController.m in Sources */,
-				77A7550E1B9D653F006F9B83 /* SetAddressViewController.m in Sources */,
 				775075431BA6D6930048C69A /* WatchVersionViewController.m in Sources */,
 				777FC0C71BA18450005B8559 /* MessageDetailViewController.m in Sources */,
 				77A7D0911B9ED686004C621A /* UUAVAudioPlayer.m in Sources */,
@@ -1684,6 +1688,7 @@
 				CEA607281B88DAD200C4DADE /* RegisterViewController.m in Sources */,
 				77A7D07A1B9ED686004C621A /* MJRefreshBaseView.m in Sources */,
 				77D3544B1B87254C0055B0B7 /* LeftViewController.m in Sources */,
+				CEB643F51BAB279600369A01 /* SetHouseInfoViewController.m in Sources */,
 				CEA606F81B8897E900C4DADE /* AFURLConnectionOperation.m in Sources */,
 				CEA607011B8897E900C4DADE /* UIImageView+AFNetworking.m in Sources */,
 				77A7D0941B9ED686004C621A /* UUMessage.m in Sources */,
@@ -1715,6 +1720,7 @@
 				CEA606FB1B8897E900C4DADE /* AFURLSessionManager.m in Sources */,
 				CEA5A2D41BA71140007BC651 /* LeftRightLableCell.m in Sources */,
 				CEB7E9CE1B99CC4D00A6A479 /* PageFlowView.m in Sources */,
+				CEB643F21BAB278000369A01 /* SetSchoolInfoViewController.m in Sources */,
 				CEA606E81B8897E900C4DADE /* SDWebImageDownloaderOperation.m in Sources */,
 				CEA606F71B8897E900C4DADE /* AFSecurityPolicy.m in Sources */,
 				CEA606FF1B8897E900C4DADE /* UIAlertView+AFNetworking.m in Sources */,

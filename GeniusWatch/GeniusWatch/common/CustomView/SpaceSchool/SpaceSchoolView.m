@@ -98,7 +98,7 @@
             imageView = [CreateViewTool createImageViewWithFrame:CGRectMake(x , y, _scrollView.frame.size.width - pointView.frame.size.width - 2 * SPACE_X - ADD_X, ITEM_HEIGHT) placeholderImage:image];
             imageView.contentMode = UIViewContentModeScaleToFill;
             [_scrollView addSubview:imageView];
-            
+            //画线
             if (i == 0)
             {
                 [self.pointArray addObject:@(pointView.frame.origin.y + pointView.frame.size.height)];
@@ -119,10 +119,10 @@
                     [_scrollView addSubview:lineImageView];
                 }
             }
-            
+            //改变pointView颜色
+            //[pointView setDataWithInfo:@"" isSelected:YES isHighlighted:NO];
         }
     }
-    NSLog(@"=====%@",self.pointArray);
 }
 
 

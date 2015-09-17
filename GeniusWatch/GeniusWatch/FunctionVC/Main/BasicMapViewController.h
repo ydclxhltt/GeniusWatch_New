@@ -15,7 +15,9 @@ typedef enum : NSUInteger {
 #import "BMapKit.h"
 
 @interface BasicMapViewController : BasicViewController<BMKMapViewDelegate>
-
+{
+    UIButton *locaitonButton;
+}
 @property (nonatomic, retain) BMKMapView *mapView;
 
 //添加地图

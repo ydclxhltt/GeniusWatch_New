@@ -81,7 +81,7 @@
     UIImage *image = [UIImage imageNamed:@"location_location_up"];
     float width = image.size.width/3 * CURRENT_SCALE;
     float height = image.size.height/3 * CURRENT_SCALE;
-    UIButton *locaitonButton = [CreateViewTool createButtonWithFrame:CGRectMake(self.view.frame.size.width - SPACE_X - width, self.view.frame.size.height - (BAR_SPACE_Y) - height, width, height) buttonImage:@"location_location" selectorName:@"locationButtonPressed:" tagDelegate:self];
+    locaitonButton = [CreateViewTool createButtonWithFrame:CGRectMake(self.view.frame.size.width - SPACE_X - width, self.view.frame.size.height - (BAR_SPACE_Y) - height, width, height) buttonImage:@"location_location" selectorName:@"locationButtonPressed:" tagDelegate:self];
     [self.view addSubview:locaitonButton];
     
     start_y = locaitonButton.frame.origin.y - ADD_Y;
