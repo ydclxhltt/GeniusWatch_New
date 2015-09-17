@@ -47,6 +47,8 @@
     _iconImageView.backgroundColor = [UIColor grayColor];
     [self addSubview:_iconImageView];
     
+    //_infoLabel = [CreateViewTool createLabelWithFrame:<#(CGRect)#> textString:@"14:00" textColor:<#(UIColor *)#> textFont:<#(UIFont *)#>];
+    
 }
 
 
