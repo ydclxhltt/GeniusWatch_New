@@ -114,8 +114,8 @@
     if ([self isCanCommit])
     {
         //登录请求
-        //[self dismissViewControllerAnimated:YES completion:^{}];
-        [self loginRequest];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginSucess" object:nil];
+        //[self loginRequest];
     }
 }
 

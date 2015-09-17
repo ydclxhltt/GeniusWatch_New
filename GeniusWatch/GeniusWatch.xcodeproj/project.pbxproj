@@ -197,6 +197,7 @@
 		CEA607311B88E1FF00C4DADE /* back_up.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA607301B88E1FF00C4DADE /* back_up.png */; };
 		CEA607341B88F82700C4DADE /* CheckCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA607331B88F82700C4DADE /* CheckCodeViewController.m */; };
 		CEB114271B9F0D1C00E01851 /* default_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB114261B9F0D1C00E01851 /* default_icon.png */; };
+		CEB643EF1BAB038300369A01 /* SpaceSchoolView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB643EE1BAB038300369A01 /* SpaceSchoolView.m */; };
 		CEB7D1191BA47C54001D5E0D /* AddWatchTipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7D1181BA47C54001D5E0D /* AddWatchTipViewController.m */; };
 		CEB7D11B1BA4A2FE001D5E0D /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7D11A1BA4A2FE001D5E0D /* location_icon.png */; };
 		CEB7E9CE1B99CC4D00A6A479 /* PageFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9CD1B99CC4D00A6A479 /* PageFlowView.m */; };
@@ -581,6 +582,8 @@
 		CEA607321B88F82700C4DADE /* CheckCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckCodeViewController.h; sourceTree = "<group>"; };
 		CEA607331B88F82700C4DADE /* CheckCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCodeViewController.m; sourceTree = "<group>"; };
 		CEB114261B9F0D1C00E01851 /* default_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_icon.png; sourceTree = "<group>"; };
+		CEB643ED1BAB038300369A01 /* SpaceSchoolView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceSchoolView.h; sourceTree = "<group>"; };
+		CEB643EE1BAB038300369A01 /* SpaceSchoolView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpaceSchoolView.m; sourceTree = "<group>"; };
 		CEB7D1171BA47C54001D5E0D /* AddWatchTipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWatchTipViewController.h; sourceTree = "<group>"; };
 		CEB7D1181BA47C54001D5E0D /* AddWatchTipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWatchTipViewController.m; sourceTree = "<group>"; };
 		CEB7D11A1BA4A2FE001D5E0D /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
@@ -1072,6 +1075,8 @@
 			children = (
 				77F2051D1BAAC20A00C9567C /* PointView.h */,
 				77F2051E1BAAC20A00C9567C /* PointView.m */,
+				CEB643ED1BAB038300369A01 /* SpaceSchoolView.h */,
+				CEB643EE1BAB038300369A01 /* SpaceSchoolView.m */,
 			);
 			path = SpaceSchool;
 			sourceTree = "<group>";
@@ -1693,6 +1698,7 @@
 				CEA606E51B8897E900C4DADE /* SDWebImageCompat.m in Sources */,
 				77A755111B9D6CA2006F9B83 /* AddressViewController.m in Sources */,
 				CE72169C1BA0948200044A9D /* GeniusWatchApplication.m in Sources */,
+				CEB643EF1BAB038300369A01 /* SpaceSchoolView.m in Sources */,
 				77A7D0951B9ED686004C621A /* UUMessageCell.m in Sources */,
 				CEA607021B8897E900C4DADE /* UIProgressView+AFNetworking.m in Sources */,
 				77A7D07C1B9ED686004C621A /* MJRefreshFooterView.m in Sources */,

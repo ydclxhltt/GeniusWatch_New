@@ -18,13 +18,14 @@
 
 #import "SchoolGuardViewController.h"
 #import "AddressViewController.h"
+#import "SpaceSchoolView.h"
 
 @interface SchoolGuardViewController ()<UIActionSheetDelegate>
 
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *timeLable;
 @property (nonatomic, strong) UIButton *switchButton;
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) SpaceSchoolView *spaceSchoolView;
 
 @end
 
@@ -45,7 +46,7 @@
 - (void)initUI
 {
     [self addLables];
-    [self addScrollView];
+    [self addItemView];
     [self addButton];
 }
 
@@ -66,11 +67,14 @@
     UIImageView *lineImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, .5) placeholderImage:nil];
     lineImageView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:lineImageView];
+    
+    start_y += lineImageView.frame.size.height;
 }
 
-- (void)addScrollView
+- (void)addItemView
 {
-    
+    _spaceSchoolView = [[SpaceSchoolView alloc] initWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, self.view.frame.size.height - start_y - BUTTON_HEIGHT - 2 * BUTTON_SPACE_Y) dataArray:@[@"",@"",@"",@""]];
+    [self.view addSubview:_spaceSchoolView];
 }
 
 - (void)addButton
