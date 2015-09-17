@@ -14,87 +14,74 @@
 {
     AFHTTPRequestOperation *requestOperation;
 }
-@property(nonatomic, strong) NSString *upLoadUrl;
-@property(nonatomic, strong) NSArray *photoArray;
-@property(nonatomic, assign) int type;
+
+@property (nonatomic, strong) NSDictionary *requestDic;
+@property (nonatomic, strong) NSDictionary *responseDic;
+@property (nonatomic, strong) NSString *upLoadUrl;
+@property (nonatomic, strong) NSArray *photoArray;
+@property (nonatomic, strong) NSArray *videoArray;
 @end
 
 @implementation UpLoadPhotoTool
 
-- (instancetype) initWithPhotoArray:(NSArray *)array upLoadUrl:(NSString *)url  upLoadType:(int)type
+- (instancetype) initWithPhotoArray:(NSArray *)array upLoadUrl:(NSString *)url requestData:(NSDictionary *)dataDic
 {
     self = [super init];
     
     if (self)
     {
-        self.currentIndex = 0;
+        self.requestDic = dataDic;
         self.photoArray = array;
         url = (url) ? url : @"";
         self.upLoadUrl = url;
-        self.type = type;
-        [self upLoadPhotos];
+        [self startUpLoadPhotos];
     }
     return self;
 }
 
 
-- (void)upLoadPhotos
+- (void)startUpLoadPhotos
 {
+    __weak typeof(self) weakSelf = self;
     if (!self.photoArray || [self.photoArray count] == 0)
         return;
     else
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         ^{
-            for (int i = 0; i < [self.photoArray count]; i++)
-            {
-                self.currentIndex = i;
-                [self upLoadPhotoWithImage:self.photoArray[i] upLoadType:self.type];
-            }
+            [weakSelf upLoadPhotos];
         });
     }
 }
 
 
-- (void)upLoadPhotoWithImage:(UIImage *)image upLoadType:(int)type
+- (void)upLoadPhotos
 {
     //上传图片
-    __block typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"category":@(type)};
-    requestDic = (type == 0) ? @{} : requestDic;
+    __weak typeof(self) weakSelf = self;
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
     manager.requestSerializer = [AFHTTPRequestSerializer  serializer];
     //manager.requestSerializer.timeoutInterval = TIMEOUT;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
-    requestOperation =  [manager POST:weakSelf.upLoadUrl parameters:requestDic
+    requestOperation =  [manager POST:weakSelf.upLoadUrl parameters:self.responseDic
     constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
     {
-        if (image)
+        for (int i = 0; i < [self.photoArray count]; i++)
         {
+            UIImage *image = self.photoArray[i];
             NSData *data = UIImageJPEGRepresentation(image, .1);
             NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
-            [formData appendPartWithFileData:data name:@"file" fileName:[NSString stringWithFormat:@"%.0f%d.png",time,self.currentIndex] mimeType:@"image/png"];
+            NSString *nameStr = [NSString stringWithFormat:@"%@%d.png",@"file",i + 1];
+            nameStr = ([self.photoArray count] == 1) ? @"file" : nameStr;
+            [formData appendPartWithFileData:data name:nameStr fileName:[NSString stringWithFormat:@"%.0f%d.png",time,i] mimeType:@"image/png"];
         }
     }
     success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
-        weakSelf.responseDic = responseObject;
-        NSDictionary *dic = (NSDictionary *)responseObject;
-        int sucess = [dic[@"responseMessage"][@"success"] intValue];
-        if (sucess == 1)
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(uploadPhotoSucessed:)])
         {
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(uploadPhotoSucessed:)])
-            {
-                [weakSelf.delegate uploadPhotoSucessed:self];
-            }
-        }
-        if (sucess == 0)
-        {
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(uploadPhotoFailed:)])
-            {
-                [weakSelf.delegate uploadPhotoFailed:weakSelf];
-            }
+            [weakSelf.delegate uploadPhotoSucessed:weakSelf];
         }
         NSLog(@"operationresponseObject===%@",operation.responseString);
     }

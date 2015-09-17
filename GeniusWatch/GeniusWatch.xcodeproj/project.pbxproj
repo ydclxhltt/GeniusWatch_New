@@ -112,6 +112,7 @@
 		77E9AD861BA93CA1007FF34C /* LinkManListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD851BA93CA1007FF34C /* LinkManListCell.m */; };
 		77E9AD891BA967FB007FF34C /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD881BA967FB007FF34C /* WebViewController.m */; };
 		77E9AD8D1BA979DE007FF34C /* AddPicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD8C1BA979DE007FF34C /* AddPicView.m */; };
+		77F2051F1BAAC20A00C9567C /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F2051E1BAAC20A00C9567C /* PointView.m */; };
 		CE1D97C41BA99F9C008AD527 /* AssetPicker.Bundle in Resources */ = {isa = PBXBuildFile; fileRef = CE1D97C11BA99F9C008AD527 /* AssetPicker.Bundle */; };
 		CE1D97C51BA99F9C008AD527 /* AssetPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1D97C31BA99F9C008AD527 /* AssetPickerController.m */; };
 		CE1D97C71BA9A867008AD527 /* Detail_add_pic.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1D97C61BA9A867008AD527 /* Detail_add_pic.png */; };
@@ -377,6 +378,8 @@
 		77E9AD881BA967FB007FF34C /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		77E9AD8B1BA979DE007FF34C /* AddPicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPicView.h; sourceTree = "<group>"; };
 		77E9AD8C1BA979DE007FF34C /* AddPicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPicView.m; sourceTree = "<group>"; };
+		77F2051D1BAAC20A00C9567C /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointView.h; sourceTree = "<group>"; };
+		77F2051E1BAAC20A00C9567C /* PointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointView.m; sourceTree = "<group>"; };
 		CE1D97C11BA99F9C008AD527 /* AssetPicker.Bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AssetPicker.Bundle; sourceTree = "<group>"; };
 		CE1D97C21BA99F9C008AD527 /* AssetPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetPickerController.h; sourceTree = "<group>"; };
 		CE1D97C31BA99F9C008AD527 /* AssetPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetPickerController.m; sourceTree = "<group>"; };
@@ -974,6 +977,7 @@
 		77D354401B8722770055B0B7 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				77F2051C1BAAC1F000C9567C /* SpaceSchool */,
 				77E9AD8A1BA979DE007FF34C /* AddPicView */,
 				7753189B1BA813EF00EA7ECC /* PickerView */,
 				775318961BA7FC6F00EA7ECC /* BabyIconView */,
@@ -1061,6 +1065,15 @@
 				77E9AD8C1BA979DE007FF34C /* AddPicView.m */,
 			);
 			path = AddPicView;
+			sourceTree = "<group>";
+		};
+		77F2051C1BAAC1F000C9567C /* SpaceSchool */ = {
+			isa = PBXGroup;
+			children = (
+				77F2051D1BAAC20A00C9567C /* PointView.h */,
+				77F2051E1BAAC20A00C9567C /* PointView.m */,
+			);
+			path = SpaceSchool;
 			sourceTree = "<group>";
 		};
 		CE1D97C01BA99F9C008AD527 /* AssetPickerController */ = {
@@ -1685,6 +1698,7 @@
 				77A7D07C1B9ED686004C621A /* MJRefreshFooterView.m in Sources */,
 				CEA606F01B8897E900C4DADE /* UIImageView+LK.m in Sources */,
 				777FC0A51BA16B70005B8559 /* SettingViewController.m in Sources */,
+				77F2051F1BAAC20A00C9567C /* PointView.m in Sources */,
 				CE1D97CD1BA9C03B008AD527 /* ChangePasswordViewController.m in Sources */,
 				CEA606E61B8897E900C4DADE /* SDWebImageDecoder.m in Sources */,
 				777FC0B91BA17E42005B8559 /* LinkManListViewController.m in Sources */,

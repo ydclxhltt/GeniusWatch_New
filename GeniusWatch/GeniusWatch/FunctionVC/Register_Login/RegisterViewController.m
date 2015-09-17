@@ -76,7 +76,6 @@
 //添加下一步按钮
 - (void)addNextButton
 {
-
     UIButton *nextButton = [CreateViewTool createButtonWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, BUTTON_HEIGHT) buttonTitle:@"下一步" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"nextButtonPressed:" tagDelegate:self];
     nextButton.titleLabel.font = BUTTON_FONT;
     [CommonTool clipView:nextButton withCornerRadius:BUTTON_RADIUS];
