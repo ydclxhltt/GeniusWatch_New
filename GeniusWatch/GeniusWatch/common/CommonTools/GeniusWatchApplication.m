@@ -29,6 +29,7 @@
     {
         self.isLaunchLogin = YES;
         self.currentDeviceIndex = 0;
+        self.currentIndex = 0;
     }
     return self;
 }

@@ -38,6 +38,18 @@
 //#define BABY_INFO_URL
 
 //关于手表
-#define WATCH_INFO_URL              MAKE_REQUEST_URL(@"device/basicinfo/")
+#define WATCH_INFO_URL              MAKE_REQUEST_URL(@"device/basicinfo")
+
+//解除手表
+#define REVOKE_WATCH_URL            MAKE_REQUEST_URL(@"device/unbind")
+
+//获取绑定设备列表
+#define DEVICE_LIST_URL             MAKE_REQUEST_URL(@"device/list")
+
+//获取设备当前位置
+#define UPDATE_LOCATION_URL         MAKE_REQUEST_URL(@"activity/lastpoi")
+
+//获取设备信息
+#define OWNER_INFO_URL              MAKE_REQUEST_URL(@"device/owner/")
 
 #endif

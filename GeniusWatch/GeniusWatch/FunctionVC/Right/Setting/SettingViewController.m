@@ -9,6 +9,9 @@
 #import "SettingViewController.h"
 #import "LoginViewController.h"
 #import "AboutUsViewController.h"
+#import "MessageSettingViewController.h"
+#import "ChangePasswordViewController.h"
+
 
 #define ROW_HEIGHT      50.0
 #define HEADER_HEIGHT   2.0
@@ -157,10 +160,10 @@
     switch (indexPath.row)
     {
         case 0:
-            
+            viewController = [[MessageSettingViewController alloc] init];
             break;
         case 1:
-            
+            viewController = [[ChangePasswordViewController alloc] init];
             break;
         case 2:
             [self clearData];

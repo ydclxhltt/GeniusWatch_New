@@ -114,7 +114,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.row == 0)
+    if (indexPath.row == 0 && indexPath.section == 0)
     {
         AddressViewController *addressViewController = [[AddressViewController alloc] init];
         addressViewController.addressType = SetAddressTypeHouse;

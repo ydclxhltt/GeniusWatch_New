@@ -46,6 +46,8 @@
     
     [self initUI];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshCoverFlowData) name:@"RefreshCoverFlow" object:nil];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -122,6 +124,12 @@
         url = @"http://p1.qqyou.com/touxiang/UploadPic/2014-7/24/2014072412362223172.jpg";
         [imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"baby_head_up"]];
     }
+}
+
+#pragma mark 刷新数据
+- (void)refreshCoverFlowData
+{
+    [self initDevicesData];
 }
 
 
@@ -233,6 +241,7 @@
 {
     AddWatchViewController *addWatchViewController = [[AddWatchViewController alloc] init];
     addWatchViewController.showType = ShowTypePresent;
+    addWatchViewController.isShowBackButton = YES;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:addWatchViewController];
     [self presentViewController:nav animated:YES completion:^{}];
 }

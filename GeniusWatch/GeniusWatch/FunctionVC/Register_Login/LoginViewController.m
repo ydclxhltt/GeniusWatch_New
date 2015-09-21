@@ -114,8 +114,8 @@
     if ([self isCanCommit])
     {
         //登录请求
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginSucess" object:nil];
-        //[self loginRequest];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"LoginSucess" object:nil];
+        [self loginRequest];
     }
 }
 
@@ -199,9 +199,15 @@
 //进入主界面
 - (void)addMainViewWithData:(NSArray *)deviceArray
 {
-    if ([GeniusWatchApplication shareApplication].isLaunchLogin)
+    if (deviceArray && [deviceArray count] > 0)
     {
         [GeniusWatchApplication shareApplication].deviceList = [NSMutableArray arrayWithArray:deviceArray];
+        int index = [GeniusWatchApplication shareApplication].currentDeviceIndex;
+        [GeniusWatchApplication shareApplication].currentDeviceDic = deviceArray[index];
+    }
+    
+    if ([GeniusWatchApplication shareApplication].isLaunchLogin)
+    {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginSucess" object:nil];
     }
     else

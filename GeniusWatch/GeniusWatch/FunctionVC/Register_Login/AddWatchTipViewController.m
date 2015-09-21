@@ -66,6 +66,7 @@
 {
     AddWatchViewController *addWatchViewController = [[AddWatchViewController alloc] init];
     addWatchViewController.showType = ShowTypePush;
+    addWatchViewController.isShowBackButton = YES;
     [self.navigationController pushViewController:addWatchViewController animated:YES];
 }
 

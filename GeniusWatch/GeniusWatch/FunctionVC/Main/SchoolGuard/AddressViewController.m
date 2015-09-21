@@ -17,7 +17,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = (self.addressType == SetAddressTypeHouse) ? @"设置家—小区区域" : @"";
+    self.title = (self.addressType == SetAddressTypeHouse) ? @"设置家—小区区域" : @"设置学校区域";
     [self initUI];
     // Do any additional setup after loading the view.
 }

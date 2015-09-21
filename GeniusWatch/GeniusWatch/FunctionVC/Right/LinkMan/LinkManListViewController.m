@@ -7,6 +7,7 @@
 //
 
 #import "LinkManListViewController.h"
+#import "AddLinkManViewController.h"
 
 #define SECTION_HEIGHT   10.0
 #define HEADER_HEIGHT    120.0
@@ -93,7 +94,7 @@
     UIImageView *bgImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - FOOTER_HEIGHT, CGRectGetWidth(self.view.frame), FOOTER_HEIGHT) placeholderImage:nil];
     [self.view addSubview:bgImageView];
     
-    UIButton *addButton = [CreateViewTool createButtonWithFrame:CGRectMake(BUTTON_SPACE_X, bgImageView.frame.size.height - BUTTON_HEIGHT - BUTTON_SPACE_Y, self.view.frame.size.width - 2 * BUTTON_SPACE_X, BUTTON_HEIGHT) buttonTitle:@"添加联系人" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"revokeButtonPressed:" tagDelegate:self];
+    UIButton *addButton = [CreateViewTool createButtonWithFrame:CGRectMake(BUTTON_SPACE_X, bgImageView.frame.size.height - BUTTON_HEIGHT - BUTTON_SPACE_Y, self.view.frame.size.width - 2 * BUTTON_SPACE_X, BUTTON_HEIGHT) buttonTitle:@"添加联系人" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"addLinkManButtonPressed:" tagDelegate:self];
     addButton.titleLabel.font = BUTTON_FONT;
     [CommonTool clipView:addButton withCornerRadius:BUTTON_RADIUS];
     [bgImageView addSubview:addButton];
@@ -109,11 +110,18 @@
     }
 }
 
+#pragma mark 提示按钮响应时间
 - (void)tipButtonPressed:(UIButton *)sender
 {
     
 }
 
+#pragma mark 添加联系人
+- (void)addLinkManButtonPressed:(UIButton *)sender
+{
+    AddLinkManViewController *addLinkManViewController = [[AddLinkManViewController alloc] init];
+    [self.navigationController pushViewController:addLinkManViewController animated:YES];
+}
 
 
 #pragma mark UITableViewDelegate

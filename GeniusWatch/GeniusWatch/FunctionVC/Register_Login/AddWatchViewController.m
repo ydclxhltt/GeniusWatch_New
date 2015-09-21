@@ -47,7 +47,11 @@
 {
     [super viewDidLoad];
     
-    [self addBackItem];
+    if (self.isShowBackButton)
+    {
+       [self addBackItem];
+    }
+    
     
     self.title = @"扫描手表二维码";
     
@@ -57,7 +61,6 @@
     [self initUI];
     
 }
-
 
 
 

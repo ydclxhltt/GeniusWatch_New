@@ -12,5 +12,6 @@
 @interface AddWatchViewController : BasicViewController
 
 @property (nonatomic, assign) ShowType showType;
+@property (nonatomic, assign) BOOL isShowBackButton;
 
 @end

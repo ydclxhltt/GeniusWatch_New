@@ -9,6 +9,7 @@
 #import "AboutWatchViewController.h"
 #import "LeftRightLableCell.h"
 #import "WatchVersionViewController.h"
+#import "AddWatchViewController.h"
 
 //二维码
 #define SCANNING_VIEW_WH     130.0 * CURRENT_SCALE
@@ -19,7 +20,10 @@
 //按钮
 #define BUTTON_SPACE_X       20.0 * CURRENT_SCALE
 #define BUTTON_SPACE_Y       10.0
-
+//loading
+#define LOADING              @"解除中..."
+#define LOADING_SUCESS       @"已解除"
+#define LOADING_FAIL         @"接触失败"
 
 @interface AboutWatchViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -96,6 +100,70 @@
     }
     
     [contentView addSubview:bgView];
+}
+
+
+#pragma mark 接触绑定
+- (void)revokeButtonPressed:(UIButton *)sender
+{
+    [SVProgressHUD showWithStatus:LOADING];
+    __weak typeof(self) weakSelf = self;
+    NSString *binder = [GeniusWatchApplication shareApplication].userName;
+    binder = binder ? binder : @"";
+    NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
+    imeiNo = imeiNo ? imeiNo : @"";
+    NSDictionary *requestDic = @{@"binder":binder,@"imeiNo":imeiNo,@"type":@"1"};
+    [[RequestTool alloc] requestWithUrl:REVOKE_WATCH_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"REVOKE_WATCH_URL===%@",responseDic);
+         NSDictionary *dic = (NSDictionary *)responseDic;
+         //0:成功 401.1 账号或密码错误 404 账号不存在
+         NSString *errorCode = dic[@"errorCode"];
+         NSString *description = dic[@"description"];
+         description = (description) ? description : LOADING_FAIL;
+         if ([@"0" isEqualToString:errorCode])
+         {
+             NSArray *devicesArray = ([dic[@"bind"][@"devices"] isKindOfClass:[NSNull class]]) ? nil : dic[@"bind"][@"devices"];
+             [weakSelf updateDataWithDevice:devicesArray];
+             [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:description];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"REVOKE_WATCH_error====%@",error);
+         [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+     }];
+}
+
+- (void)updateDataWithDevice:(NSArray *)deviceArray
+{
+    if (!deviceArray || [deviceArray count] == 0)
+    {
+        [self addWatch];
+    }
+    else
+    {
+        [GeniusWatchApplication shareApplication].deviceList = [NSMutableArray arrayWithArray:deviceArray];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshCoverFlow" object:nil];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
+}
+
+- (void)addWatch
+{
+    AddWatchViewController *addWatchViewController = [[AddWatchViewController alloc] init];
+    addWatchViewController.isShowBackButton = NO;
+    addWatchViewController.showType = ShowTypePresent;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:addWatchViewController];
+    [self presentViewController:nav animated:YES completion:^{}];
 }
 
 
