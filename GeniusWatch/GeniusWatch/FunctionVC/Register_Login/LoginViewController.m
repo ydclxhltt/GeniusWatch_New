@@ -154,7 +154,7 @@
 {
     [SVProgressHUD showWithStatus:LOADING_TIP];
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = @{@"logonAccount":_usernameTextField.text,@"logonPassword":_passwordTextField.text};
+    NSDictionary *requestDic = @{@"logonAccount":_usernameTextField.text,@"logonPassword":_passwordTextField.text,@"token":@"232424324"};
     [[RequestTool alloc] requestWithUrl:LOGIN_URL
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -179,7 +179,6 @@
                                  else
                                  {
                                      [weakSelf addMainViewWithData:devicesArray];
-                                     
                                  }
                                 [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
                              }
@@ -203,7 +202,7 @@
     {
         [GeniusWatchApplication shareApplication].deviceList = [NSMutableArray arrayWithArray:deviceArray];
         int index = [GeniusWatchApplication shareApplication].currentDeviceIndex;
-        [GeniusWatchApplication shareApplication].currentDeviceDic = deviceArray[index];
+        [GeniusWatchApplication shareApplication].currentDeviceDic = [NSMutableDictionary dictionaryWithDictionary:deviceArray[index]];
     }
     
     if ([GeniusWatchApplication shareApplication].isLaunchLogin)

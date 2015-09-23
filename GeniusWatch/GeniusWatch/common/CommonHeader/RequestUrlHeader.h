@@ -50,6 +50,6 @@
 #define UPDATE_LOCATION_URL         MAKE_REQUEST_URL(@"activity/lastpoi")
 
 //获取设备信息
-#define OWNER_INFO_URL              MAKE_REQUEST_URL(@"device/owner/")
+#define OWNER_INFO_URL              MAKE_REQUEST_URL(@"device/owner")
 
 #endif

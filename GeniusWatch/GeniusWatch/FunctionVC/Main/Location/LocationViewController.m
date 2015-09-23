@@ -93,7 +93,7 @@
     //__weak typeof(self) weakSelf = self;
     NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
     imeiNo = (imeiNo) ? imeiNo : @"";
-    NSString *urlString = [NSString stringWithFormat:@"%@/imeiNo=%@",UPDATE_LOCATION_URL,imeiNo];
+    NSString *urlString = [NSString stringWithFormat:@"%@?imeiNo=%@",UPDATE_LOCATION_URL,imeiNo];
     NSLog(@"====%@",urlString);
     [[RequestTool alloc] getRequestWithUrl:urlString
                          requestParamas:nil

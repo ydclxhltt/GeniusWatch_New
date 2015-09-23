@@ -20,7 +20,7 @@ typedef void (^CancelBlock) ();
 @property(nonatomic, assign) PickerViewType pickerType;
 @property(nonatomic, copy) SureBlock sureBlock;
 @property(nonatomic, copy) CancelBlock cancelBlock;
-@property(nonatomic, copy) CustomSureBlock custonSureBlock;
+@property(nonatomic, copy) CustomSureBlock customSureBlock;
 @end
 
 @implementation CLPickerView
@@ -57,7 +57,7 @@ typedef void (^CancelBlock) ();
         self.backgroundColor = [UIColor whiteColor];
         self.pickerType = type;
         self.cancelBlock = customCancel;
-        self.custonSureBlock = customSure;
+        self.customSureBlock = customSure;
         self.dataArray = array;
         [self createUIWithPickerViewType:type];
     }
@@ -160,9 +160,9 @@ typedef void (^CancelBlock) ();
     }
     if (PickerViewTypeCustom == self.pickerType)
     {
-        if (self.custonSureBlock)
+        if (self.customSureBlock)
         {
-            self.custonSureBlock(pickerView,(int)[pickerView selectedRowInComponent:0]);
+            self.customSureBlock(pickerView,(int)[pickerView selectedRowInComponent:0]);
         }
     }
 }
@@ -171,7 +171,7 @@ typedef void (^CancelBlock) ();
 {
     self.sureBlock = nil;
     self.cancelBlock = nil;
-    self.custonSureBlock = nil;
+    self.customSureBlock = nil;
 }
 
 
