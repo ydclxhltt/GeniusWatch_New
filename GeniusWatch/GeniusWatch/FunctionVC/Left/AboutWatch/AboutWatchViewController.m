@@ -24,6 +24,10 @@
 #define LOADING              @"解除中..."
 #define LOADING_SUCESS       @"已解除"
 #define LOADING_FAIL         @"接触失败"
+//获取基本信息
+#define LOADING_INFO         @"加载中..."
+#define LOADING_INFO_SUCESS  @"加载成功"
+#define LOADING_INFO_FAIL    @"加载失败"
 
 @interface AboutWatchViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -47,9 +51,7 @@
     
     self.headerHeightArray = @[@(0.0),@(2.0),@(5.0),@(20.0)];
     self.titleArray = @[@[@"扫一扫,绑定手表"],@[@"手表绑定号"],@[@"手表固件版本",@"手表运营商",@"型号"],@[@"GPS",@"WIFI",@"三轴传感器"]];
-    NSArray *array = @[@[],@[@"zritaohrgcnqecah"],@[@"2.01",@"中国移动",@"Y01"],@[@"主要用于室外定位",@"主要用于室内定位",@"用于体感接听"]];
-    self.dataArray = [NSMutableArray arrayWithArray:array];
-    
+    [self getWatchBasicInfo];
     [self initUI];
     // Do any additional setup after loading the view.
 }
@@ -87,8 +89,12 @@
         _scanningView.backgroundColor = APP_MAIN_COLOR;
         [bgView addSubview:_scanningView];
         
+        
+        NSDictionary *dic = [GeniusWatchApplication shareApplication].currentDeviceDic;
+        NSString *name = dic[@"owner"][@"ownerName"];
+        name = name ? [name stringByAppendingString:@"的二维码"] : @"  的二维码";
         start_y = _scanningView.frame.size.height + _scanningView.frame.origin.y;
-        _infoLable = [CreateViewTool createLabelWithFrame:CGRectMake(0, start_y, width, INFO_LABEL_HEIGHT) textString:@"宝贝的二维码" textColor:TIP_COLOR textFont:FONT(12.0)];
+        _infoLable = [CreateViewTool createLabelWithFrame:CGRectMake(0, start_y, width, INFO_LABEL_HEIGHT) textString:name textColor:TIP_COLOR textFont:FONT(12.0)];
         _infoLable.textAlignment = NSTextAlignmentCenter;
         [bgView addSubview:_infoLable];
         
@@ -100,6 +106,58 @@
     }
     
     [contentView addSubview:bgView];
+}
+
+#pragma mark 获取设备基本信息
+- (void)getWatchBasicInfo
+{
+    [SVProgressHUD showWithStatus:LOADING_INFO];
+    __weak typeof(self) weakSelf = self;
+    NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
+    imeiNo = imeiNo ? imeiNo : @"";
+    NSDictionary *requestDic = @{@"imeiNo":imeiNo};
+    [[RequestTool alloc] requestWithUrl:WATCH_INFO_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"WATCH_INFO_URL===%@",responseDic);
+         NSDictionary *dic = (NSDictionary *)responseDic;
+         //0:成功 401.1 账号或密码错误 404 账号不存在
+         NSString *errorCode = dic[@"errorCode"];
+         NSString *description = dic[@"description"];
+         description = (description) ? description : LOADING_INFO_FAIL;
+         if ([@"0" isEqualToString:errorCode])
+         {
+             [weakSelf makeWatchBasicData:responseDic];
+             [SVProgressHUD showSuccessWithStatus:LOADING_INFO_SUCESS];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:description];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"WATCH_INFO_URL_error====%@",error);
+         [SVProgressHUD showErrorWithStatus:LOADING_INFO_FAIL];
+     }];
+}
+
+#pragma mark 设置数据
+- (void)makeWatchBasicData:(NSDictionary *)dataDic
+{
+    NSMutableArray *descArray = [NSMutableArray arrayWithArray:[dataDic[@"deviceDesc"] componentsSeparatedByString:@","]];
+    if (descArray && [descArray count] == 3)
+    {
+        [descArray replaceObjectAtIndex:0 withObject:[descArray[0] stringByReplacingOccurrencesOfString:@"GPS:" withString:@""]];
+        [descArray replaceObjectAtIndex:1 withObject:[descArray[1] stringByReplacingOccurrencesOfString:@"WIFI:" withString:@""]];
+        [descArray replaceObjectAtIndex:2 withObject:[descArray[2] stringByReplacingOccurrencesOfString:@"三轴传感器:" withString:@""]];
+    }
+    NSArray *array = @[@[],@[dataDic[@"imeiNo"]],@[dataDic[@"version"],dataDic[@"mobileExecutor"],dataDic[@"modelNo"]],descArray];
+    self.dataArray = [NSMutableArray arrayWithArray:array];
+    [self.table reloadData];
+
 }
 
 
@@ -243,7 +301,12 @@
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
-        [cell setDataWithLeftText:self.titleArray[indexPath.section][indexPath.row] rightText:self.dataArray[indexPath.section][indexPath.row]];
+        NSString *rightText = @"";
+        if (self.dataArray)
+        {
+            rightText = self.dataArray[indexPath.section][indexPath.row];
+        }
+        [cell setDataWithLeftText:self.titleArray[indexPath.section][indexPath.row] rightText:rightText];
         
         return cell;
     }

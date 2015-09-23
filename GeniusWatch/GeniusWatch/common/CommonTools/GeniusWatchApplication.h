@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSMutableDictionary *currentDeviceDic;
 @property (nonatomic, assign) int currentIndex;
+@property (nonatomic, strong) NSArray *imagesArray;
+@property (nonatomic, strong) NSArray *titlesArray;
 
 + (instancetype)shareApplication;
 

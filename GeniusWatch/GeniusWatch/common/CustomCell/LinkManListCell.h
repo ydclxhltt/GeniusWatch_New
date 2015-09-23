@@ -10,4 +10,7 @@
 
 @interface LinkManListCell : UITableViewCell
 
+- (void)setContactDataWithDictionary:(NSDictionary *)dataDic;
+- (void)setContactDataWithIconImage:(UIImage *)image name:(NSString *)name mobile:(NSString *)mobile shortNumber:(NSString *)shortNumber;
+
 @end

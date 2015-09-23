@@ -78,6 +78,7 @@ typedef void (^CancelBlock) ();
 - (void)createUIWithPickerViewType:(PickerViewType)type
 {
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 40)];
+    toolBar.tintColor = APP_MAIN_COLOR;
     UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:Nil];
     UIBarButtonItem *sureItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(sure)];

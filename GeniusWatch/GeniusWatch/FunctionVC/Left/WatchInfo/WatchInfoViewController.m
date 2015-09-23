@@ -43,6 +43,73 @@
     // Do any additional setup after loading the view.
 }
 
+#pragma mark 返回按钮
+- (void)backButtonPressed:(UIButton *)sender
+{
+    [self saveInfoChange];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark 保存修改
+- (void)saveInfoChange
+{
+    //UPDATE_OWNER_URL
+    NSDictionary *requestDic = [GeniusWatchApplication shareApplication].currentDeviceDic;
+//    [[RequestTool alloc] requestWithUrl:UPDATE_OWNER_URL
+//                         requestParamas:requestDic
+//                            requestType:RequestTypeAsynchronous
+//                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+//     {
+//         NSLog(@"UPDATE_OWNER_URL===%@",responseDic);
+//         NSDictionary *dic = (NSDictionary *)responseDic;
+//         //0:成功 401.1 账号或密码错误 404 账号不存在
+//         NSString *errorCode = dic[@"errorCode"];
+//         //NSString *description = dic[@"description"];
+//         //description = (description) ? description : @"";
+//         if ([@"0" isEqualToString:errorCode])
+//         {
+//             //[SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
+//         }
+//         else
+//         {
+//             //[SVProgressHUD showErrorWithStatus:description];
+//         }
+//     }
+//     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+//     {
+//         NSLog(@"UPDATE_OWNER_URL_error====%@",error);
+//         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+//     }];
+    
+    __weak typeof(self) weakSelf = self;
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+    manager.requestSerializer = [AFHTTPRequestSerializer  serializer];
+    //manager.requestSerializer.timeoutInterval = TIMEOUT;
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
+    AFHTTPRequestOperation *requestOperation =  [manager POST:UPDATE_OWNER_URL parameters:requestDic
+            constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
+                         {
+                                 UIImage *image = [UIImage imageNamed:@"default_icon"];
+                                 NSData *data = UIImageJPEGRepresentation(image, .1);
+                                 NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+                                 [formData appendPartWithFileData:data name:@"ownerHeadShot" fileName:[NSString stringWithFormat:@"%.0f.png",time] mimeType:@"image/png"];
+                         }
+                         success:^(AFHTTPRequestOperation *operation, id responseObject)
+                         {
+                             NSLog(@"operationresponseObject===%@",operation.responseString);
+                         }
+                         failure:^(AFHTTPRequestOperation *operation, NSError *error)
+                         {
+
+                             NSLog(@"error===%@",error);
+                         }];
+    
+    NSString *string = [[NSString alloc] initWithData:requestOperation.request.HTTPBody encoding:NSUTF8StringEncoding];
+    NSLog(@"string===%@",string);
+}
+
 #pragma mark 初始化UI
 - (void)initUI
 {
@@ -134,20 +201,20 @@
          //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
-         //description = (description) ? description : LOADING_FAIL;
+         //description = (description) ? description : @"";
          if ([@"0" isEqualToString:errorCode])
          {
              //[SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
-             //[weakSelf initDataWithDictionary:dic];
+             [weakSelf initDataWithDictionary:dic];
          }
          else
          {
-             [SVProgressHUD showErrorWithStatus:description];
+             //[SVProgressHUD showErrorWithStatus:description];
          }
      }
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"UPDATE_LOCATION_error====%@",error);
+         NSLog(@"OWNER_INFO_URL_error====%@",error);
          //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
 }

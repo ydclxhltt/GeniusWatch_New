@@ -60,6 +60,7 @@
 + (UIImageView *)createRoundImageViewWithFrame:(CGRect)frame placeholderImage:(UIImage *)image  borderColor:(UIColor*)color  imageUrl:(NSString *)urlString
 {
     UIImageView *imageView = [self createImageViewWithFrame:frame placeholderImage:image];
+    //imageView.layer.borderWidth = 0.5;
     if (!color)
     {
         imageView.layer.borderWidth = 0.0;

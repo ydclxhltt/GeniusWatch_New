@@ -30,6 +30,10 @@
         self.isLaunchLogin = YES;
         self.currentDeviceIndex = 0;
         self.currentIndex = 0;
+        //,@"custom_female"
+        self.imagesArray = @[@"father",@"mother",@"grandfather",@"grandmother",@"grandfather1",@"grandmother2",@"custom_man"];
+        //,@"自定义头像(女)" @"自定义头像(男)"
+        self.titlesArray = @[@"爸爸",@"妈妈",@"爷爷",@"奶奶",@"外公",@"外婆",@"自定义头像"];
     }
     return self;
 }

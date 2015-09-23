@@ -8,6 +8,15 @@
 
 #import "BasicViewController.h"
 
+typedef enum : NSUInteger
+{
+    PushForAdd,
+    PushForChange,
+} PushFor;
+
 @interface AddLinkManViewController : BasicViewController
+
+@property (nonatomic, assign) PushFor pushFor;
+@property (nonatomic, strong) NSDictionary *dataDic;
 
 @end

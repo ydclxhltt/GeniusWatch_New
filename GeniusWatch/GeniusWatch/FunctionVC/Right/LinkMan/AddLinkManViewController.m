@@ -14,9 +14,14 @@
 #define ADD_Y               10.0 
 #define LABEL_HEIGHT        30.0 * CURRENT_SCALE
 #define LABLE_WIDTH         IMAGE_VIEW_HW
+//更新联系人信息
+#define LOADING             @"更新中..."
+#define LOADING_SUCESS      @"更新成功"
+#define LOADING_FAIL        @"更新失败"
 
 @interface AddLinkManViewController ()
 
+@property (nonatomic, assign) int selectedIndex;
 @property (nonatomic, strong) NSArray *imagesArray;
 @property (nonatomic, strong) NSArray *titlesArray;
 @property (nonatomic, strong) UIImageView *selectedImageView;
@@ -31,10 +36,11 @@
     [super viewDidLoad];
     self.title = @"编辑关系和名称";
     [self addBackItem];
-    [self setNavBarItemWithTitle:@"   下一步" navItemType:RightItem selectorName:@"nextButtonPressed:"];
+    NSString *title = (self.pushFor == PushForAdd) ? @"   下一步" : @"    完成";
+    [self setNavBarItemWithTitle:title navItemType:RightItem selectorName:@"nextButtonPressed:"];
     
-    self.imagesArray = @[@"father",@"mother",@"grandfather",@"grandmother",@"grandfather1",@"grandmother2",@"custom_man",@"custom_female"];
-    self.titlesArray = @[@"爸爸",@"妈妈",@"爷爷",@"奶奶",@"外公",@"外婆",@"自定义头像(男)",@"自定义头像(女)"];
+    self.imagesArray = [GeniusWatchApplication shareApplication].imagesArray;
+    self.titlesArray = [GeniusWatchApplication shareApplication].titlesArray;
     
     [self initUI];
     // Do any additional setup after loading the view.
@@ -55,7 +61,7 @@
     
     float totleHeight = _scrollView.frame.size.height;
     float space_x = (_scrollView.frame.size.width - 2 * IMAGE_VIEW_HW) / 3;
-    float row = ceil([self.imagesArray count]/2);
+    float row = ceil([self.imagesArray count]/2.0);
     for (int i = 0; i < row; i++)
     {
         float m = 2;
@@ -100,16 +106,63 @@
     }
     
     _selectedImageView.frame = imageView.frame;
+    self.selectedIndex = (int)imageView.tag - 1;
     
 }
 
 #pragma mark 下一步
 - (void)nextButtonPressed:(UIButton *)sender
 {
-    SetLinkNumberViewController *setLinkNumberViewController = [[SetLinkNumberViewController alloc] init];
-    [self.navigationController pushViewController:setLinkNumberViewController animated:YES];
+    if (self.pushFor == PushForAdd)
+    {
+        SetLinkNumberViewController *setLinkNumberViewController = [[SetLinkNumberViewController alloc] init];
+        [self.navigationController pushViewController:setLinkNumberViewController animated:YES];
+    }
+    else
+    {
+        NSMutableDictionary *dataDic = [NSMutableDictionary dictionaryWithDictionary:self.dataDic];
+        NSString *nickName = self.titlesArray[self.selectedIndex];
+        [dataDic setValue:nickName forKey:@"nickName"];
+        [self changeOwnerInfoWithDataDic:dataDic];
+    }
 }
 
+#pragma mark 修改通讯录
+- (void)changeOwnerInfoWithDataDic:(NSMutableDictionary *)dataDic
+{
+    
+    [SVProgressHUD showWithStatus:LOADING];
+    NSString *binder = [GeniusWatchApplication shareApplication].userName;
+    NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
+    NSDictionary *requestDic = @{@"imeiNo":imeiNo,@"contact":dataDic,@"binder":binder};
+    __weak typeof(self) weakSelf = self;
+    [[RequestTool alloc] requestWithUrl:UPDATE_CONTACT_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"UPDATE_CONTACT_URL===%@",responseDic);
+         NSDictionary *dic = (NSDictionary *)responseDic;
+         //0:成功 401.1 账号或密码错误 404 账号不存在
+         NSString *errorCode = dic[@"errorCode"];
+         NSString *description = dic[@"description"];
+         description = (description) ? description : LOADING_FAIL;
+         if ([@"0" isEqualToString:errorCode])
+         {
+             [weakSelf.navigationController popViewControllerAnimated:YES];
+             [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:description];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"UPDATE_CONTACT_URL_error====%@",error);
+         [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+     }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

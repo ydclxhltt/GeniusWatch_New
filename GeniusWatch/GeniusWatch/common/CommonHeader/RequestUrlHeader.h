@@ -52,4 +52,28 @@
 //获取设备信息
 #define OWNER_INFO_URL              MAKE_REQUEST_URL(@"device/owner")
 
+//设置设备信息
+#define UPDATE_OWNER_URL            MAKE_REQUEST_URL(@"device/updateownerinfo")
+
+//获取设备基本信息
+#define WATCH_INFO_URL              MAKE_REQUEST_URL(@"device/basicinfo")
+
+//获取设备参数开关
+#define WATCH_SETTING_URL           MAKE_REQUEST_URL(@"device/settings")
+
+//修改设备配置信息
+#define UPDATE_WATCH_SETTING_URL    MAKE_REQUEST_URL(@"device/updatesettings")
+
+//获取通讯录
+#define CONTACTS_URL                MAKE_REQUEST_URL(@"contacts/get")
+
+//添加通讯录
+#define ADD_CONTACTS_URL            MAKE_REQUEST_URL(@"contacts/put")
+
+//删除通讯录
+#define DEL_CONTACTS_URL            MAKE_REQUEST_URL(@"contacts/del")
+
+//更新通讯录
+#define UPDATE_CONTACT_URL          MAKE_REQUEST_URL(@"contacts/post")
+
 #endif

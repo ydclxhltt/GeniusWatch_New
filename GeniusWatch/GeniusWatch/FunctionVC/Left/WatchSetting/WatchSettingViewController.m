@@ -19,6 +19,10 @@
 //按钮
 #define BUTTON_SPACE_X       20.0 * CURRENT_SCALE
 #define BUTTON_SPACE_Y       10.0
+//获取基本信息
+#define LOADING_INFO         @"加载中..."
+#define LOADING_INFO_SUCESS  @"加载成功"
+#define LOADING_INFO_FAIL    @"加载失败"
 
 @interface WatchSettingViewController ()
 
@@ -39,8 +43,8 @@
     
     self.headerArray = @[@"  个性通话",@"  远程控制",@"  声音和显示"];
     self.titleArray = @[@[@"自动接通",@"报告通话位置",@"体感接听",@"预留应急电量"],@[@"上课禁用",@"定时开关机",@"拒绝默认人来电"],@[@"亮屏时间",@"声音和振动"]];
-    
     [self initUI];
+    [self getWatchSettings];
     // Do any additional setup after loading the view.
 }
 
@@ -83,6 +87,48 @@
     [self.view addSubview:_saveButton];
 }
 
+#pragma mark 获取开关信息
+- (void)getWatchSettings
+{
+    //WATCH_SETTING_URL
+    [SVProgressHUD showWithStatus:LOADING_INFO];
+    __weak typeof(self) weakSelf = self;
+    NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
+    imeiNo = imeiNo ? imeiNo : @"";
+    NSDictionary *requestDic = @{@"imeiNo":imeiNo};
+    [[RequestTool alloc] requestWithUrl:WATCH_SETTING_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"WATCH_SETTING_URL===%@",responseDic);
+         NSDictionary *dic = (NSDictionary *)responseDic;
+         //0:成功 401.1 账号或密码错误 404 账号不存在
+         NSString *errorCode = dic[@"errorCode"];
+         NSString *description = dic[@"description"];
+         description = (description) ? description : LOADING_INFO_FAIL;
+         if ([@"0" isEqualToString:errorCode])
+         {
+             [weakSelf makeWatchSettingData:responseDic];
+             [SVProgressHUD showSuccessWithStatus:LOADING_INFO_SUCESS];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:description];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"WATCH_SETTING_URL_error====%@",error);
+         [SVProgressHUD showErrorWithStatus:LOADING_INFO_FAIL];
+     }];
+
+}
+
+- (void)makeWatchSettingData:(NSDictionary *)dataDic
+{
+    
+}
 
 #pragma mark UITableViewDelegate
 
