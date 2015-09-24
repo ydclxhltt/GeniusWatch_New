@@ -202,7 +202,7 @@
     {
         [GeniusWatchApplication shareApplication].deviceList = [NSMutableArray arrayWithArray:deviceArray];
         int index = [GeniusWatchApplication shareApplication].currentDeviceIndex;
-        [GeniusWatchApplication shareApplication].currentDeviceDic = [NSMutableDictionary dictionaryWithDictionary:deviceArray[index]];
+        [GeniusWatchApplication shareApplication].currentDeviceDic = deviceArray[index];
     }
     
     if ([GeniusWatchApplication shareApplication].isLaunchLogin)

@@ -76,4 +76,22 @@
 //更新通讯录
 #define UPDATE_CONTACT_URL          MAKE_REQUEST_URL(@"contacts/post")
 
+//手机流量查询
+#define WATCH_FLOWCHARGE_URL        MAKE_REQUEST_URL(@"device/flowcharge")
+
+//手机话费查询
+#define WATCH_CALLCHARGE_URL        MAKE_REQUEST_URL(@"device/callcharge")
+
+//消息列表
+#define MESSAGE_LIST_URL            MAKE_REQUEST_URL(@"device/msg")
+
+//消息删除
+#define MESSAGE_DELETE_URL          MAKE_REQUEST_URL(@"device/delmsg")
+
+//意见反馈
+#define FEEDBACK_URL                MAKE_REQUEST_URL(@"static/feedback")
+
+//修改密码
+#define CHG_PWD_URL                 MAKE_REQUEST_URL(@"user/changepwd")
+
 #endif

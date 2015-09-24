@@ -29,7 +29,7 @@
     manager.requestSerializer.timeoutInterval = TIMEOUT;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
-    NSLog(@"[NSHTTPCookieStorage sharedHTTPCookieStorage]===%@",[NSHTTPCookieStorage sharedHTTPCookieStorage].cookies);
+    //NSLog(@"[NSHTTPCookieStorage sharedHTTPCookieStorage]===%@",[NSHTTPCookieStorage sharedHTTPCookieStorage].cookies);
     requestOperation = [manager POST:url parameters:paramas
           success:^(AFHTTPRequestOperation *operation,id responeDic)
           {
@@ -72,7 +72,7 @@
     manager.requestSerializer.timeoutInterval = TIMEOUT;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
-    NSLog(@"[NSHTTPCookieStorage sharedHTTPCookieStorage]===%@",[NSHTTPCookieStorage sharedHTTPCookieStorage].cookies);
+    //NSLog(@"[NSHTTPCookieStorage sharedHTTPCookieStorage]===%@",[NSHTTPCookieStorage sharedHTTPCookieStorage].cookies);
     requestOperation = [manager GET:url parameters:paramas
                         success:^(AFHTTPRequestOperation *operation,id responeDic)
                         {

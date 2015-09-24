@@ -24,7 +24,7 @@
 #define LOADING_INFO         @"加载中..."
 #define LOADING_INFO_SUCESS  @"加载成功"
 #define LOADING_INFO_FAIL    @"加载失败"
-//获取联系人信息
+//删除联系人信息
 #define LOADING_DEL          @"正在删除..."
 #define LOADING_DEL_SUCESS   @"删除成功"
 #define LOADING_DEL_FAIL     @"删除失败"

@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSArray *headerHeightArray;
 @property (nonatomic, strong) CLPickerView *clPickerView;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
 
 @end
 
@@ -34,11 +35,11 @@
     [super viewDidLoad];
     self.title = @"宝贝资料";
     [self addBackItem];
-    NSDictionary *dataDic = [GeniusWatchApplication shareApplication].currentDeviceDic;
+    self.dataDic = [NSMutableDictionary dictionaryWithDictionary:[GeniusWatchApplication shareApplication].currentDeviceDic];
     self.headerHeightArray = @[@(2.0),@(10.0),@(10.0)];
     self.titleArray = @[@[@"手表号码",@"手边短号/亲情号"],@[@"性别",@"生日",@"年级"],@[@"学校信息",@"家-小区信息"]];
     [self initUI];
-    [self initDataWithDictionary:dataDic];
+    [self initDataWithDictionary:self.dataDic];
     [self getWatchInfo];
     // Do any additional setup after loading the view.
 }
@@ -55,36 +56,13 @@
 - (void)saveInfoChange
 {
     //UPDATE_OWNER_URL
-    NSDictionary *requestDic = [GeniusWatchApplication shareApplication].currentDeviceDic;
-//    [[RequestTool alloc] requestWithUrl:UPDATE_OWNER_URL
-//                         requestParamas:requestDic
-//                            requestType:RequestTypeAsynchronous
-//                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
-//     {
-//         NSLog(@"UPDATE_OWNER_URL===%@",responseDic);
-//         NSDictionary *dic = (NSDictionary *)responseDic;
-//         //0:成功 401.1 账号或密码错误 404 账号不存在
-//         NSString *errorCode = dic[@"errorCode"];
-//         //NSString *description = dic[@"description"];
-//         //description = (description) ? description : @"";
-//         if ([@"0" isEqualToString:errorCode])
-//         {
-//             //[SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
-//         }
-//         else
-//         {
-//             //[SVProgressHUD showErrorWithStatus:description];
-//         }
-//     }
-//     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
-//     {
-//         NSLog(@"UPDATE_OWNER_URL_error====%@",error);
-//         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
-//     }];
-    
     __weak typeof(self) weakSelf = self;
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
-    manager.requestSerializer = [AFHTTPRequestSerializer  serializer];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] init];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self.dataDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSDictionary *requestDic = @{@"arJsonData":jsonString};
+    
+    manager.requestSerializer = [AFJSONRequestSerializer  serializer];
     //manager.requestSerializer.timeoutInterval = TIMEOUT;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
@@ -98,6 +76,7 @@
                          }
                          success:^(AFHTTPRequestOperation *operation, id responseObject)
                          {
+                             [GeniusWatchApplication shareApplication].currentDeviceDic = weakSelf.dataDic;
                              NSLog(@"operationresponseObject===%@",operation.responseString);
                          }
                          failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -168,6 +147,7 @@
     {
         return;
     }
+    [GeniusWatchApplication shareApplication].currentDeviceDic = dic;
     NSDictionary *ownerDic = dic[@"owner"];
     NSString *name = ownerDic[@"ownerName"];
     name = (name) ? name : @"";
@@ -175,6 +155,9 @@
     nickName = (nickName) ? nickName : @"";
     self.nameLabel.text = name;
     self.referLabel.text = [@"我与宝贝的关系是:" stringByAppendingString:nickName];
+    NSString *imageUrl = dic[@"headShot"];
+    imageUrl = imageUrl ? imageUrl : @"";
+    [self.babyIocnView setImageWithUrl:imageUrl defaultImage:@"baby_head_up" infoLableText:@"修改头像"];
     
     NSString *gender = ([@"M" isEqualToString:ownerDic[@"gender"]]) ? @"男" : @"女";
     NSArray *array  = @[@[ownerDic[@"mobileNo"],ownerDic[@"shortPhoneNo"]],@[gender,ownerDic[@"birthday"],ownerDic[@"grade"]],@[ownerDic[@"schoolPoi"],ownerDic[@"homePoi"]]];
@@ -187,7 +170,7 @@
 - (void)getWatchInfo
 {
     __weak typeof(self) weakSelf = self;
-    NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
+    NSString *imeiNo = self.dataDic[@"imeiNo"];
     imeiNo = (imeiNo) ? imeiNo : @"";
     NSLog(@"====%@",OWNER_INFO_URL);
     NSDictionary *requestDic = @{@"imeiNo":imeiNo};
@@ -198,9 +181,8 @@
      {
          NSLog(@"OWNER_INFO_URL===%@",responseDic);
          NSDictionary *dic = (NSDictionary *)responseDic;
-         //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
-         NSString *description = dic[@"description"];
+        // NSString *description = dic[@"description"];
          //description = (description) ? description : @"";
          if ([@"0" isEqualToString:errorCode])
          {
@@ -305,7 +287,7 @@
     __weak typeof(self) weakSelf = self;
     CGRect frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, PICKERVIEW_HEIGHT);
     NSArray *array = (selectedIndex == 0) ? @[@"男",@"女"] : @[@"还没上学",@"幼儿园小班",@"幼儿园中班",@"幼儿园大班",@"学龄前",@"小学一年级",@"小学二年级",@"小学三年级",@"小学四年级",@"小学五年级",@"小学六年级",@"其他"];
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[[GeniusWatchApplication shareApplication].currentDeviceDic objectForKey:@"owner"]];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.dataDic objectForKey:@"owner"]];
     if (selectedIndex == 0 || selectedIndex == 2)
     {
         _clPickerView = [[CLPickerView alloc] initWithFrame:frame pickerViewType:PickerViewTypeCustom customSureBlock:^(UIPickerView *pickView, int index)
@@ -316,8 +298,8 @@
             [weakSelf.table reloadData];
             NSString *key = (selectedIndex == 0) ? @"gender" : @"grade";
             [dic setObject:array[index] forKey:key];
-            [[GeniusWatchApplication shareApplication].currentDeviceDic setObject:dic forKey:@"owner"];
-            NSLog(@"[GeniusWatchApplication shareApplication].currentDeviceDic==%@",[GeniusWatchApplication shareApplication].currentDeviceDic);
+            [weakSelf.dataDic setObject:dic forKey:@"owner"];
+            NSLog(@"dataDic==%@",self.dataDic);
             [weakSelf movePickerViewIsShow:NO];
         }
         cancelBlock:^
@@ -334,8 +316,8 @@
             [formatter setDateFormat:@"YYYY-MM-dd"];
             NSString *dateString = [formatter stringFromDate:date];
             [dic setObject:dateString forKey:@"birthday"];
-            [[GeniusWatchApplication shareApplication].currentDeviceDic setObject:dic forKey:@"owner"];
-            NSLog(@"[GeniusWatchApplication shareApplication].currentDeviceDic==%@",[GeniusWatchApplication shareApplication].currentDeviceDic);
+            [weakSelf.dataDic setObject:dic forKey:@"owner"];
+            NSLog(@"weakSelf.dataDic==%@",weakSelf.dataDic);
             NSMutableArray *tempArray = [NSMutableArray arrayWithArray:weakSelf.dataArray[weakSelf.selectedIndexPath.section]];
             [tempArray replaceObjectAtIndex:selectedIndex withObject:dateString];
             [weakSelf.dataArray replaceObjectAtIndex:1 withObject:tempArray];
@@ -418,15 +400,15 @@
 
 - (void)setDataWithIndex:(int)index text:(NSString *)text
 {
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[[GeniusWatchApplication shareApplication].currentDeviceDic objectForKey:@"owner"]];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.dataDic objectForKey:@"owner"]];
     NSMutableArray *tempArray = [NSMutableArray arrayWithArray:self.dataArray[self.selectedIndexPath.section]];
     [tempArray replaceObjectAtIndex:index withObject:text];
     [self.dataArray replaceObjectAtIndex:0 withObject:tempArray];
     [self.table reloadData];
     NSString *key = (index == 0) ? @"mobileNo" : @"shortPhoneNo";
     [dic setObject:text forKey:key];
-    [[GeniusWatchApplication shareApplication].currentDeviceDic setObject:dic forKey:@"owner"];
-    NSLog(@"[GeniusWatchApplication shareApplication].currentDeviceDic==%@",[GeniusWatchApplication shareApplication].currentDeviceDic);
+    [self.dataDic setObject:dic forKey:@"owner"];
+    NSLog(@"self.dataDicc==%@",self.dataDic);
 }
 
 - (void)didReceiveMemoryWarning {

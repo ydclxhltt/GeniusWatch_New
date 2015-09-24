@@ -35,6 +35,7 @@ typedef enum : NSUInteger
 typedef enum : NSUInteger {
     PushTypeRegister = 0,
     PushTypeNewPassword = 1,
+    PushTypeChagePassword = 2,
 } PushType;
 
 typedef enum : NSUInteger {

@@ -9,6 +9,7 @@
 #import "UpLoadPhotoTool.h"
 #import "AFNetworking.h"
 
+#define FILE_NAME   @"reqPicFiles"
 
 @interface UpLoadPhotoTool()
 {
@@ -43,14 +44,14 @@
 - (void)startUpLoadPhotos
 {
     __weak typeof(self) weakSelf = self;
-    if (!self.photoArray || [self.photoArray count] == 0)
-        return;
-    else
+    //if (!self.photoArray || [self.photoArray count] == 0)
+    //    return;
+    //else
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
-        ^{
+        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
+        //^{
             [weakSelf upLoadPhotos];
-        });
+        //});
     }
 }
 
@@ -64,17 +65,21 @@
     //manager.requestSerializer.timeoutInterval = TIMEOUT;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/json",@"application/json",@"text/plain",nil];
-    requestOperation =  [manager POST:weakSelf.upLoadUrl parameters:self.responseDic
+    requestOperation =  [manager POST:weakSelf.upLoadUrl parameters:self.requestDic
     constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
     {
-        for (int i = 0; i < [self.photoArray count]; i++)
+        if (self.photoArray && [self.photoArray count] > 0)
         {
-            UIImage *image = self.photoArray[i];
-            NSData *data = UIImageJPEGRepresentation(image, .1);
-            NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
-            NSString *nameStr = [NSString stringWithFormat:@"%@%d.png",@"file",i + 1];
-            nameStr = ([self.photoArray count] == 1) ? @"file" : nameStr;
-            [formData appendPartWithFileData:data name:nameStr fileName:[NSString stringWithFormat:@"%.0f%d.png",time,i] mimeType:@"image/png"];
+            for (int i = 0; i < [self.photoArray count]; i++)
+            {
+                UIImage *image = self.photoArray[i];
+                NSData *data = UIImageJPEGRepresentation(image, .1);
+                NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+                NSString *nameStr = [NSString stringWithFormat:@"%@%d.png",FILE_NAME,i + 1];
+                nameStr = ([self.photoArray count] == 1) ? FILE_NAME : nameStr;
+                [formData appendPartWithFileData:data name:nameStr fileName:[NSString stringWithFormat:@"%.0f%d.png",time,i] mimeType:@"image/png"];
+            }
+
         }
     }
     success:^(AFHTTPRequestOperation *operation, id responseObject)
@@ -105,7 +110,7 @@
              }
          }
      }];
-    [requestOperation waitUntilFinished];
+    //[requestOperation waitUntilFinished];
     
 }
 

@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSMutableArray *deviceList;
 @property (nonatomic, assign) int currentDeviceIndex;
 @property (nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSMutableDictionary *currentDeviceDic;
+@property (nonatomic, strong) NSDictionary *currentDeviceDic;
 @property (nonatomic, assign) int currentIndex;
 @property (nonatomic, strong) NSArray *imagesArray;
 @property (nonatomic, strong) NSArray *titlesArray;

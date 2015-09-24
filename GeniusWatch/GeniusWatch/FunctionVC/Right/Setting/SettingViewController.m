@@ -74,9 +74,10 @@
     
     __weak typeof(self) weakSelf = self;
     [SVProgressHUD showWithStatus:LOADING];
-    NSString *url = [NSString stringWithFormat:@"%@?mobileNo=%@",EXIT_URL,[GeniusWatchApplication shareApplication].userName];
-    [[RequestTool alloc] getRequestWithUrl:url
-                         requestParamas:nil
+    //NSString *url = [NSString stringWithFormat:@"%@?mobileNo=%@",EXIT_URL,[GeniusWatchApplication shareApplication].userName];
+    NSDictionary *requestDic = @{@"mobileNo":[GeniusWatchApplication shareApplication].userName};
+    [[RequestTool alloc] requestWithUrl:EXIT_URL
+                         requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
                          {

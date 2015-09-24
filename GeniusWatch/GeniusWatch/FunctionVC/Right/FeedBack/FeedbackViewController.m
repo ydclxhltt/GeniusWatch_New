@@ -8,6 +8,7 @@
 
 #import "FeedbackViewController.h"
 #import "AddPicView.h"
+#import "UpLoadPhotoTool.h"
 
 #define SPACE_X             5.0
 #define SPACE_Y             10.0
@@ -20,8 +21,13 @@
 #define BUTTON_ADD_Y        40.0
 #define BUTTON_SPACE_X      30.0 * CURRENT_SCALE
 
+//意见反馈
+#define LOADING             @"正在反馈..."
+#define LOADING_SUCESS      @"反馈成功"
+#define LOADING_FAIL        @"反馈失败"
 
-@interface FeedbackViewController ()<UITextViewDelegate>
+
+@interface FeedbackViewController ()<UITextViewDelegate,UploadPhotoDelegate>
 
 @property (nonatomic, strong) AddPicView *addPicView;
 @property (nonatomic, strong) UITextView *textView;
@@ -108,9 +114,29 @@
 #pragma mark 发送
 - (void)sendButtonPressed:(UIButton *)sender
 {
-    
+    NSDictionary *dic = @{@"reqContent":self.textView.text};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    [SVProgressHUD showWithStatus:LOADING];
+    UpLoadPhotoTool *updatePhotoTool = [[UpLoadPhotoTool alloc] initWithPhotoArray:self.addPicView.dataArray upLoadUrl:FEEDBACK_URL requestData:@{@"arJsonData":jsonString}];
+    updatePhotoTool.delegate = self;
 }
 
+#pragma mark UploadPhotoDelegate
+- (void)uploadPhotoSucessed:(UpLoadPhotoTool *)upLoadPhotoTool
+{
+    [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
+}
+
+- (void)uploadPhotoFailed:(UpLoadPhotoTool *)upLoadPhotoTool
+{
+    [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+}
+
+- (void)uploadPhoto:(UpLoadPhotoTool *)upLoadPhotoTool isUploadedPhotoProcess:(float)process
+{
+    
+}
 
 #pragma mark -UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -127,11 +153,11 @@
          [CommonTool addAlertTipWithMessage:[NSString stringWithFormat:@"%@%@",@"文字长度不能超过",INPUT_WORD_MAX]];
     }
 
-    textView.text = (textView.text.length > [INPUT_WORD_MAX intValue]) ? [textView.text stringByReplacingCharactersInRange:NSMakeRange([INPUT_WORD_MAX intValue], 1) withString:@""] : textView.text;
+    textView.text = [textView.text substringToIndex:(textView.text.length > [INPUT_WORD_MAX intValue]) ? 400 : (int)textView.text.length];
     self.countLabel.text = [NSString stringWithFormat:@"%d",[INPUT_WORD_MAX intValue] - (int)textView.text.length];
 }
 
-- (void)textViewDidEndEditing:(UITextView *)textView
+- (void)textViewDidEndEditing:(UITextView *)textView2
 {
     
     if (self.textView.text.length==0)
