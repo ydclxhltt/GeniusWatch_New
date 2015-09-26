@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSArray *imageArray;
 @property (nonatomic, strong) NSMutableArray *babyDevicesArray;
+@property (nonatomic, strong) UITableView *tableView;
 @end
 
 @implementation LeftViewController
@@ -89,13 +90,13 @@
 //添加tableView
 - (void)addTableView
 {
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(SPACE_X, _flowView.frame.size.height + _flowView.frame.origin.y + ADD_Y, LEFT_SIDE_WIDTH - SPACE_X, ROW_HEIGHT * [self.titleArray count]) style:UITableViewStylePlain];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    tableView.scrollEnabled = NO;
-    tableView.backgroundColor = [UIColor clearColor];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:tableView];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(SPACE_X, _flowView.frame.size.height + _flowView.frame.origin.y + ADD_Y, LEFT_SIDE_WIDTH - SPACE_X, ROW_HEIGHT * [self.titleArray count]) style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.scrollEnabled = NO;
+    _tableView.backgroundColor = [UIColor clearColor];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:_tableView ];
 }
 
 #pragma mark 初始化数据
@@ -121,7 +122,6 @@
     }
     else
     {
-        url = @"http://p1.qqyou.com/touxiang/UploadPic/2014-7/24/2014072412362223172.jpg";
         [imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"baby_head_up"]];
     }
 }
@@ -225,6 +225,8 @@
 - (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(PageFlowView *)flowView
 {
     NSLog(@"Scrolled to page # %ld", (long)pageNumber);
+   
+    self.tableView.userInteractionEnabled = !(pageNumber == [self.babyDevicesArray count] - 1 && [[GeniusWatchApplication shareApplication].deviceList count]< 5);
 }
 
 - (void)didSelectItemAtIndex:(NSInteger)index inFlowView:(PageFlowView *)flowView

@@ -10,6 +10,6 @@
 
 @interface SetLinkNumberViewController : BasicViewController
 
-@property (nonatomic, strong) UILabel *tipLable;
+@property (nonatomic, strong) NSString *linkmanStr;
 
 @end

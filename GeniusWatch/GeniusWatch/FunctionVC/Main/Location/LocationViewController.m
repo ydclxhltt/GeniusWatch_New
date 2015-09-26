@@ -93,16 +93,14 @@
     //__weak typeof(self) weakSelf = self;
     NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
     imeiNo = (imeiNo) ? imeiNo : @"";
-    NSString *urlString = [NSString stringWithFormat:@"%@?imeiNo=%@",UPDATE_LOCATION_URL,imeiNo];
-    NSLog(@"====%@",urlString);
-    [[RequestTool alloc] getRequestWithUrl:urlString
-                         requestParamas:nil
+    NSDictionary *requestDic = @{@"imeiNo":imeiNo};
+    [[RequestTool alloc] requestWithUrl:UPDATE_LOCATION_URL
+                         requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
                           requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
      {
          NSLog(@"UPDATE_LOCATION_URL===%@",responseDic);
          NSDictionary *dic = (NSDictionary *)responseDic;
-         //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
          //description = (description) ? description : LOADING_FAIL;

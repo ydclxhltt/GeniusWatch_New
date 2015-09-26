@@ -19,13 +19,15 @@
 #define LOADING_SUCESS      @"更新成功"
 #define LOADING_FAIL        @"更新失败"
 
-@interface AddLinkManViewController ()
+@interface AddLinkManViewController ()<UITextFieldDelegate>
 
+@property (nonatomic, strong) UIButton *showButton;
 @property (nonatomic, assign) int selectedIndex;
 @property (nonatomic, strong) NSArray *imagesArray;
 @property (nonatomic, strong) NSArray *titlesArray;
 @property (nonatomic, strong) UIImageView *selectedImageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UITextField *nameTextField;
 
 @end
 
@@ -42,6 +44,12 @@
     self.imagesArray = [GeniusWatchApplication shareApplication].imagesArray;
     self.titlesArray = [GeniusWatchApplication shareApplication].titlesArray;
     
+    //add notification
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textFieldTextDidChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    
     [self initUI];
     // Do any additional setup after loading the view.
 }
@@ -50,6 +58,7 @@
 - (void)initUI
 {
     [self addScrollView];
+    [self addTextField];
 }
 
 - (void)addScrollView
@@ -58,6 +67,9 @@
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_scrollView];
+    
+    _showButton = [CreateViewTool createButtonWithFrame:CGRectMake(0, 0, _scrollView.frame.size.width, _scrollView.frame.size.height) buttonImage:@"" selectorName:@"showButtonPressed:" tagDelegate:self];
+    [_scrollView addSubview:_showButton];
     
     float totleHeight = _scrollView.frame.size.height;
     float space_x = (_scrollView.frame.size.width - 2 * IMAGE_VIEW_HW) / 3;
@@ -85,6 +97,7 @@
             
             float label_y = imageView.frame.origin.y + imageView.frame.size.height;
             UILabel *label = [CreateViewTool createLabelWithFrame:CGRectMake(imageView.frame.origin.x, label_y, imageView.frame.size.width, LABEL_HEIGHT) textString:self.titlesArray[index] textColor:[UIColor blackColor] textFont:FONT(15.0)];
+            label.tag = 100 + index;
             label.textAlignment = NSTextAlignmentCenter;
             [_scrollView addSubview:label];
             
@@ -95,6 +108,22 @@
     _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, totleHeight);
 }
 
+- (void)addTextField
+{
+    _nameTextField = [CreateViewTool createTextFieldWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, TEXTFIELD_HEIGHT) textColor:[UIColor blackColor] textFont:TEXTFIELD_FONT placeholderText:@"请输入自定义名字"];
+    [CommonTool setViewLayer:_nameTextField withLayerColor:TEXTFIELD_COLOR bordWidth:.5];
+    _nameTextField.delegate = self;
+    _nameTextField.backgroundColor = [UIColor whiteColor];
+    _nameTextField.text = @"";
+    [self.view addSubview:_nameTextField];
+}
+
+#pragma mark 显示隐藏
+- (void)showButtonPressed:(UIButton *)sender
+{
+    [self.nameTextField resignFirstResponder];
+}
+
 #pragma mark 图像点击事件
 - (void)imageViewPressed:(UITapGestureRecognizer *)tapGesture
 {
@@ -102,26 +131,43 @@
     if (!self.selectedImageView)
     {
         _selectedImageView = [CreateViewTool  createImageViewWithFrame:imageView.frame placeholderImage:[UIImage imageNamed:@"address_book_circle"]];
-        [self.scrollView addSubview:_selectedImageView];
+        [self.scrollView insertSubview:_selectedImageView atIndex:0];
     }
     
     _selectedImageView.frame = imageView.frame;
     self.selectedIndex = (int)imageView.tag - 1;
+    if (self.selectedIndex == [self.imagesArray count] - 1)
+    {
+        _selectedImageView.hidden = (self.nameTextField.text.length == 0);
+        [self.nameTextField becomeFirstResponder];
+    }
+    else
+    {
+        _selectedImageView.hidden = NO;
+        [self.nameTextField resignFirstResponder];
+    }
     
 }
 
 #pragma mark 下一步
 - (void)nextButtonPressed:(UIButton *)sender
 {
+    if (self.nameTextField.text.length == 0 && self.selectedIndex == [self.titlesArray count] - 1)
+    {
+        [CommonTool addAlertTipWithMessage:@"用户名不能为空"];
+        return;
+    }
     if (self.pushFor == PushForAdd)
     {
         SetLinkNumberViewController *setLinkNumberViewController = [[SetLinkNumberViewController alloc] init];
+        setLinkNumberViewController.linkmanStr =  (self.selectedIndex != [self.titlesArray count] - 1) ? self.titlesArray[self.selectedIndex] : self.nameTextField.text;
         [self.navigationController pushViewController:setLinkNumberViewController animated:YES];
+        
     }
     else
     {
         NSMutableDictionary *dataDic = [NSMutableDictionary dictionaryWithDictionary:self.dataDic];
-        NSString *nickName = self.titlesArray[self.selectedIndex];
+        NSString *nickName =  (self.selectedIndex != [self.titlesArray count] - 1) ? self.titlesArray[self.selectedIndex] : self.nameTextField.text;
         [dataDic setValue:nickName forKey:@"nickName"];
         [self changeOwnerInfoWithDataDic:dataDic];
     }
@@ -135,7 +181,7 @@
     NSString *binder = [GeniusWatchApplication shareApplication].userName;
     NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
     NSDictionary *requestDic = @{@"imeiNo":imeiNo,@"contact":dataDic,@"binder":binder};
-    __weak typeof(self) weakSelf = self;
+   // __weak typeof(self) weakSelf = self;
     [[RequestTool alloc] requestWithUrl:UPDATE_CONTACT_URL
                          requestParamas:requestDic
                             requestType:RequestTypeAsynchronous
@@ -143,13 +189,13 @@
      {
          NSLog(@"UPDATE_CONTACT_URL===%@",responseDic);
          NSDictionary *dic = (NSDictionary *)responseDic;
-         //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
          description = (description) ? description : LOADING_FAIL;
          if ([@"0" isEqualToString:errorCode])
          {
-             [weakSelf.navigationController popViewControllerAnimated:YES];
+             //[weakSelf.navigationController popViewControllerAnimated:YES];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"updateContact" object:nil];
              [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
          }
          else
@@ -164,9 +210,55 @@
      }];
 }
 
+#pragma mark 文本变化
+- (void)textFieldTextDidChanged:(NSNotification *)notification
+{
+    _selectedImageView.hidden = (self.nameTextField.text.length == 0);
+    UILabel *lable = (UILabel *)[self.scrollView viewWithTag:(100 + self.selectedIndex)];
+    lable.text = (self.nameTextField.text.length == 0) ? self.titlesArray[self.selectedIndex] : self.nameTextField.text;
+}
+
+#pragma mark 键盘通知
+-(void)keyboardChange:(NSNotification *)notification
+{
+    NSDictionary *userInfo = [notification userInfo];
+    NSTimeInterval animationDuration;
+    UIViewAnimationCurve animationCurve;
+    CGRect keyboardEndFrame;
+    
+    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationCurve:animationCurve];
+    
+    //adjust ChatTableView's height
+    CGRect newFrame = self.nameTextField.frame;
+    float y = (notification.name == UIKeyboardWillShowNotification) ? keyboardEndFrame.origin.y - newFrame.size.height : self.view.frame.size.height;
+    newFrame.origin.y = y;
+    self.nameTextField.frame = newFrame;
+    [UIView commitAnimations];
+    
+}
+
+#pragma mark UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*

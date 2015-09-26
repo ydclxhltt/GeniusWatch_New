@@ -103,6 +103,7 @@
     {
         return;
     }
+    [SVProgressHUD showWithStatus:LOADING];
     __weak typeof(self) weakSelf = self;
     NSLog(@"====%@",CHG_PWD_URL);
     NSDictionary *requestDic = @{@"logonAccount":[GeniusWatchApplication shareApplication].userName,@"oldPwd":self.oldPwdString,@"newPwd":self.setPwdString};

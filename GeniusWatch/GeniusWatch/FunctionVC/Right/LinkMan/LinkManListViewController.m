@@ -32,6 +32,9 @@
 #define LOADING             @"更新短号..."
 #define LOADING_SUCESS      @"更新成功"
 #define LOADING_FAIL        @"更新失败"
+//tip
+#define SHORT_TIP           @"短号/亲情号:SIM卡之间办理的通话优惠套餐,可互相拨打3-6位数的短号进行通话.\n\n添加亲情/短号注意事项:\n同时添加手表短号和自己短号时,主界面拨号才会默认拨打短号.\n不支持添加两位数及以下短号.\n如填写短号不正确,可能会导致手表和APP无法正常拨号."
+#define CONTACT_TIP         @"可能的原因和解决方法:\n\n*SIM卡未开通数据流量(手表时间界面未显示\"G\"),请开通流量套餐后关机重启手表;\n*新卡插入手表后,未重启.请重启手表后再使用;\n*手表网络不好(手表时间界面\"G\"闪),请稍等片刻或换个地方试试."
 
 
 
@@ -42,6 +45,7 @@
 @property (nonatomic, strong) UILabel *phoneNumberLabel;
 @property (nonatomic, strong) UILabel *shortNumberLable;
 @property (nonatomic, assign) int selectedIndex;
+@property (nonatomic, strong) UIImageView *iconImageView;
 
 @end
 
@@ -54,6 +58,7 @@
     self.title = @"通讯录";
     [self initUI];
     [self getLinkManList];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContact) name:@"updateContact" object:nil];
     // Do any additional setup after loading the view.
 }
 
@@ -89,6 +94,15 @@
     UIImageView *iconBgView = [CreateViewTool createImageViewWithFrame:CGRectMake(space_x, space_y, iconWidth, iconHeight) placeholderImage:iconImage];
     [imageView addSubview:iconBgView];
     
+    float icon_space_x = 4.0 * CURRENT_SCALE;
+    float icon_space_y = 20.0 * CURRENT_SCALE;
+    float icon_w = 36.0 * CURRENT_SCALE;
+    float icon_h = 41.0 * CURRENT_SCALE;
+    _iconImageView = [CreateViewTool createImageViewWithFrame:CGRectMake(icon_space_x, icon_space_y, icon_w, icon_h) placeholderImage:nil];
+    [iconBgView addSubview:_iconImageView];
+    
+    
+    
     float x = iconBgView.frame.origin.x + iconBgView.frame.size.width + add_x;
     float y = iconBgView.frame.origin.y;
     float labelHeight = iconBgView.frame.size.height/3;
@@ -123,6 +137,7 @@
     for (int i = 0; i < 2; i++)
     {
         UIButton *button = [CreateViewTool createButtonWithFrame:CGRectMake(buttonWidth * i, 0, buttonWidth, buttonHeight) buttonTitle:array[i] titleColor:[UIColor lightGrayColor] normalBackgroundColor:nil highlightedBackgroundColor:nil selectorName:@"tipButtonPressed:" tagDelegate:self];
+        button.tag = i + 1;
         button.titleLabel.font = FONT(12.0);
         [bgImageView addSubview:button];
     }
@@ -143,7 +158,6 @@
      {
          NSLog(@"CONTACTS_URL===%@",responseDic);
          NSDictionary *dic = (NSDictionary *)responseDic;
-         //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
          description = (description) ? description : LOADING_INFO_FAIL;
@@ -179,12 +193,18 @@
     self.watchOwnerLable.text = [@"手表主人: " stringByAppendingString:name];
     self.phoneNumberLabel.text = [@"手表号码: " stringByAppendingString:mobile];
     self.shortNumberLable.text = [@"短号/亲情号: " stringByAppendingString:shortNumber];
+    NSURL *imageUrl = [NSURL URLWithString:ownerDic[@"headShot"]];
+    [self.iconImageView setImageWithURL:imageUrl placeholderImage:nil];
 }
 
 #pragma mark 提示按钮响应时间
 - (void)tipButtonPressed:(UIButton *)sender
 {
-    
+    NSString *title = (sender.tag == 1) ? @"什么是短号/亲情号" : @"同步不了联系人";
+    NSString *message = (sender.tag == 1) ? SHORT_TIP : CONTACT_TIP;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    alertView.tag = 111;
+    [alertView show];
 }
 
 #pragma mark 添加联系人
@@ -195,6 +215,12 @@
     [self.navigationController pushViewController:addLinkManViewController animated:YES];
 }
 
+
+#pragma mark 更新联系人通知
+- (void)updateContact
+{
+    [self getLinkManList];
+}
 
 #pragma mark UITableViewDelegate
 
@@ -294,16 +320,22 @@
     if (buttonIndex == 1)
     {
         UITextField *textFiled = [alertView textFieldAtIndex:0];
+//        if (textFiled.text.length > 6 || textFiled.text.length < 3)
+//        {
+//            [CommonTool addAlertTipWithMessage:@"短号/亲情号是3-6位的数字"];
+//            return;
+//        }
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[self.selectedIndex]];
         NSString *shortNumber = dic[@"shortPhoneNo"];
         shortNumber = shortNumber ? shortNumber : @"";
         if (![shortNumber isEqualToString:textFiled.text])
         {
-            [dic setValue:shortNumber forKey:@"shortPhoneNo"];
+            [dic setValue:textFiled.text forKey:@"shortPhoneNo"];
             [self changeOwnerInfoWithDataDic:dic];
         }
     }
 }
+
 
 #pragma mark 更新联系人
 - (void)changeOwnerInfoWithDataDic:(NSMutableDictionary *)dataDic
@@ -320,7 +352,6 @@
      {
          NSLog(@"UPDATE_CONTACT_URL===%@",responseDic);
          NSDictionary *dic = (NSDictionary *)responseDic;
-         //0:成功 401.1 账号或密码错误
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
          description = (description) ? description : LOADING_FAIL;
