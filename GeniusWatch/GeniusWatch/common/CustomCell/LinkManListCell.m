@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 #define SPACE_Y             10.0
-#define SPACE_X             10.0
-#define NAME_LABLE_WIDTH    60.0
+#define SPACE_X             15.0
+#define NAME_LABLE_WIDTH    65.0
 #define LABLE_WIDTH         150.0
 #define LABEL_HEIGHT        20.0
 #define CELL_HEIGHT         75.0
@@ -71,15 +71,29 @@
     name = name ? name : @"";
     NSString *mobile = dataDic[@"mobileNo"];
     mobile = mobile ? mobile : @"";
+    if ([mobile isEqualToString:[GeniusWatchApplication shareApplication].userName])
+    {
+        name = [name stringByAppendingString:@"(我)"];
+    }
+    else if ([dataDic[@"userType"] integerValue] == 1)
+    {
+        name = [name stringByAppendingString:@"(管理员)"];
+    }
+    
+    NSString *imageName = ([dataDic[@"userType"] integerValue] < 2) ? @"app" : @"contacts";
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIImageView *imageView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, image.size.width/3, image.size.height/3) placeholderImage:image];
+    self.accessoryView = imageView;
+    
     NSString *shortNumber = dataDic[@"shortPhoneNo"];
     shortNumber = shortNumber ? shortNumber : @"";
     shortNumber = (shortNumber.length == 0) ? @"没有亲情号/短号" : [@"短号/亲情号:" stringByAppendingString:shortNumber];
         ;
-    NSString *imageName = @"custom_man";
+    NSString *iconImageName = @"custom_man";
     int index = (int)[[GeniusWatchApplication shareApplication].titlesArray indexOfObject:name];
-    imageName = (index > [[GeniusWatchApplication shareApplication].titlesArray count]) ? imageName : [GeniusWatchApplication shareApplication].imagesArray[index];
-    UIImage *image = [UIImage imageNamed:imageName];
-    [self setContactDataWithIconImage:image name:name mobile:mobile shortNumber:shortNumber];
+    iconImageName = (index > [[GeniusWatchApplication shareApplication].titlesArray count]) ? iconImageName : [GeniusWatchApplication shareApplication].imagesArray[index];
+    UIImage *iconImage = [UIImage imageNamed:iconImageName];
+    [self setContactDataWithIconImage:iconImage name:name mobile:mobile shortNumber:shortNumber];
 }
 
 - (void)setContactDataWithIconImage:(UIImage *)image name:(NSString *)name mobile:(NSString *)mobile shortNumber:(NSString *)shortNumber

@@ -70,5 +70,10 @@
     self.infoLable.font = font;
 }
 
+#pragma mark 设置icon
+- (void)setIconImage:(UIImage *)image
+{
+    self.iconImageView.image = image;
+}
 
 @end

@@ -43,6 +43,7 @@
     
     self.imagesArray = [GeniusWatchApplication shareApplication].imagesArray;
     self.titlesArray = [GeniusWatchApplication shareApplication].titlesArray;
+    self.selectedIndex = -1;
     
     //add notification
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillShowNotification object:nil];
@@ -152,7 +153,7 @@
 #pragma mark 下一步
 - (void)nextButtonPressed:(UIButton *)sender
 {
-    if (self.nameTextField.text.length == 0 && self.selectedIndex == [self.titlesArray count] - 1)
+    if ((self.nameTextField.text.length == 0 && self.selectedIndex == [self.titlesArray count] - 1)|| self.selectedIndex == -1)
     {
         [CommonTool addAlertTipWithMessage:@"用户名不能为空"];
         return;

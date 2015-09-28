@@ -11,10 +11,14 @@
 #import "BabyIocnView.h"
 #import "CLPickerView.h"
 
+
 #define PICKERVIEW_HEIGHT    200.0 * CURRENT_SCALE
 
-@interface WatchInfoViewController ()<UIAlertViewDelegate>
+@interface WatchInfoViewController ()<UINavigationControllerDelegate,UIAlertViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate>
 
+@property (nonatomic, strong) UIImage *iconImage;
+@property (nonatomic, strong) UITextField *nameTextField;
+@property (nonatomic, strong) UIButton *editButton;
 @property (nonatomic, strong) UIButton *controlButton;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *referLabel;
@@ -38,6 +42,7 @@
     self.dataDic = [NSMutableDictionary dictionaryWithDictionary:[GeniusWatchApplication shareApplication].currentDeviceDic];
     self.headerHeightArray = @[@(2.0),@(10.0),@(10.0)];
     self.titleArray = @[@[@"手表号码",@"手边短号/亲情号"],@[@"性别",@"生日",@"年级"],@[@"学校信息",@"家-小区信息"]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldChanged) name:UITextFieldTextDidChangeNotification object:nil];
     [self initUI];
     [self initDataWithDictionary:self.dataDic];
     [self getWatchInfo];
@@ -69,10 +74,14 @@
     AFHTTPRequestOperation *requestOperation =  [manager POST:UPDATE_OWNER_URL parameters:requestDic
             constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
                          {
-                                 UIImage *image = [UIImage imageNamed:@"default_icon"];
+                             UIImage *image = self.iconImage;
+                             if (image)
+                             {
                                  NSData *data = UIImageJPEGRepresentation(image, .1);
                                  NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
                                  [formData appendPartWithFileData:data name:@"ownerHeadShot" fileName:[NSString stringWithFormat:@"%.0f.png",time] mimeType:@"image/png"];
+                             }
+
                          }
                          success:^(AFHTTPRequestOperation *operation, id responseObject)
                          {
@@ -118,12 +127,19 @@
     _babyIocnView = [[BabyIocnView alloc] initWithFrame:CGRectMake(space_x, space_y, babyWidth, babyHeight)];
     [bgImageView addSubview:_babyIocnView];
     [_babyIocnView setImageWithUrl:nil defaultImage:@"baby_head_up" infoLableText:@"修改头像"];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeIconImage:)];
+    [_babyIocnView addGestureRecognizer:tapGesture];
     
     float x  = _babyIocnView.frame.origin.x + _babyIocnView.frame.size.width + add_x;
     float height = (babyHeight - INFO_LABLE_HEIGHT)/2;
     float width = bgImageView.frame.size.width - babyWidth - 2 * space_x - add_x;
     _nameLabel = [CreateViewTool createLabelWithFrame:CGRectMake(x, space_y, width, height) textString:@"" textColor:[UIColor blackColor] textFont:FONT(16.0)];
     [bgImageView addSubview:_nameLabel];
+    
+    _editButton = [CreateViewTool createButtonWithFrame:CGRectMake(_nameLabel.frame.origin.x + _nameLabel.frame.size.width, _nameLabel.frame.origin.y + 5.0, 18.0, 20.0) buttonTitle:@"" titleColor:nil normalBackgroundColor:nil highlightedBackgroundColor:nil selectorName:@"editButtonPressed:" tagDelegate:self];
+    [_editButton setBackgroundImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
+    [bgImageView addSubview:_editButton];
+    
     
     float y = _nameLabel.frame.origin.y + _nameLabel.frame.size.height;
     _referLabel = [CreateViewTool createLabelWithFrame:CGRectMake(x, y, width, height) textString:@"我与宝贝的关系是:" textColor:TIP_COLOR textFont:FONT(16.0)];
@@ -163,6 +179,12 @@
     NSArray *array  = @[@[ownerDic[@"mobileNo"],ownerDic[@"shortPhoneNo"]],@[gender,ownerDic[@"birthday"],ownerDic[@"grade"]],@[ownerDic[@"schoolPoi"],ownerDic[@"homePoi"]]];
     self.dataArray = [NSMutableArray arrayWithArray:array];
     [self.table reloadData];
+    
+    CGSize size = [name sizeWithAttributes:@{NSFontAttributeName : FONT(16.0)}];
+    float x = self.nameLabel.frame.origin.x + size.width + 5.0;
+    CGRect frame = self.editButton.frame;
+    frame.origin.x = x;
+    self.editButton.frame = frame;
 }
 
 
@@ -202,12 +224,99 @@
 }
 
 
+#pragma mark 编辑按钮
+- (void)editButtonPressed:(UIButton *)sender
+{
+    [self addTipViewWithIndex:2];
+}
+
+
+#pragma mark 文字改变
+- (void)textFieldChanged
+{
+    NSString *name = self.nameTextField.text;
+    name = (name) ? name : @"";
+    if (name.length > 4)
+    {
+        self.nameTextField.text = [name substringToIndex:4];
+    }
+}
+
 #pragma mark 控制按钮事件
 - (void)controlButtonPressed:(UIButton *)sender
 {
     sender.hidden = YES;
     [self movePickerViewIsShow:NO];
 }
+
+#pragma mark 修改头像
+- (void)changeIconImage:(UITapGestureRecognizer *)gesture
+{
+    UIActionSheet *actionSheet;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        actionSheet = [[UIActionSheet alloc] initWithTitle:@"选择照片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择" ,nil];
+        actionSheet.tag = 1000;
+        
+    }
+    else
+    {
+        actionSheet = [[UIActionSheet alloc] initWithTitle:@"选择照片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册选择" ,nil];
+        actionSheet.tag = 2000;
+    }
+    actionSheet.delegate = self;
+    [actionSheet showInView:self.view];
+}
+
+
+#pragma mark UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 1000)
+    {
+        if (buttonIndex == 0)
+        {
+            [self showImagePickerViewContrllerWithType:1];
+        }
+        else if (buttonIndex == 2)
+        {
+            [self showImagePickerViewContrllerWithType:2];
+        }
+    }
+    if (actionSheet.tag == 2000)
+    {
+        if (buttonIndex == 0)
+        {
+            [self showImagePickerViewContrllerWithType:1];
+        }
+    }
+}
+
+
+- (void)showImagePickerViewContrllerWithType:(int)type
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.navigationBar.tintColor = APP_MAIN_COLOR;
+    picker.allowsEditing = YES;
+    picker.delegate = self;
+    picker.sourceType = (type == 2) ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:picker animated:YES completion:Nil];
+}
+
+#pragma mark UIImagePickerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSLog(@"info===%@",info);
+    __weak typeof(self) weakSelf = self;
+    [picker dismissViewControllerAnimated:YES completion:^
+     {
+         UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+         weakSelf.iconImage = image;
+         [self.babyIocnView setIconImage:image];
+     }];
+}
+
+
 
 
 #pragma mark UITableViewDelegate
@@ -352,8 +461,10 @@
 #pragma mark 添加弹出框
 - (void)addTipViewWithIndex:(int)index
 {
-    NSString *title = (index == 0) ? @"手表电话" : @"手表短号/亲情号";
-    NSString *message = (index == 0) ? @"请设置手表电话号码" : @"请设置手表短号或亲情号";
+    NSArray *titleArray = @[@"手表电话", @"手表短号/亲情号", @"宝贝资料"];
+    NSArray *messageArray = @[@"请设置手表电话号码", @"请设置手表短号或亲情号", @"请设置手表昵称"];
+    NSString *title = titleArray[index];
+    NSString *message = messageArray[index];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alert.tag = 100 + index;
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -362,8 +473,22 @@
     UITextField *textField = (UITextField *)[alert textFieldAtIndex:0];
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    
+    if (index == 2)
+    {
+        textField.keyboardType = UIKeyboardTypeDefault;
+        textField.delegate = self;
+        textField.text = self.nameLabel.text;
+        self.nameTextField = textField;
+    }
 }
 
+#pragma mark UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 #pragma mark UIAlertDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -385,35 +510,47 @@
                 {
                     [self setDataWithIndex:0 text:text];
                 }
-                else
-                {
-                    [self addTipViewWithIndex:index];
-                }
             }
             else
             {
-                [self setDataWithIndex:1 text:text];
+                [self setDataWithIndex:index text:text];
             }
         }
     }
 }
 
+#pragma mark 设置更新数据
 - (void)setDataWithIndex:(int)index text:(NSString *)text
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.dataDic objectForKey:@"owner"]];
     NSMutableArray *tempArray = [NSMutableArray arrayWithArray:self.dataArray[self.selectedIndexPath.section]];
-    [tempArray replaceObjectAtIndex:index withObject:text];
+    if (index < 2)
+    {
+        [tempArray replaceObjectAtIndex:index withObject:text];
+    }
     [self.dataArray replaceObjectAtIndex:0 withObject:tempArray];
     [self.table reloadData];
-    NSString *key = (index == 0) ? @"mobileNo" : @"shortPhoneNo";
+    NSArray *array = @[@"mobileNo", @"shortPhoneNo", @"ownerName"];
+    NSString *key = array[index];
     [dic setObject:text forKey:key];
     [self.dataDic setObject:dic forKey:@"owner"];
-    NSLog(@"self.dataDicc==%@",self.dataDic);
+    self.nameLabel.text = self.nameTextField.text;
+    CGSize size = [self.nameLabel.text sizeWithAttributes:@{NSFontAttributeName : FONT(16.0)}];
+    float x = self.nameLabel.frame.origin.x + size.width + 5.0;
+    CGRect frame = self.editButton.frame;
+    frame.origin.x = x;
+    self.editButton.frame = frame;
+    NSLog(@"self.dataDic==%@",self.dataDic);
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*

@@ -29,7 +29,12 @@
 @property (nonatomic, strong) NSArray *headerArray;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *contactArray;
 @property (nonatomic, strong) UIButton *saveButton;
+@property (nonatomic, strong) NSString *autoContactStr;
+@property (nonatomic, strong) NSString *classTimeStr;
+@property (nonatomic, strong) NSString *autoPowerOffStr;
+@property (nonatomic, strong) NSString *secondStr;
 
 @end
 
@@ -43,6 +48,10 @@
     
     self.headerArray = @[@"  个性通话",@"  远程控制",@"  声音和显示"];
     self.titleArray = @[@[@"自动接通",@"报告通话位置",@"体感接听",@"预留应急电量"],@[@"上课禁用",@"定时开关机",@"拒绝默认人来电"],@[@"亮屏时间",@"声音和振动"]];
+    _dataArray = [[NSMutableArray alloc] init];
+    self.autoContactStr = @"";
+    self.secondStr = @"";
+    _contactArray = [[NSMutableArray alloc] init];
     [self initUI];
     [self getWatchSettings];
     // Do any additional setup after loading the view.
@@ -125,9 +134,65 @@
 
 }
 
+#pragma mark 设置数据
 - (void)makeWatchSettingData:(NSDictionary *)dataDic
 {
+    NSArray *keyArray = @[@"autoAcceptCallSwitch",@"bodyAcceptCallSwitch",@"reportCallPoiSwitch",@"keepUrgentPowerSwitch",@"classTimeDisabled",@"schedulePowerOffSwitch",@"refuseStrangerSwitch"];
+    for (int i = 0; i < [keyArray count]; i++)
+    {
+        [self.dataArray addObject:dataDic[keyArray[i]]];
+    }
     
+    NSString *poweroffTime = dataDic[@"poweroffTime"];
+    poweroffTime = poweroffTime ? poweroffTime : @"";
+    NSString *poweronTime = dataDic[@"poweronTime"];
+    poweronTime = poweronTime ? poweronTime : @"";
+    self.autoPowerOffStr = [NSString stringWithFormat:@"开机:%@  关机:%@",poweronTime,poweroffTime];
+   
+    NSString *classTimeAm = dataDic[@"classTimeAm"];
+    classTimeAm = classTimeAm ? classTimeAm : @"";
+    NSString *classTimePm = dataDic[@"classTimePm"];
+    classTimePm = classTimePm ? classTimePm : @"";
+    self.classTimeStr = [NSString stringWithFormat:@"%@  %@",classTimeAm,classTimePm];
+    
+    int second = [dataDic[@"lightScreenDuration"] intValue];
+    self.secondStr = [NSString stringWithFormat:@"%d秒",second];
+    
+    [self setAutoContactsWithArray:dataDic[@"autoCall"]];
+    [self.table reloadData];
+}
+
+- (void)setAutoContactsWithArray:(NSArray *)array
+{
+    NSLog(@"array===%@",array);
+    NSMutableArray *autoArray = [[NSMutableArray alloc] init];
+    NSMutableArray *noAutoArray = [[NSMutableArray alloc] init];
+    NSMutableArray *nameArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in array)
+    {
+        NSString *autoCall = dic[@"allowAutoAcceptCall"];
+        if (autoCall && ![autoCall isKindOfClass:[NSNull class]])
+        {
+            if ([autoCall integerValue] == 1)
+            {
+                NSString *name = dic[@"nickName"];
+                name = name ? name : @"";
+                [nameArray addObject:name];
+                [autoArray addObject:dic];
+            }
+        }
+        else
+        {
+            [noAutoArray addObject:dic];
+        }
+    }
+    self.autoContactStr = [nameArray componentsJoinedByString:@","];
+    if ([nameArray count] > 3)
+    {
+        self.autoContactStr = [self.autoContactStr stringByAppendingString:[NSString stringWithFormat:@"(等%d人)",(int)[nameArray count]]];
+    }
+    NSLog(@"self.autoContactStr===%@====nameArray===%@",self.autoContactStr,nameArray
+          );
 }
 
 #pragma mark UITableViewDelegate
@@ -173,11 +238,42 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
             cell.backgroundColor = [UIColor clearColor];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.detailTextLabel.textColor = [UIColor grayColor];
+            cell.textLabel.font = FONT(16.0);
         }
         
         UISwitch *switchView = [[UISwitch alloc] init];
-        switchView.on = YES;
+        int index = (int)(indexPath.section * 4 + indexPath.row);
+        if (self.dataArray && [self.dataArray count] > index)
+        {
+            switchView.on = [self.dataArray[index] integerValue];
+        }
         cell.accessoryView = switchView;
+        
+        if (indexPath.section == 0)
+        {
+            if (indexPath.row == 0)
+            {
+                cell.detailTextLabel.text = self.autoContactStr;
+            }
+            if (indexPath.row == 3)
+            {
+                cell.detailTextLabel.text = @"延长了待机时间,仅能接听家人电话";
+            }
+            
+        }
+        if (indexPath.section == 1)
+        {
+            if (indexPath.row == 0)
+            {
+                cell.detailTextLabel.text = self.classTimeStr;
+            }
+            if (indexPath.row == 1)
+            {
+                cell.detailTextLabel.text = self.autoPowerOffStr;
+            }
+            
+        }
         
         cell.textLabel.text = self.titleArray[indexPath.section][indexPath.row];
         
@@ -192,8 +288,8 @@
             cell.backgroundColor = [UIColor clearColor];
              cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-        
-        [cell setDataWithLeftText:self.titleArray[indexPath.section][indexPath.row] rightText:@""];
+        NSString *text = (indexPath.row == 0) ? self.secondStr : @"";
+        [cell setDataWithLeftText:self.titleArray[indexPath.section][indexPath.row] rightText:text];
         
         return cell;
     }

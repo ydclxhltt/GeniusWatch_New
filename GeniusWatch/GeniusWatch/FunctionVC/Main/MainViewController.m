@@ -90,7 +90,7 @@
     if (self.deviceArray && [self.deviceArray count] > currentDeviceIndex)
     {
         NSDictionary *dic = self.deviceArray[currentDeviceIndex];
-        iconUrl = dic[@"headShot"];
+        iconUrl = dic[@"owner"][@"headShot"];
         iconUrl = (iconUrl) ? iconUrl : @"";
     }
     return iconUrl;

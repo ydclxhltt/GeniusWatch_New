@@ -7,6 +7,8 @@
 //
 
 #import "SetLinkNumberViewController.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 #define TIPLABLE_SPACE_Y    NAVBAR_HEIGHT + 10.0 * CURRENT_SCALE
 #define TIPLABLE_HEIGHT     25.0
@@ -19,8 +21,9 @@
 #define LOADING_SUCESS      @"添加成功"
 #define LOADING_FAIL        @"添加失败"
 
-@interface SetLinkNumberViewController ()
+@interface SetLinkNumberViewController ()<ABPeoplePickerNavigationControllerDelegate,UIActionSheetDelegate>
 
+@property (nonatomic, assign) int selectedIndex;
 @property (nonatomic, strong) NSString *shortNumberStr;
 @property (nonatomic, strong) NSString *phoneNumberStr;
 
@@ -55,12 +58,25 @@
 
 - (void)addTextFields
 {
+    float space_x = 5.0;
+    float space_y = 5.0;
+    UIImage *image = [UIImage imageNamed:@"linkbook_up"];
+    float width = image.size.width/3;
+    float height = image.size.height/3;
+    
     UITextField *phoneNumberTextField = [CreateViewTool createTextFieldWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, TEXTFIELD_HEIGHT) textColor:[UIColor blackColor] textFont:TEXTFIELD_FONT placeholderText:@"联系人电话号码"];
     [CommonTool clipView:phoneNumberTextField withCornerRadius:TEXTFIELD_RADIUS];
     [CommonTool setViewLayer:phoneNumberTextField withLayerColor:TEXTFIELD_COLOR bordWidth:.5];
     phoneNumberTextField.tag = 100;
     phoneNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:phoneNumberTextField];
+    
+    UIImageView *imageView1 = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, width + 2 * space_x, height + 2 * space_y) placeholderImage:nil];
+    UIButton *contactbutton1 = [CreateViewTool createButtonWithFrame:CGRectMake(space_x, space_y, width, height) buttonImage:@"linkbook" selectorName:@"linkbookButtonPressed:" tagDelegate:self];
+    contactbutton1.tag = 1;
+    [imageView1 addSubview:contactbutton1];
+    phoneNumberTextField.rightView = imageView1;
+    phoneNumberTextField.rightViewMode = UITextFieldViewModeAlways;
     
     start_y += phoneNumberTextField.frame.size.height +  ADD_Y;
     UITextField *shortTextField = [CreateViewTool createTextFieldWithFrame:CGRectMake(SPACE_X, start_y, self.view.frame.size.width - 2 * SPACE_X, TEXTFIELD_HEIGHT) textColor:[UIColor blackColor] textFont:TEXTFIELD_FONT placeholderText:@"亲情号码/短号"];
@@ -70,6 +86,13 @@
     shortTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:shortTextField];
     
+    UIImageView *imageView2 = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, width + 2 * space_x, height + 2 * space_y) placeholderImage:nil];
+    UIButton *contactbutton2 = [CreateViewTool createButtonWithFrame:CGRectMake(space_x, space_y, width, height) buttonImage:@"linkbook" selectorName:@"linkbookButtonPressed:" tagDelegate:self];
+    contactbutton2.tag = 2;
+    [imageView2 addSubview:contactbutton2];
+    shortTextField.rightView = imageView2;
+    shortTextField.rightViewMode = UITextFieldViewModeAlways;
+
     start_y += shortTextField.frame.size.height + BUTTON_ADD_Y;
 }
 
@@ -80,6 +103,67 @@
     [CommonTool clipView:saveButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:saveButton];
 }
+
+
+#pragma mark 通讯录按钮
+- (void)linkbookButtonPressed:(UIButton *)sender
+{
+    self.selectedIndex = (int)sender.tag - 1;
+    ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+    picker.displayedProperties = [NSArray arrayWithObject:[NSNumber numberWithInt:kABPersonPhoneProperty]];
+    picker.peoplePickerDelegate = self;
+    [self presentViewController:picker animated:YES completion:^{}];
+}
+
+#pragma mark ABPeoplePickerNavigationControllerDelegate
+- (BOOL) peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
+{
+    [self makeDataWithPerson:person];
+    return YES;
+}
+
+
+- (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person
+{
+    [self makeDataWithPerson:person];
+}
+
+- (void)makeDataWithPerson:(ABRecordRef)person
+{
+    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+    NSArray *array = (__bridge_transfer NSArray *)ABMultiValueCopyArrayOfAllValues(phoneNumbers);
+    if ([array count] == 0)
+    {
+        UITextField *textField = (UITextField *)[self.view viewWithTag:100 + self.selectedIndex];
+        textField.text = [array[0] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    }
+    else if([array count] > 1)
+    {
+        [self showActionSheetWithArray:array];
+    }
+}
+
+- (void)showActionSheetWithArray:(NSArray *)array
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"选择电话号码" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+    for (NSString *string in array)
+    {
+        [actionSheet addButtonWithTitle:[string  stringByReplacingOccurrencesOfString:@"-" withString:@""]];
+    }
+    [actionSheet showInView:self.view];
+}
+
+#pragma mark UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 2)
+    {
+        return;
+    }
+    UITextField *textField = (UITextField *)[self.view viewWithTag:100 + self.selectedIndex];
+    textField.text = [actionSheet buttonTitleAtIndex:buttonIndex];
+}
+
 
 #pragma mark 保存
 - (void)saveButtonPressed:(UIButton *)sender

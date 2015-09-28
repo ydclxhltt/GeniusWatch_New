@@ -256,7 +256,8 @@
         cell = [[LinkManListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.backgroundColor = [UIColor whiteColor];
     }
-    [cell setContactDataWithDictionary:self.dataArray[indexPath.row]];
+    NSDictionary *rowDic = self.dataArray[indexPath.row];
+    [cell setContactDataWithDictionary:rowDic];
     return cell;
 }
 

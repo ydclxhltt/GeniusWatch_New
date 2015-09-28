@@ -16,4 +16,5 @@
 
 - (void)setInfoLableTextColor:(UIColor *)color textFont:(UIFont *)font;
 
+- (void)setIconImage:(UIImage *)image;
 @end

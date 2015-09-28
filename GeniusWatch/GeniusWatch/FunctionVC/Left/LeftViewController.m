@@ -26,6 +26,8 @@
 {
     float flowViewHeight;
     float flowViewWidth;
+    int count;
+    NSTimer *timer;
 }
 
 @property (nonatomic, strong) PageFlowView  *flowView;
@@ -44,6 +46,7 @@
 
     self.titleArray = @[@"宝贝资料",@"手表设置",@"关于手表"];
     self.imageArray = @[@"personal_baby",@"personal_watch_set",@"personal_watch"];
+    count = 0;
     
     [self initUI];
     
@@ -105,7 +108,7 @@
     self.babyDevicesArray = [NSMutableArray arrayWithArray:[GeniusWatchApplication shareApplication].deviceList];
     if ([self.babyDevicesArray count] < 5)
     {
-        [self.babyDevicesArray addObject:@{@"headShot":@"personal_add"}];
+        [self.babyDevicesArray addObject:@{@"owner":@{@"headShot":@"personal_add"}}];
     }
     [_flowView reloadData];
 }
@@ -114,7 +117,7 @@
 - (void)setImageForView:(UIImageView *)imageView withIndex:(int)index
 {
     NSDictionary *dic = self.babyDevicesArray[index];
-    NSString *url = dic[@"headShot"];
+    NSString *url = dic[@"owner"][@"headShot"];
     url = url ? url : @"";
     if ([@"personal_add" isEqualToString:url])
     {
@@ -225,7 +228,12 @@
 - (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(PageFlowView *)flowView
 {
     NSLog(@"Scrolled to page # %ld", (long)pageNumber);
-   
+    if ([timer isValid])
+    {
+        [timer invalidate];
+        timer = nil;
+    }
+    timer = [NSTimer scheduledTimerWithTimeInterval:.05 target:self selector:@selector(moveTableView) userInfo:nil repeats:YES];
     self.tableView.userInteractionEnabled = !(pageNumber == [self.babyDevicesArray count] - 1 && [[GeniusWatchApplication shareApplication].deviceList count]< 5);
 }
 
@@ -236,6 +244,22 @@
     {
         [self addBabyWatch];
     }
+}
+
+- (void)moveTableView
+{
+    if (count > 2)
+    {
+        count = 0;
+        if ([timer isValid])
+        {
+            [timer invalidate];
+            timer = nil;
+        }
+        return;
+    }
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:count inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+     count++;
 }
 
 #pragma mark 添加手表

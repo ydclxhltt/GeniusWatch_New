@@ -516,6 +516,11 @@
             reuseCell.tag = index + kTagOffset;
             [_delegate didReloadData:reuseCell cellForPageAtIndex:index];
         }
+        
+        if ([_delegate respondsToSelector:@selector(didScrollToPage:inFlowView:)]) {
+            [_delegate didScrollToPage:_currentPageIndex inFlowView:self];
+        }
+        
         return;
     }
     //-----
