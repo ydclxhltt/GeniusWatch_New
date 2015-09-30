@@ -8,6 +8,9 @@
 
 #import "WatchSettingViewController.h"
 #import "LeftRightLableCell.h"
+#import "LightTimeViewController.h"
+#import "SoundSharkViewController.h"
+#import "AutoPowerOffViewController.h"
 
 //提示
 #define TIP_STRING           @"设置修改后,手表网络良好会自动同步,生效后APP会收到消息提醒."
@@ -19,13 +22,18 @@
 //按钮
 #define BUTTON_SPACE_X       20.0 * CURRENT_SCALE
 #define BUTTON_SPACE_Y       10.0
-//获取基本信息
-#define LOADING_INFO         @"加载中..."
-#define LOADING_INFO_SUCESS  @"加载成功"
-#define LOADING_INFO_FAIL    @"加载失败"
+//获取信息
+#define LOADING             @"加载中..."
+#define LOADING_SUCESS      @"加载成功"
+#define LOADING_FAIL        @"加载失败"
+//更新信息
+#define LOADING_INFO         @"更新中..."
+#define LOADING_INFO_SUCESS  @"更新成功"
+#define LOADING_INFO_FAIL    @"更新失败"
 
 @interface WatchSettingViewController ()
 
+@property (nonatomic, strong) NSArray *keyArray;
 @property (nonatomic, strong) NSArray *headerArray;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -55,6 +63,15 @@
     [self initUI];
     [self getWatchSettings];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.dataDic)
+    {
+        [self makeWatchSettingData:self.dataDic];
+    }
 }
 
 #pragma mark 初始化UI
@@ -90,7 +107,7 @@
 
 - (void)addButton
 {
-    _saveButton = [CreateViewTool createButtonWithFrame:CGRectMake(BUTTON_SPACE_X, self.view.frame.size.height - BUTTON_HEIGHT - BUTTON_SPACE_Y, self.view.frame.size.width - 2 * BUTTON_SPACE_X, BUTTON_HEIGHT) buttonTitle:@"保存" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"revokeButtonPressed:" tagDelegate:self];
+    _saveButton = [CreateViewTool createButtonWithFrame:CGRectMake(BUTTON_SPACE_X, self.view.frame.size.height - BUTTON_HEIGHT - BUTTON_SPACE_Y, self.view.frame.size.width - 2 * BUTTON_SPACE_X, BUTTON_HEIGHT) buttonTitle:@"保存" titleColor:BUTTON_TITLE_COLOR normalBackgroundColor:BUTTON_N_COLOR highlightedBackgroundColor:BUTTON_H_COLOR selectorName:@"saveButtonPressed:" tagDelegate:self];
     _saveButton.titleLabel.font = BUTTON_FONT;
     [CommonTool clipView:_saveButton withCornerRadius:BUTTON_RADIUS];
     [self.view addSubview:_saveButton];
@@ -100,7 +117,7 @@
 - (void)getWatchSettings
 {
     //WATCH_SETTING_URL
-    [SVProgressHUD showWithStatus:LOADING_INFO];
+    [SVProgressHUD showWithStatus:LOADING];
     __weak typeof(self) weakSelf = self;
     NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
     imeiNo = imeiNo ? imeiNo : @"";
@@ -115,11 +132,11 @@
          //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
-         description = (description) ? description : LOADING_INFO_FAIL;
+         description = (description) ? description : LOADING_FAIL;
          if ([@"0" isEqualToString:errorCode])
          {
              [weakSelf makeWatchSettingData:responseDic];
-             [SVProgressHUD showSuccessWithStatus:LOADING_INFO_SUCESS];
+             [SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
          }
          else
          {
@@ -129,7 +146,7 @@
      requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"WATCH_SETTING_URL_error====%@",error);
-         [SVProgressHUD showErrorWithStatus:LOADING_INFO_FAIL];
+         [SVProgressHUD showErrorWithStatus:LOADING_FAIL];
      }];
 
 }
@@ -137,10 +154,11 @@
 #pragma mark 设置数据
 - (void)makeWatchSettingData:(NSDictionary *)dataDic
 {
-    NSArray *keyArray = @[@"autoAcceptCallSwitch",@"bodyAcceptCallSwitch",@"reportCallPoiSwitch",@"keepUrgentPowerSwitch",@"classTimeDisabled",@"schedulePowerOffSwitch",@"refuseStrangerSwitch"];
-    for (int i = 0; i < [keyArray count]; i++)
+    self.dataDic = [NSMutableDictionary dictionaryWithDictionary:dataDic];
+    _keyArray = @[@"autoAcceptCallSwitch",@"bodyAcceptCallSwitch",@"reportCallPoiSwitch",@"keepUrgentPowerSwitch",@"classTimeDisabled",@"schedulePowerOffSwitch",@"refuseStrangerSwitch"];
+    for (int i = 0; i < [_keyArray count]; i++)
     {
-        [self.dataArray addObject:dataDic[keyArray[i]]];
+        [self.dataArray addObject:dataDic[_keyArray[i]]];
     }
     
     NSString *poweroffTime = dataDic[@"poweroffTime"];
@@ -195,6 +213,40 @@
           );
 }
 
+#pragma mark 保存按钮
+- (void)saveButtonPressed:(UIButton *)sender
+{
+    [SVProgressHUD showWithStatus:LOADING_INFO];
+    //__weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = self.dataDic;
+    [[RequestTool alloc] requestWithUrl:UPDATE_WATCH_SETTING_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"UPDATE_WATCH_SETTING_URL===%@",responseDic);
+         NSDictionary *dic = (NSDictionary *)responseDic;
+         NSString *errorCode = dic[@"errorCode"];
+         NSString *description = dic[@"description"];
+         description = (description) ? description : LOADING_INFO_FAIL;
+         if ([@"0" isEqualToString:errorCode])
+         {
+             [SVProgressHUD showSuccessWithStatus:LOADING_INFO_SUCESS];
+         }
+         else
+         {
+             [SVProgressHUD showErrorWithStatus:description];
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"UPDATE_WATCH_SETTING_URL_error====%@",error);
+         [SVProgressHUD showErrorWithStatus:LOADING_INFO_FAIL];
+     }];
+    
+}
+
+
 #pragma mark UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -243,7 +295,10 @@
         }
         
         UISwitch *switchView = [[UISwitch alloc] init];
+        [switchView addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         int index = (int)(indexPath.section * 4 + indexPath.row);
+        switchView.tag = index + 1;
+        
         if (self.dataArray && [self.dataArray count] > index)
         {
             switchView.on = [self.dataArray[index] integerValue];
@@ -294,16 +349,50 @@
         return cell;
     }
     
-    
-    
-    
-    return nil;
+     return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1)
+    {
+        if (indexPath.row == 1)
+        {
+            AutoPowerOffViewController *autoPowerOffViewController = [[AutoPowerOffViewController alloc] init];
+            autoPowerOffViewController.dataDic = self.dataDic;
+            [self.navigationController pushViewController:autoPowerOffViewController animated:YES];
+        }
+    }
+    if (indexPath.section == 2)
+    {
+        if (indexPath.row == 0)
+        {
+            LightTimeViewController *lightTimeViewController = [[LightTimeViewController alloc] init];
+            lightTimeViewController.defultTimeStr = self.secondStr;
+            lightTimeViewController.dataDic = self.dataDic;
+            [self.navigationController pushViewController:lightTimeViewController animated:YES];
+        }
+        else if (indexPath.row == 1)
+        {
+            SoundSharkViewController *soundSharkViewController = [[SoundSharkViewController alloc] init];
+            soundSharkViewController.dataDic = self.dataDic;
+            [self.navigationController pushViewController:soundSharkViewController animated:YES];
+        }
+    }
 }
+
+
+#pragma mark 修改开关
+- (void)switchChanged:(UISwitch *)switchView
+{
+    int index = (int)switchView.tag - 1;
+    NSString *key= self.keyArray[index];
+    NSString *value = [NSString stringWithFormat:@"%d",switchView.isOn];
+    [self.dataDic setObject:value forKey:key];
+    [self.dataArray replaceObjectAtIndex:index withObject:value];
+}
+
 
 
 - (void)didReceiveMemoryWarning {

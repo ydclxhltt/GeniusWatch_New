@@ -111,6 +111,9 @@
 		77E9AD891BA967FB007FF34C /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD881BA967FB007FF34C /* WebViewController.m */; };
 		77E9AD8D1BA979DE007FF34C /* AddPicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E9AD8C1BA979DE007FF34C /* AddPicView.m */; };
 		77F2051F1BAAC20A00C9567C /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F2051E1BAAC20A00C9567C /* PointView.m */; };
+		CE04DBFB1BBAD84600E61C72 /* LightTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE04DBFA1BBAD84600E61C72 /* LightTimeViewController.m */; };
+		CE04DBFE1BBAE89B00E61C72 /* SoundSharkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE04DBFD1BBAE89B00E61C72 /* SoundSharkViewController.m */; };
+		CE04DC011BBAF85600E61C72 /* AutoPowerOffViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE04DC001BBAF85600E61C72 /* AutoPowerOffViewController.m */; };
 		CE0516F41BB05412003B83C5 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = CE0516F31BB05412003B83C5 /* loading.png */; };
 		CE1D97C41BA99F9C008AD527 /* AssetPicker.Bundle in Resources */ = {isa = PBXBuildFile; fileRef = CE1D97C11BA99F9C008AD527 /* AssetPicker.Bundle */; };
 		CE1D97C51BA99F9C008AD527 /* AssetPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1D97C31BA99F9C008AD527 /* AssetPickerController.m */; };
@@ -385,6 +388,12 @@
 		77E9AD8C1BA979DE007FF34C /* AddPicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPicView.m; sourceTree = "<group>"; };
 		77F2051D1BAAC20A00C9567C /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointView.h; sourceTree = "<group>"; };
 		77F2051E1BAAC20A00C9567C /* PointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointView.m; sourceTree = "<group>"; };
+		CE04DBF91BBAD84600E61C72 /* LightTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightTimeViewController.h; sourceTree = "<group>"; };
+		CE04DBFA1BBAD84600E61C72 /* LightTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightTimeViewController.m; sourceTree = "<group>"; };
+		CE04DBFC1BBAE89B00E61C72 /* SoundSharkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundSharkViewController.h; sourceTree = "<group>"; };
+		CE04DBFD1BBAE89B00E61C72 /* SoundSharkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundSharkViewController.m; sourceTree = "<group>"; };
+		CE04DBFF1BBAF85600E61C72 /* AutoPowerOffViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoPowerOffViewController.h; sourceTree = "<group>"; };
+		CE04DC001BBAF85600E61C72 /* AutoPowerOffViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoPowerOffViewController.m; sourceTree = "<group>"; };
 		CE0516F31BB05412003B83C5 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		CE1D97C11BA99F9C008AD527 /* AssetPicker.Bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AssetPicker.Bundle; sourceTree = "<group>"; };
 		CE1D97C21BA99F9C008AD527 /* AssetPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetPickerController.h; sourceTree = "<group>"; };
@@ -664,6 +673,12 @@
 			children = (
 				775318841BA7AF4500EA7ECC /* WatchSettingViewController.h */,
 				775318851BA7AF4500EA7ECC /* WatchSettingViewController.m */,
+				CE04DBF91BBAD84600E61C72 /* LightTimeViewController.h */,
+				CE04DBFA1BBAD84600E61C72 /* LightTimeViewController.m */,
+				CE04DBFC1BBAE89B00E61C72 /* SoundSharkViewController.h */,
+				CE04DBFD1BBAE89B00E61C72 /* SoundSharkViewController.m */,
+				CE04DBFF1BBAF85600E61C72 /* AutoPowerOffViewController.h */,
+				CE04DC001BBAF85600E61C72 /* AutoPowerOffViewController.m */,
 			);
 			path = WatchSetting;
 			sourceTree = "<group>";
@@ -1724,6 +1739,7 @@
 				77A7D0981B9ED686004C621A /* UUProgressHUD.m in Sources */,
 				CEA606FE1B8897E900C4DADE /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				CEA606F41B8897E900C4DADE /* AFHTTPRequestOperationManager.m in Sources */,
+				CE04DBFB1BBAD84600E61C72 /* LightTimeViewController.m in Sources */,
 				CEE0888C1B89C0F8008A2D2A /* SetPassWordViewController.m in Sources */,
 				CEB7E9E61B9A176900A6A479 /* CustomAddWatchViewController.m in Sources */,
 				CEA606EF1B8897E900C4DADE /* THProgressView.m in Sources */,
@@ -1774,11 +1790,13 @@
 				CEA606E41B8897E900C4DADE /* SDImageCache.m in Sources */,
 				776D53D01B9694C200D1DD62 /* MainSideViewController.m in Sources */,
 				CEA606EB1B8897E900C4DADE /* UIButton+WebCache.m in Sources */,
+				CE04DBFE1BBAE89B00E61C72 /* SoundSharkViewController.m in Sources */,
 				CE1D97CA1BA9BEA0008AD527 /* AboutUsViewController.m in Sources */,
 				CEA606E31B8897E900C4DADE /* NSData+ImageContentType.m in Sources */,
 				775318951BA7F36900EA7ECC /* WatchInfoViewController.m in Sources */,
 				CEA607051B8897E900C4DADE /* UpLoadPhotoTool.m in Sources */,
 				777FC0A91BA16C23005B8559 /* TelephoneChargeViewController.m in Sources */,
+				CE04DC011BBAF85600E61C72 /* AutoPowerOffViewController.m in Sources */,
 				77A754FC1B9D566E006F9B83 /* BasicMapViewController.m in Sources */,
 				CEA607341B88F82700C4DADE /* CheckCodeViewController.m in Sources */,
 				77A7D07B1B9ED686004C621A /* MJRefreshConst.m in Sources */,

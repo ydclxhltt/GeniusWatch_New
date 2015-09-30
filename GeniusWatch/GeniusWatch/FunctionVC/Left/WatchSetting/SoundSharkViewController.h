@@ -1,14 +1,14 @@
 //
-//  WatchSettingViewController.h
+//  SoundSharkViewController.h
 //  GeniusWatch
 //
-//  Created by clei on 15/9/15.
+//  Created by 陈磊 on 15/9/29.
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 
 #import "BasicViewController.h"
 
-@interface WatchSettingViewController : BasicViewController
+@interface SoundSharkViewController : BasicViewController
 
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 
