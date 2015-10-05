@@ -71,14 +71,17 @@
     name = name ? name : @"";
     NSString *mobile = dataDic[@"mobileNo"];
     mobile = mobile ? mobile : @"";
+    NSMutableArray *array = [NSMutableArray array];
     if ([mobile isEqualToString:[GeniusWatchApplication shareApplication].userName])
     {
-        name = [name stringByAppendingString:@"(我)"];
+        [array addObject:@"我"];
     }
     else if ([dataDic[@"userType"] integerValue] == 1)
     {
-        name = [name stringByAppendingString:@"(管理员)"];
+        [array addObject:@"管理员"];
     }
+    
+    mobile =  ([array count] > 0) ? [mobile stringByAppendingString:[NSString stringWithFormat:@"(%@)",[array componentsJoinedByString:@","]]] : mobile;
     
     NSString *imageName = ([dataDic[@"userType"] integerValue] < 2) ? @"app" : @"contacts";
     UIImage *image = [UIImage imageNamed:imageName];

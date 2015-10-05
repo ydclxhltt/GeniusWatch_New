@@ -14,14 +14,15 @@ typedef enum : NSUInteger {
 #import "BasicViewController.h"
 #import "BMapKit.h"
 
-@interface BasicMapViewController : BasicViewController<BMKMapViewDelegate>
-{
-    UIButton *locaitonButton;
-}
-@property (nonatomic, retain) BMKMapView *mapView;
+@interface BasicMapViewController : BasicViewController<BMKMapViewDelegate,BMKGeoCodeSearchDelegate>
+
+@property (nonatomic, strong) UIButton *locaitonButton;
+@property (nonatomic, strong) BMKMapView *mapView;
+@property (nonatomic, strong) BMKGeoCodeSearch *geocodesearch;
 
 //添加地图
 - (void)addMapView;
+//- (void)addMapViewWithDelegate:(id)delegate;
 
 //添加模式切换按钮
 - (void)addTypeButton;
@@ -32,5 +33,5 @@ typedef enum : NSUInteger {
 //添加缩放按钮
 - (void)addZoomButton;
 
-
+- (CLLocationCoordinate2D)makeGPSCoordinate:(CLLocationCoordinate2D)coordinate;
 @end

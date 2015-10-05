@@ -45,7 +45,7 @@
     [self addSubview:_iconImageView];
     
     float y = _iconImageView.frame.size.height + _iconImageView.frame.origin.y;
-    _infoLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, y, self.frame.size.width, POINT_LABEL_HEIGHT) textString:@"14:00" textColor:TIP_COLOR textFont:FONT(14.0)];
+    _infoLabel = [CreateViewTool createLabelWithFrame:CGRectMake(0, y, self.frame.size.width, POINT_LABEL_HEIGHT) textString:@"" textColor:TIP_COLOR textFont:FONT(14.0)];
     _infoLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_infoLabel];
     
@@ -55,17 +55,16 @@
 {
     infoStr = (infoStr) ? infoStr : @"";
     self.infoLabel.text = infoStr;
-    CGRect frame = self.iconImageView.frame;
-    if (infoStr.length == 0)
-    {
-        float y = (self.frame.size.height - frame.size.height)/2;
-        self.iconImageView.frame = CGRectMake(frame.origin.x, y, frame.size.width, frame.size.height);
-    }
-    else
-    {
-        self.iconImageView.frame = CGRectMake(frame.origin.x, POINT_SPACE_Y, frame.size.width, frame.size.height);
-    }
-    
+//    CGRect frame = self.iconImageView.frame;
+//    if (infoStr.length == 0)
+//    {
+//        float y = (self.frame.size.height - frame.size.height)/2;
+//        self.iconImageView.frame = CGRectMake(frame.origin.x, y, frame.size.width, frame.size.height);
+//    }
+//    else
+//    {
+//        self.iconImageView.frame = CGRectMake(frame.origin.x, POINT_SPACE_Y, frame.size.width, frame.size.height);
+//    }
     self.iconImageView.backgroundColor = (selected) ? APP_MAIN_COLOR : [UIColor grayColor];
     self.iconImageView.highlighted = highlighted;
 }

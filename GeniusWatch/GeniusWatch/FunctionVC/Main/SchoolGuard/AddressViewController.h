@@ -11,5 +11,6 @@
 @interface AddressViewController : BasicMapViewController
 
 @property (nonatomic, assign) SetAddressType  addressType;
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
 
 @end

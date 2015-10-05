@@ -10,4 +10,10 @@
 
 @interface SetSchoolInfoViewController : BasicViewController
 
+@property (nonatomic, assign) BOOL isSetClassTime;
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
+
+- (void)addTableView;
+- (void)addButtons;
+
 @end

@@ -112,7 +112,23 @@
 + (NSString *)encodeToPercentEscapeString: (NSString *) input;
 
 
+/*
+ *  多属性字符串
+ *
+ *  @pram   textString          全字符串
+ *  @pram   attributedString    多属性字符串
+ *  @pram   string              要改变的字符串
+ *  @pram   textColor           字体颜色
+ *  @pram   textFont            字体大小
+ */
 + (void)makeString:(NSString *)textString toAttributeString:(NSMutableAttributedString *)attributedString  withString:(NSString *)string withTextColor:(UIColor *)textColor withTextFont:(UIFont *)textFont;
 
+
+/*
+ *  对比字符串显示多少分钟前
+ *
+ *  @pram   newsDate  要对比的时间字符串
+ */
++ (NSString *)getUTCFormateDate:(NSString *)newsDate;
 
 @end

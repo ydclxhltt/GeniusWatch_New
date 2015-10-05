@@ -8,12 +8,18 @@
 
 #import "AutoPowerOffViewController.h"
 #import "LeftRightLableCell.h"
+#import "CLPickerView.h"
 
-#define SPACE_X         10.0
-#define SPACE_Y         15.0
-#define LABEL_HEIGHT    50.0
-#define TIP_TEXT        @"注意:充电时,手表会一直保持开机状态,定时开关机不会生效."
+#define SPACE_X             10.0
+#define SPACE_Y             15.0
+#define LABEL_HEIGHT        50.0
+#define TIP_TEXT            @"注意:充电时,手表会一直保持开机状态,定时开关机不会生效."
+#define PICKERVIEW_HEIGHT   200.0 * CURRENT_SCALE
+
 @interface AutoPowerOffViewController ()
+
+@property (nonatomic, strong) UIButton *controlButton;
+@property (nonatomic, strong) CLPickerView *clPickerView;
 
 @end
 
@@ -33,6 +39,7 @@
 {
     [self addTableView];
     [self addFooterView];
+    [self addbutton];
 }
 
 - (void)addTableView
@@ -52,6 +59,67 @@
     tipLable.attributedText = string;
     
     self.table.tableFooterView = imageView;
+}
+
+
+- (void)addbutton
+{
+    _controlButton = [CreateViewTool createButtonWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) buttonImage:nil selectorName:@"controlButtonPressed:" tagDelegate:self];
+    _controlButton.backgroundColor = RGBA(.0, .0, .0, .3);
+    _controlButton.hidden = YES;
+    [self.view addSubview:_controlButton];
+}
+
+
+#pragma mark 控制按钮事件
+- (void)controlButtonPressed:(UIButton *)sender
+{
+    sender.hidden = YES;
+    [self movePickerViewIsShow:NO];
+}
+
+- (void)movePickerViewIsShow:(BOOL)isShow
+{
+    float y = (isShow) ? self.view.frame.size.height -  PICKERVIEW_HEIGHT : self.view.frame.size.height;
+    CGRect frame = self.clPickerView.frame;
+    frame.origin.y = y;
+    self.controlButton.hidden = !isShow;
+    [UIView animateWithDuration:.3 animations:^
+     {
+         self.clPickerView.frame = frame;
+     }];
+}
+
+#pragma mark 添加pickView
+- (void)addPickerViewWithIndex:(int)selectedIndex
+{
+    if (_clPickerView)
+    {
+        _clPickerView = nil;
+    }
+    __weak typeof(self) weakSelf = self;
+    CGRect frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, PICKERVIEW_HEIGHT);
+    {
+        _clPickerView = [[CLPickerView alloc] initWithFrame:frame pickerViewType:PickerViewTypeOnlyTime sureBlock:^(UIDatePicker *pickerView, NSDate *date)
+                         {
+                             NSDateFormatter *formatter  = [[NSDateFormatter alloc] init];
+                             [formatter setDateFormat:@"HH:mm"];
+                             NSString *dateString = [formatter stringFromDate:date];
+                             NSString *key = (selectedIndex == 0) ? @"poweronTime" : @"poweroffTime";
+                             [weakSelf.dataDic setObject:dateString forKey:key];
+                             NSLog(@"weakSelf.dataDic==%@",weakSelf.dataDic);
+                             [weakSelf.table reloadData];
+                             [weakSelf movePickerViewIsShow:NO];
+                         }
+                         cancelBlock:^
+                         {
+                             [weakSelf movePickerViewIsShow:NO];
+                         }];
+        [_clPickerView setPickViewMaxDate];
+    }
+    [self.view addSubview:_clPickerView];
+    [weakSelf movePickerViewIsShow:YES];
+    
 }
 
 #pragma mark UITableViewDelegate
@@ -94,6 +162,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self addPickerViewWithIndex:(int)indexPath.row];
 }
 
 - (void)didReceiveMemoryWarning {

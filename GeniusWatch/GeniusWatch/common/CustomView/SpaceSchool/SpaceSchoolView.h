@@ -12,6 +12,8 @@
 
 @property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, assign) BOOL isHighlighted;
+@property (nonatomic, strong) NSString *lateTime;
+@property (nonatomic, strong) NSArray *dataArray;
 
 - (instancetype)initWithFrame:(CGRect)frame dataArray:(NSArray *)array;
 

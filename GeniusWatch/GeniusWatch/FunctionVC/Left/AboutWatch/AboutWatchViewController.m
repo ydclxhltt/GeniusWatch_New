@@ -10,6 +10,7 @@
 #import "LeftRightLableCell.h"
 #import "WatchVersionViewController.h"
 #import "AddWatchViewController.h"
+#import "CreateQrcodeTool.h"
 
 //二维码
 #define SCANNING_VIEW_WH     130.0 * CURRENT_SCALE
@@ -86,7 +87,7 @@
         bgView = [CreateViewTool createImageViewWithFrame:CGRectMake(0, 0, width, height) placeholderImage:nil];
         
         _scanningView = [CreateViewTool createImageViewWithFrame:CGRectMake((width - SCANNING_VIEW_WH)/2, SPACE_Y, SCANNING_VIEW_WH, SCANNING_VIEW_WH) placeholderImage:nil];
-        _scanningView.backgroundColor = APP_MAIN_COLOR;
+        //_scanningView.backgroundColor = APP_MAIN_COLOR;
         [bgView addSubview:_scanningView];
         
         
@@ -123,7 +124,6 @@
      {
          NSLog(@"WATCH_INFO_URL===%@",responseDic);
          NSDictionary *dic = (NSDictionary *)responseDic;
-         //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
          description = (description) ? description : LOADING_INFO_FAIL;
@@ -157,6 +157,8 @@
     NSArray *array = @[@[],@[dataDic[@"imeiNo"]],@[dataDic[@"version"],dataDic[@"mobileExecutor"],dataDic[@"modelNo"]],descArray];
     self.dataArray = [NSMutableArray arrayWithArray:array];
     [self.table reloadData];
+    
+    self.scanningView.image = [CreateQrcodeTool createQrcodeWithString:dataDic[@"imeiNo"] imageSize:self.scanningView.frame.size.width redColor:0.0 greenColor:0.0 blueColor:0.0];
 
 }
 

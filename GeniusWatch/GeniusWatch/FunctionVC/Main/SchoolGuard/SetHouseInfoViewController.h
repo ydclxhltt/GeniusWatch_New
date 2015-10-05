@@ -10,4 +10,6 @@
 
 @interface SetHouseInfoViewController : BasicViewController
 
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
+
 @end

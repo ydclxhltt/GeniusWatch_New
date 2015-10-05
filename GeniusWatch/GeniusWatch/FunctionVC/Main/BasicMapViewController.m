@@ -26,28 +26,23 @@
 {
     [super viewDidLoad];
     [self addBackItem];
+    [self addMapView];
     // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [self setAboutLocationDelegate:self];
+    self.mapView.delegate = self;
+    self.geocodesearch.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    [self setAboutLocationDelegate:nil];
+    self.mapView.delegate = nil;
+    self.geocodesearch.delegate = nil;
 }
-
-#pragma mark 设置定位/地图代理
-- (void)setAboutLocationDelegate:(id)delegate
-{
-    if (_mapView)
-        _mapView.delegate = delegate;
-}
-
 
 #pragma mark  添加地图
 - (void)addMapView
@@ -81,10 +76,10 @@
     UIImage *image = [UIImage imageNamed:@"location_location_up"];
     float width = image.size.width/3 * CURRENT_SCALE;
     float height = image.size.height/3 * CURRENT_SCALE;
-    locaitonButton = [CreateViewTool createButtonWithFrame:CGRectMake(self.view.frame.size.width - SPACE_X - width, self.view.frame.size.height - (BAR_SPACE_Y) - height, width, height) buttonImage:@"location_location" selectorName:@"locationButtonPressed:" tagDelegate:self];
-    [self.view addSubview:locaitonButton];
+    _locaitonButton = [CreateViewTool createButtonWithFrame:CGRectMake(self.view.frame.size.width - SPACE_X - width, self.view.frame.size.height - (BAR_SPACE_Y) - height, width, height) buttonImage:@"location_location" selectorName:@"locationButtonPressed:" tagDelegate:self];
+    [self.view addSubview:_locaitonButton];
     
-    start_y = locaitonButton.frame.origin.y - ADD_Y;
+    start_y = _locaitonButton.frame.origin.y - ADD_Y;
 }
 
 #pragma mark  添加缩放按钮
@@ -101,6 +96,15 @@
         button.tag = i + 1;
         [self.view addSubview:button];
     }
+}
+
+#pragma mark GPS转化
+- (CLLocationCoordinate2D)makeGPSCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    NSDictionary *dict = BMKConvertBaiduCoorFrom(coordinate,BMK_COORDTYPE_GPS);
+    CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(dict); // 转换为百度地图所需要的经纬度
+    coordinate = baiduCoor;
+    return coordinate;
 }
 
 
@@ -132,6 +136,10 @@
     if (self.mapView)
     {
         self.mapView = nil;
+    }
+    if (self.geocodesearch)
+    {
+        self.geocodesearch = nil;
     }
 }
 

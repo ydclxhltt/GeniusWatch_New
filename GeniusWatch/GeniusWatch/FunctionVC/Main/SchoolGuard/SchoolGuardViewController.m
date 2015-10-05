@@ -38,10 +38,23 @@
     self.title = @"校园守护";
     [self addBackItem];
     [self setNavBarItemWithTitle:@"        设置" navItemType:RightItem selectorName:@"settingGuardInfo:"];
-    
     [self initUI];
     // Do any additional setup after loading the view.
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self initData];
+}
+
+#pragma mark 返回按钮事件
+- (void)backButtonPressed:(UIButton *)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [self setGuardInfo];
+}
+
 
 #pragma mark 初始化UI
 - (void)initUI
@@ -56,11 +69,11 @@
     start_y = LABEL_SPACE_Y + NAVBAR_HEIGHT;
     float width = self.view.frame.size.width - 2 * LABEL_SPACE_X;
     float height = (LABELVIEW_HEIGHT - 2 * LABEL_SPACE_Y)/2;
-    _addressLabel = [CreateViewTool createLabelWithFrame:CGRectMake(LABEL_SPACE_X, start_y, width, height) textString:@"广东省深圳市宝安区西乡街道1000路" textColor:TIP_COLOR textFont:TIP_FONT];
+    _addressLabel = [CreateViewTool createLabelWithFrame:CGRectMake(LABEL_SPACE_X, start_y, width, height) textString:@"" textColor:TIP_COLOR textFont:TIP_FONT];
     [self.view addSubview:_addressLabel];
     
     start_y += _addressLabel.frame.size.height;
-    _timeLable = [CreateViewTool createLabelWithFrame:CGRectMake(LABEL_SPACE_X, start_y, width, height) textString:@"守护时间段: 13:00 - 14:30; 16:00 - 18:00" textColor:TIP_COLOR textFont:FONT(13.0)];
+    _timeLable = [CreateViewTool createLabelWithFrame:CGRectMake(LABEL_SPACE_X, start_y, width, height) textString:@"" textColor:TIP_COLOR textFont:FONT(13.0)];
     [self.view addSubview:_timeLable];
     
     start_y += _timeLable.frame.size.height + LABEL_SPACE_Y;
@@ -74,7 +87,7 @@
 
 - (void)addItemView
 {
-    _spaceSchoolView = [[SpaceSchoolView alloc] initWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, self.view.frame.size.height - start_y - BUTTON_HEIGHT - 2 * BUTTON_SPACE_Y) dataArray:@[@"",@"",@"",@""]];
+    _spaceSchoolView = [[SpaceSchoolView alloc] initWithFrame:CGRectMake(0, start_y, self.view.frame.size.width, self.view.frame.size.height - start_y - BUTTON_HEIGHT - 2 * BUTTON_SPACE_Y)];
     [self.view addSubview:_spaceSchoolView];
 }
 
@@ -91,6 +104,62 @@
     [self.view addSubview:lineImageView];
 }
 
+#pragma mark 设置守护
+- (void)setGuardInfo
+{
+    //__weak typeof(self) weakSelf = self;
+    NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
+    imeiNo = (imeiNo) ? imeiNo : @"";
+    NSDictionary *requestDic = @{@"imeiNo":imeiNo,@"mobileNo":[GeniusWatchApplication shareApplication].userName,@"schoolLngLat":self.dataDic[@"owner"][@"schoolLngLat"],@"schoolPoi":self.dataDic[@"owner"][@"schoolPoi"],@"schoolFence":self.dataDic[@"owner"][@"schoolFence"],@"classDate":self.dataDic[@"owner"][@"classDate"],@"homeLngLat":self.dataDic[@"owner"][@"homeLngLat"],@"homePoi":self.dataDic[@"owner"][@"homePoi"],@"homeFence":self.dataDic[@"owner"][@"homeFence"],@"homeLatestTime":self.dataDic[@"owner"][@"homeLatestTime"]};
+    [[RequestTool alloc] requestWithUrl:SET_GUARD_URL
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"UPDATE_LOCATION_URL===%@",responseDic);
+         NSDictionary *dic = (NSDictionary *)responseDic;
+         NSString *errorCode = dic[@"errorCode"];
+         //NSString *description = dic[@"description"];
+         //description = (description) ? description : LOADING_FAIL;
+         if ([@"0" isEqualToString:errorCode])
+         {
+             //[SVProgressHUD showSuccessWithStatus:LOADING_SUCESS];
+         }
+         else
+         {
+             //[SVProgressHUD showErrorWithStatus:description];
+         }
+     }
+                            requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"UPDATE_LOCATION_error====%@",error);
+         //[SVProgressHUD showErrorWithStatus:LOADING_FAIL];
+     }];
+
+}
+
+
+#pragma mark 设置数据
+- (void)initData
+{
+    if (self.dataDic)
+    {
+        //守护时间段: 13:00 - 14:30; 16:00 - 18:00
+        NSDictionary *dic = self.dataDic[@"owner"];
+        self.addressLabel.text = NO_NULL(dic[@"schoolPoi"]);
+        NSString *amStart = NO_NULL(dic[@"classDate"][@"amStartTime"]);
+        NSString *amEnd = NO_NULL(dic[@"classDate"][@"amEndTime"])
+        NSString *pmStart = NO_NULL(dic[@"classDate"][@"pmStartTime"]);
+        NSString *pmEnd = NO_NULL(dic[@"classDate"][@"pmEndTime"])
+        NSString *latestTime = NO_NULL(dic[@"homeLatestTime"]);
+        self.timeLable.text = [NSString stringWithFormat:@"守护时间段: %@ - %@; %@ - %@",amStart,amEnd,pmStart,pmEnd];
+        
+        self.spaceSchoolView.lateTime = latestTime;
+        self.spaceSchoolView.dataArray = @[amStart,pmEnd,@"",latestTime];
+    }
+}
+
+
 #pragma mark 设置按钮
 - (void)settingGuardInfo:(UIButton *)sender
 {
@@ -105,11 +174,14 @@
     if (buttonIndex == 0)
     {
         SetSchoolInfoViewController *setSchoolInfoViewController = [[SetSchoolInfoViewController alloc] init];
+        setSchoolInfoViewController.isSetClassTime = NO;
+        setSchoolInfoViewController.dataDic = self.dataDic;
         [self.navigationController pushViewController:setSchoolInfoViewController animated:YES];
     }
     if (buttonIndex == 1)
     {
         SetHouseInfoViewController *setHouseInfoViewController = [[SetHouseInfoViewController alloc] init];
+        setHouseInfoViewController.dataDic = self.dataDic;
         [self.navigationController pushViewController:setHouseInfoViewController animated:YES];
     }
 }
@@ -118,6 +190,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

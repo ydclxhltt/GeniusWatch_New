@@ -21,6 +21,9 @@
 //设置加粗字体大小
 #define BOLD_FONT(f)            [UIFont boldSystemFontOfSize:f]
 
+//null
+#define NO_NULL(string)         (string) ? string : @"";
+
 //主色调
 #define APP_MAIN_COLOR          RGB(239.0,147.0,41.0)
 

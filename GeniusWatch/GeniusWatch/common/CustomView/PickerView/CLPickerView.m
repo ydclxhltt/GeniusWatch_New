@@ -85,25 +85,31 @@ typedef void (^CancelBlock) ();
     toolBar.items = @[cancelItem,spaceItem,sureItem];
     [self addSubview:toolBar];
     
-    if (PickerViewTypeDate == type)
-    {
-        datePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, toolBar.frame.size.height,self.frame.size.width, self.frame.size.height - toolBar.frame.size.height)];
-        datePicker.datePickerMode = UIDatePickerModeDate;
-        [self addSubview:datePicker];
-    }
-    else if (PickerViewTypeTime == type)
-    {
-        datePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, toolBar.frame.size.height,self.frame.size.width, self.frame.size.height - toolBar.frame.size.height)];
-        datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-        [self addSubview:datePicker];
-    }
-    else if (PickerViewTypeCustom == type)
+    if (PickerViewTypeCustom == type)
     {
         pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, toolBar.frame.size.height,self.frame.size.width, self.frame.size.height - toolBar.frame.size.height)];
         pickerView.delegate = self;
         pickerView.dataSource = self;
         [self addSubview:pickerView];
     }
+    else
+    {
+        datePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, toolBar.frame.size.height,self.frame.size.width, self.frame.size.height - toolBar.frame.size.height)];
+        [self addSubview:datePicker];
+        if (PickerViewTypeDate == type)
+        {
+            datePicker.datePickerMode = UIDatePickerModeDate;
+        }
+        else if (PickerViewTypeOnlyTime == type)
+        {
+            datePicker.datePickerMode = UIDatePickerModeTime;
+        }
+        else if (PickerViewTypeDateTime == type)
+        {
+            datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+        }
+    }
+
 }
 
 - (void)setPickViewMaxDate
@@ -151,19 +157,20 @@ typedef void (^CancelBlock) ();
 
 - (void)sure
 {
-    if (PickerViewTypeDate == self.pickerType || PickerViewTypeTime == self.pickerType)
-    {
-        //datePicker.date;
-        if (self.sureBlock)
-        {
-            self.sureBlock(datePicker,datePicker.date);
-        }
-    }
+
     if (PickerViewTypeCustom == self.pickerType)
     {
         if (self.customSureBlock)
         {
             self.customSureBlock(pickerView,(int)[pickerView selectedRowInComponent:0]);
+        }
+    }
+    else
+    {
+        //datePicker.date;
+        if (self.sureBlock)
+        {
+            self.sureBlock(datePicker,datePicker.date);
         }
     }
 }

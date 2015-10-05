@@ -38,6 +38,7 @@
     int currentDeviceIndex;
 }
 
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
 @property (nonatomic, strong) BMKMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *deviceArray;
 @property (nonatomic, strong) UIImageView *bageImageView;
@@ -55,8 +56,12 @@
     
     _deviceArray = [NSMutableArray arrayWithArray:[GeniusWatchApplication shareApplication].deviceList];
     currentDeviceIndex = [GeniusWatchApplication shareApplication].currentDeviceIndex;
+    if (self.deviceArray && [self.deviceArray count] > currentDeviceIndex)
+    {
+        self.dataDic = [NSMutableDictionary  dictionaryWithDictionary:self.deviceArray[currentDeviceIndex]];
+    }
     
-    [self getReverseGeocodeWithLocation:[self getBabyLocation]];
+    //[self getReverseGeocodeWithLocation:[self getBabyLocation]];
 
     [self initUI];
     
@@ -68,6 +73,7 @@
 {
     [super viewWillAppear:animated];
     [self setAboutLocationDelegate:self];
+    [self initData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -81,6 +87,38 @@
 {
     if (_mapView)
         _mapView.delegate = delegate;
+    if (geocodesearch)
+    {
+        geocodesearch.delegate = delegate;
+    }
+}
+
+#pragma mark 初始化数据
+- (void)initData
+{
+    CLLocationCoordinate2D coorfinate;
+    if (self.dataDic)
+    {
+        [self.deviceArray replaceObjectAtIndex:currentDeviceIndex withObject:self.dataDic];
+        NSDictionary *dic = self.dataDic[@"lastPosition"];
+        NSLog(@"====%@",dic[@"poi"]);
+        if (dic)
+        {
+            coorfinate = CLLocationCoordinate2DMake([dic[@"point"][@"lat"] floatValue], [dic[@"point"][@"lng"] floatValue]);
+            NSDictionary *dict = BMKConvertBaiduCoorFrom(coorfinate,BMK_COORDTYPE_GPS);
+            CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(dict); // 转换为百度地图所需要的经纬度
+            coorfinate = baiduCoor;
+        }
+        NSString *address = (dic[@"poi"]) ? dic[@"poi"] : @"";
+        self.addressLabel.text = [NSString stringWithFormat:@"%@  %@",[self getBabyLastTime],address];
+    }
+
+    [self setLocationCoordinate:coorfinate locationText:@""];
+    
+    NSString *iconUrl = @"";
+    //= @"http://p1.qqyou.com/touxiang/UploadPic/2014-7/24/2014072412362223172.jpg";
+    iconUrl = [self getBabyIcon];
+    [_bageImageView setImageWithURL:[NSURL URLWithString:iconUrl] placeholderImage:[UIImage imageNamed:@"baby_head_up"]];
 }
 
 #pragma mark 获取头像
@@ -103,6 +141,7 @@
     if (self.deviceArray && [self.deviceArray count] > currentDeviceIndex)
     {
         NSDictionary *dic = self.deviceArray[currentDeviceIndex][@"lastPosition"];
+        NSLog(@"====%@",dic[@"poi"]);
         if (dic)
         {
             coorfinate = CLLocationCoordinate2DMake([dic[@"point"][@"lat"] floatValue], [dic[@"point"][@"lng"] floatValue]);
@@ -122,8 +161,10 @@
         {
             timeStr = dic[@"datetime"];
             timeStr = (timeStr) ? timeStr : @"";
+            timeStr = [CommonTool getUTCFormateDate:timeStr];
         }
     }
+    
     return timeStr;
 }
 
@@ -299,10 +340,15 @@
         case 1:
             //守护
             viewController = [[SchoolGuardViewController alloc] init];
+            ((SchoolGuardViewController *)viewController).dataDic = self.dataDic;
             break;
         case 2:
             //定位
             viewController = [[LocationViewController alloc] init];
+            ((LocationViewController *)viewController).lastCoordinate = self.mapView.centerCoordinate;
+            ((LocationViewController *)viewController).lastAddress = self.addressLabel.text;
+            ((LocationViewController *)viewController).dataDic = self.dataDic;
+            //viewController = [[BasicMapViewController alloc] init];
             break;
         case 3:
             //微聊
@@ -398,7 +444,7 @@
         BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
         newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
         newAnnotationView.image = [UIImage imageNamed:@"location_icon"];
-        newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
+        newAnnotationView.animatesDrop = NO;// 设置该标注点动画显示
         return newAnnotationView;
     }
     return nil;

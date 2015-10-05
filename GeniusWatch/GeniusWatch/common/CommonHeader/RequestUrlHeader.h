@@ -94,4 +94,7 @@
 //修改密码
 #define CHG_PWD_URL                 MAKE_REQUEST_URL(@"user/changepwd")
 
+//设置守护
+#define SET_GUARD_URL               MAKE_REQUEST_URL(@"device/care")
+
 #endif

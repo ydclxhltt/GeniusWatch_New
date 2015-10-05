@@ -11,6 +11,8 @@
 #import "LightTimeViewController.h"
 #import "SoundSharkViewController.h"
 #import "AutoPowerOffViewController.h"
+#import "SetSchoolInfoViewController.h"
+#import "AutoLinkManListViewController.h"
 
 //提示
 #define TIP_STRING           @"设置修改后,手表网络良好会自动同步,生效后APP会收到消息提醒."
@@ -37,7 +39,8 @@
 @property (nonatomic, strong) NSArray *headerArray;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) NSMutableArray *contactArray;
+@property (nonatomic, strong) NSMutableArray *autoContactArray;
+@property (nonatomic, strong) NSMutableArray *noAutoContactArray;
 @property (nonatomic, strong) UIButton *saveButton;
 @property (nonatomic, strong) NSString *autoContactStr;
 @property (nonatomic, strong) NSString *classTimeStr;
@@ -59,7 +62,6 @@
     _dataArray = [[NSMutableArray alloc] init];
     self.autoContactStr = @"";
     self.secondStr = @"";
-    _contactArray = [[NSMutableArray alloc] init];
     [self initUI];
     [self getWatchSettings];
     // Do any additional setup after loading the view.
@@ -129,7 +131,6 @@
      {
          NSLog(@"WATCH_SETTING_URL===%@",responseDic);
          NSDictionary *dic = (NSDictionary *)responseDic;
-         //0:成功 401.1 账号或密码错误 404 账号不存在
          NSString *errorCode = dic[@"errorCode"];
          NSString *description = dic[@"description"];
          description = (description) ? description : LOADING_FAIL;
@@ -182,9 +183,9 @@
 
 - (void)setAutoContactsWithArray:(NSArray *)array
 {
+    _autoContactArray = [[NSMutableArray alloc] init];
+    _noAutoContactArray = [[NSMutableArray alloc] init];
     NSLog(@"array===%@",array);
-    NSMutableArray *autoArray = [[NSMutableArray alloc] init];
-    NSMutableArray *noAutoArray = [[NSMutableArray alloc] init];
     NSMutableArray *nameArray = [[NSMutableArray alloc] init];
     for (NSDictionary *dic in array)
     {
@@ -196,13 +197,19 @@
                 NSString *name = dic[@"nickName"];
                 name = name ? name : @"";
                 [nameArray addObject:name];
-                [autoArray addObject:dic];
+                
             }
+        }
+        int userType = [dic[@"userType"] intValue];
+        if (userType <= 2)
+        {
+            [_autoContactArray addObject:dic];
         }
         else
         {
-            [noAutoArray addObject:dic];
+            [_noAutoContactArray addObject:dic];
         }
+        
     }
     self.autoContactStr = [nameArray componentsJoinedByString:@","];
     if ([nameArray count] > 3)
@@ -329,7 +336,6 @@
             }
             
         }
-        
         cell.textLabel.text = self.titleArray[indexPath.section][indexPath.row];
         
         return cell;
@@ -355,8 +361,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0 && indexPath.row == 0)
+    {
+        AutoLinkManListViewController *autoLinkManListViewController = [[AutoLinkManListViewController alloc] init];
+        autoLinkManListViewController.autoArray = self.autoContactArray;
+        autoLinkManListViewController.noAutoArray = self.noAutoContactArray;
+        autoLinkManListViewController.dataDic = self.dataDic;
+        [self.navigationController pushViewController:autoLinkManListViewController animated:YES];
+    }
     if (indexPath.section == 1)
     {
+        if (indexPath.row == 0)
+        {
+            SetSchoolInfoViewController *classTimeViewController = [[SetSchoolInfoViewController alloc] init];
+            classTimeViewController.isSetClassTime = YES;
+            classTimeViewController.dataDic = self.dataDic;
+            [self.navigationController pushViewController:classTimeViewController animated:YES];
+        }
         if (indexPath.row == 1)
         {
             AutoPowerOffViewController *autoPowerOffViewController = [[AutoPowerOffViewController alloc] init];

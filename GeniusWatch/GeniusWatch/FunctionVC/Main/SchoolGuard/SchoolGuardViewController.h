@@ -10,4 +10,6 @@
 
 @interface SchoolGuardViewController : BasicViewController
 
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
+
 @end
