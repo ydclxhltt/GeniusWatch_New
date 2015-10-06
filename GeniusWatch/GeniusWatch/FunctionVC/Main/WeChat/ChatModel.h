@@ -20,4 +20,5 @@
 
 - (void)addSpecifiedItem:(NSDictionary *)dic;
 
+- (void)addWatchItem:(NSDictionary *)dic;
 @end

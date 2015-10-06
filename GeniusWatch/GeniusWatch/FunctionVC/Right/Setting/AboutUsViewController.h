@@ -8,6 +8,6 @@
 
 #import "WebViewController.h"
 
-@interface AboutUsViewController : WebViewController
+@interface AboutUsViewController : BasicViewController
 
 @end

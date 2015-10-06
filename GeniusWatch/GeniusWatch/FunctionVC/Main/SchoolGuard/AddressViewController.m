@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableDictionary *tempDataDic;
 @property (nonatomic, assign) float fenceValue;
 @property (nonatomic, strong) UILabel *addressLabel;
+@property (nonatomic, assign) CLLocationCoordinate2D searchCoordinate;
 
 @end
 
@@ -32,14 +33,24 @@
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButtonPressed)];
     self.navigationItem.rightBarButtonItem = rightItem;
     [self initUI];
-    [self initData];
+    self.tempDataDic = [NSMutableDictionary dictionaryWithDictionary:self.dataDic];
+    
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self initData];
 }
 
 #pragma mark 搜索
 - (void)searchButtonPressed
 {
     OutSideAddressViewController *outSideAddressViewController = [[OutSideAddressViewController alloc] init];
+    outSideAddressViewController.searchCoordinate = self.searchCoordinate;
+    outSideAddressViewController.addressType = self.addressType;
+    outSideAddressViewController.dataDic = self.tempDataDic;
     [self.navigationController pushViewController:outSideAddressViewController animated:YES];
 }
 
@@ -68,8 +79,7 @@
     float y = label.frame.origin.y + label.frame.size.height + add_y;
     label_height = 40.0;
     float space_x = 20.0;
-    NSString *addressStr = NO_NULL((self.addressType == SetAddressTypeHouse) ? self.dataDic[@"owner"][@"homePoi"] : self.dataDic[@"owner"][@"schoolPoi"])
-    _addressLabel = [CreateViewTool createLabelWithFrame:CGRectMake(space_x, y, bgImageView.frame.size.width - 2 * space_x, label_height) textString:addressStr textColor:[UIColor whiteColor] textFont:FONT(15.0)];
+    _addressLabel = [CreateViewTool createLabelWithFrame:CGRectMake(space_x, y, bgImageView.frame.size.width - 2 * space_x, label_height) textString:@"" textColor:[UIColor whiteColor] textFont:FONT(15.0)];
     _addressLabel.numberOfLines = 2;
     [bgImageView addSubview:_addressLabel];
     
@@ -84,17 +94,20 @@
 #pragma mark 初始化数据
 - (void)initData
 {
-    self.tempDataDic = [NSMutableDictionary dictionaryWithDictionary:self.dataDic];
     self.fenceValue = (self.addressType == SetAddressTypeHouse) ? [self.tempDataDic[@"owner"][@"homeFence"] floatValue] : [self.tempDataDic[@"owner"][@"schoolFence"] floatValue];
     NSDictionary *dic = (self.addressType == SetAddressTypeHouse) ? self.tempDataDic[@"owner"][@"homeLngLat"] : self.tempDataDic[@"owner"][@"schoolLngLat"];
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([dic[@"lat"] floatValue], [dic[@"lng"] floatValue]);
+    self.searchCoordinate = coordinate;
     [self addFenceWithCoordinate:coordinate];
+    
+    NSString *addressStr = NO_NULL((self.addressType == SetAddressTypeHouse) ? self.tempDataDic[@"owner"][@"homePoi"] : self.tempDataDic[@"owner"][@"schoolPoi"])
+    self.addressLabel.text = addressStr;
 }
 
 #pragma mark 添加围栏
 - (void)addFenceWithCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    coordinate = [self makeGPSCoordinate:coordinate];
+    //coordinate = [self makeGPSCoordinate:coordinate];
     [self setLocationCoordinate:coordinate];
     [self setFenceCoordinate:coordinate];
     //[self getReverseGeocodeWithLocation:coordinate];
@@ -169,7 +182,8 @@
  */
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate
 {
-    //[self addFenceWithCoordinate:coordinate];
+    //[self addFenceWithCoordinate:coordinate]; 
+    self.searchCoordinate = coordinate;
     [self setLocationCoordinate:coordinate];
     [self setFenceCoordinate:coordinate];
     [self getReverseGeocodeWithLocation:coordinate];
@@ -219,10 +233,6 @@
     
 }
 
-- (void)changeDataForDictionary:(NSMutableDictionary *)dataDic
-{
-
-}
 
 #pragma mark 保存
 - (void)saveButtonPressed:(UIButton *)sender
@@ -265,7 +275,6 @@
      }];
     
 }
-
 
 
 - (void)didReceiveMemoryWarning

@@ -36,6 +36,7 @@
 {
     webView = [[UIWebView  alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     webView.scalesPageToFit = YES;
+    webView.scrollView.bounces = NO;
     [self.view addSubview:webView];
 }
 

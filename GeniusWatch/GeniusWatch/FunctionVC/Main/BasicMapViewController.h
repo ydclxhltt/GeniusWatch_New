@@ -6,10 +6,6 @@
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 
-typedef enum : NSUInteger {
-    SetAddressTypeSchool,
-    SetAddressTypeHouse,
-} SetAddressType;
 
 #import "BasicViewController.h"
 #import "BMapKit.h"

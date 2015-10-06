@@ -13,9 +13,10 @@
 
 @implementation ChatModel
 
-- (void)populateRandomDataSource {
+- (void)populateRandomDataSource
+{
     self.dataSource = [NSMutableArray array];
-    [self.dataSource addObjectsFromArray:[self additems:5]];
+    //[self.dataSource addObjectsFromArray:[self additems:5]];
 }
 
 - (void)addRandomItemsToDataSource:(NSInteger)number{
@@ -31,12 +32,42 @@
     UUMessageFrame *messageFrame = [[UUMessageFrame alloc]init];
     UUMessage *message = [[UUMessage alloc] init];
     NSMutableDictionary *dataDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-    
-    NSString *URLStr = @"http://img0.bdstatic.com/img/image/shouye/xinshouye/mingxing16.jpg";
+    NSString *name = dic[@"nickName"];
+    NSString *iconImageName = @"custom_man";
+    int index = (int)[[GeniusWatchApplication shareApplication].titlesArray indexOfObject:name];
+    iconImageName = (index > [[GeniusWatchApplication shareApplication].titlesArray count]) ? iconImageName : [GeniusWatchApplication shareApplication].imagesArray[index];
+    NSString *URLStr = [[NSBundle mainBundle] pathForResource:iconImageName ofType:@"png"];
     [dataDic setObject:@(UUMessageFromMe) forKey:@"from"];
     [dataDic setObject:[[NSDate date] description] forKey:@"strTime"];
-    [dataDic setObject:@"Hello,Sister" forKey:@"strName"];
+    [dataDic setObject:name forKey:@"strName"];
     [dataDic setObject:URLStr forKey:@"strIcon"];
+    [dataDic setObject:iconImageName forKey:@"strDIcon"];
+    
+    [message setWithDict:dataDic];
+    [message minuteOffSetStart:previousTime end:dataDic[@"strTime"]];
+    messageFrame.showTime = message.showDateLabel;
+    [messageFrame setMessage:message];
+    
+    if (message.showDateLabel) {
+        previousTime = dataDic[@"strTime"];
+    }
+    [self.dataSource addObject:messageFrame];
+}
+
+// 添加Watch的item
+- (void)addWatchItem:(NSDictionary *)dic
+{
+    UUMessageFrame *messageFrame = [[UUMessageFrame alloc]init];
+    UUMessage *message = [[UUMessage alloc] init];
+    NSMutableDictionary *dataDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+    NSString *name = dic[@"nickName"];
+    NSString *iconImageName = @"default_icon";
+    NSString *URLStr = dic[@"strIcon"];
+    [dataDic setObject:@(UUMessageFromOther) forKey:@"from"];
+    [dataDic setObject:[[NSDate date] description] forKey:@"strTime"];
+    [dataDic setObject:[name stringByAppendingString:@"的手表"] forKey:@"strName"];
+    [dataDic setObject:URLStr forKey:@"strIcon"];
+    [dataDic setObject:iconImageName forKey:@"strDIcon"];
     
     [message setWithDict:dataDic];
     [message minuteOffSetStart:previousTime end:dataDic[@"strTime"]];

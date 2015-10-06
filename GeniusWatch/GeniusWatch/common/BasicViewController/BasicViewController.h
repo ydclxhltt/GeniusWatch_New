@@ -26,6 +26,12 @@
 #define SECTION_HEADER_COLOR    RGB(237.0,237.0,237.0)
 #define SECTION_LABEL_COLOR     RGB(137.0,137.0,137.0)
 
+
+typedef enum : NSUInteger {
+    SetAddressTypeSchool,
+    SetAddressTypeHouse,
+} SetAddressType;
+
 typedef enum : NSUInteger
 {
     LeftItem,

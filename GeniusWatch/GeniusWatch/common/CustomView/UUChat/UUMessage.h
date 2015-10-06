@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, MessageFrom) {
 
 @interface UUMessage : NSObject
 
+@property (nonatomic, copy) NSString *strDIcon;
 @property (nonatomic, copy) NSString *strIcon;
 @property (nonatomic, copy) NSString *strId;
 @property (nonatomic, copy) NSString *strTime;

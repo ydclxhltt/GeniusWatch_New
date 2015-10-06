@@ -11,7 +11,7 @@
 
 @implementation UUMessage
 - (void)setWithDict:(NSDictionary *)dict{
-    
+    self.strDIcon = dict[@"strDIcon"];
     self.strIcon = dict[@"strIcon"];
     self.strName = dict[@"strName"];
     self.strId = dict[@"strId"];

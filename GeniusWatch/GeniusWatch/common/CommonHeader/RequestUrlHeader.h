@@ -97,4 +97,7 @@
 //设置守护
 #define SET_GUARD_URL               MAKE_REQUEST_URL(@"device/care")
 
+//用户协议
+#define USER_NOTICE_URL             MAKE_REQUEST_URL(@"static/license")
+
 #endif

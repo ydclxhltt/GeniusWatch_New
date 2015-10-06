@@ -6,8 +6,9 @@
 //  Copyright (c) 2015年 chenlei. All rights reserved.
 //
 
-#define IMAGEVIEW_HEIGHT   55.0
-#define ADD_X              10.0 * CURRENT_SCALE
+#define IMAGEVIEW_HEIGHT        55.0
+#define ADD_X                   10.0 * CURRENT_SCALE
+#define TIP_STRING(pn,name)     [NSString stringWithFormat:@"查询手表号%@的%@命令已发送,请稍等...(请确保当前手表处于有信号状态)",pn,name]
 
 #import "TelephoneChargeViewController.h"
 #import "UUInputFunctionView.h"
@@ -39,10 +40,10 @@
 #pragma mark 初始化UI
 - (void)initUI
 {
-    [self addButtons];
     [self addTableView];
     [self addRefreshViews];
     [self loadBaseViewsAndData];
+    [self addButtons];
 }
 
 
@@ -82,6 +83,7 @@
         
         UIButton *button = [CreateViewTool  createButtonWithFrame:CGRectMake(i * button_width, 0, button_width, button_height) buttonTitle:nil titleColor:nil normalBackgroundColor:nil highlightedBackgroundColor:nil selectorName:@"chargeButtonPressed:" tagDelegate:self];
         button.showsTouchWhenHighlighted = YES;
+        button.tag = 100 + i;
         [imageView addSubview:button];
     }
 }
@@ -145,7 +147,50 @@
 #pragma mark 按钮响应时间
 - (void)chargeButtonPressed:(UIButton *)sender
 {
-    
+    NSString *url = (sender.tag - 100 == 0) ? WATCH_FLOWCHARGE_URL : WATCH_CALLCHARGE_URL;
+    NSString *phoneNumber = NO_NULL([GeniusWatchApplication shareApplication].currentDeviceDic[@"owner"][@"mobileNo"]);
+    NSString *nickName = NO_NULL([GeniusWatchApplication shareApplication].currentDeviceDic[@"owner"][@"nickName"]);
+    NSDictionary *dic = @{@"strContent": TIP_STRING(phoneNumber, (sender.tag - 100 == 0) ? @"流量" : @"话费"),
+                          @"type": @(UUMessageTypeText),@"nickName":nickName};
+    [self dealTheFunctionData:dic];
+    [self watchRequestWithUrl:url];
+}
+
+
+#pragma mark 发送查询请求
+- (void)watchRequestWithUrl:(NSString *)url
+{
+    __weak typeof(self) weakSelf = self;
+    NSString *imeiNo = [GeniusWatchApplication shareApplication].currentDeviceDic[@"imeiNo"];
+    imeiNo = imeiNo ? imeiNo : @"";
+    NSDictionary *requestDic = @{@"imeiNo":imeiNo};
+    [[RequestTool alloc] requestWithUrl:url
+                         requestParamas:requestDic
+                            requestType:RequestTypeAsynchronous
+                          requestSucess:^(AFHTTPRequestOperation *operation, id responseDic)
+     {
+         NSLog(@"WATCH_FLOWCHARGE_URL===%@",responseDic);
+         NSDictionary *dataDic = (NSDictionary *)responseDic;
+         NSString *errorCode = responseDic[@"errorCode"];
+         if ([@"0" isEqualToString:errorCode])
+         {
+             NSString *message = dataDic[@"description"];
+             NSString *iconUrl = NO_NULL([GeniusWatchApplication shareApplication].currentDeviceDic[@"owner"][@"headShot"]);
+             NSString *nickName = NO_NULL([GeniusWatchApplication shareApplication].currentDeviceDic[@"owner"][@"ownerName"]);
+             NSDictionary *dic = @{@"strContent":message,
+                                   @"type": @(UUMessageTypeText),@"nickName":nickName,@"strIcon":iconUrl};
+             [weakSelf addOtherDataWithDictionary:dic];
+         }
+         else
+         {
+             
+         }
+     }
+     requestFail:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"WATCH_FLOWCHARGE_URL_error====%@",error);
+     }];
+
 }
 
 
@@ -159,12 +204,19 @@
 //    [self dealTheFunctionData:dic];
 //}
 //
-//- (void)dealTheFunctionData:(NSDictionary *)dic
-//{
-//    [self.chatModel addSpecifiedItem:dic];
-//    [self.chatTableView reloadData];
-//    [self tableViewScrollToBottom];
-//}
+- (void)dealTheFunctionData:(NSDictionary *)dic
+{
+    [self.chatModel addSpecifiedItem:dic];
+    [self.chatTableView reloadData];
+    [self tableViewScrollToBottom];
+}
+
+- (void)addOtherDataWithDictionary:(NSDictionary *)dic
+{
+    [self.chatModel addWatchItem:dic];
+    [self.chatTableView reloadData];
+    [self tableViewScrollToBottom];
+}
 
 #pragma mark - tableView delegate & datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

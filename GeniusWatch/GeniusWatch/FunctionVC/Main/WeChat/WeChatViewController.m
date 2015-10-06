@@ -161,7 +161,7 @@
 - (void)UUInputFunctionView:(UUInputFunctionView *)funcView sendMessage:(NSString *)message
 {
     NSDictionary *dic = @{@"strContent": message,
-                          @"type": @(UUMessageTypeText)};
+                          @"type": @(UUMessageTypeText),@"nickName":@"哈哈哈哈"};
     funcView.TextViewInput.text = @"";
     [funcView changeSendBtnWithPhoto:YES];
     [self dealTheFunctionData:dic];
@@ -170,7 +170,7 @@
 - (void)UUInputFunctionView:(UUInputFunctionView *)funcView sendPicture:(UIImage *)image
 {
     NSDictionary *dic = @{@"picture": image,
-                          @"type": @(UUMessageTypePicture)};
+                          @"type": @(UUMessageTypePicture),@"nickName":@"哈哈哈哈"};
     [self dealTheFunctionData:dic];
 }
 
@@ -178,7 +178,7 @@
 {
     NSDictionary *dic = @{@"voice": voice,
                           @"strVoiceTime": [NSString stringWithFormat:@"%d",(int)second],
-                          @"type": @(UUMessageTypeVoice)};
+                          @"type": @(UUMessageTypeVoice),@"nickName":@"哈哈哈哈"};
     [self dealTheFunctionData:dic];
 }
 
