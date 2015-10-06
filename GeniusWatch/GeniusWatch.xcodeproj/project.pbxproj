@@ -157,6 +157,9 @@
 		CE80E2011BB933D6006808E5 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = CE80E2001BB933D5006808E5 /* edit.png */; };
 		CE94245A1BAE73C400922151 /* AddLinkManViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9424591BAE73C400922151 /* AddLinkManViewController.m */; };
 		CE94245D1BAE876100922151 /* SetLinkNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE94245C1BAE876100922151 /* SetLinkNumberViewController.m */; };
+		CE9840A71BC3BBA700720E10 /* personal_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9840A51BC3BBA700720E10 /* personal_phone.png */; };
+		CE9840A81BC3BBA700720E10 /* personal_watch_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9840A61BC3BBA700720E10 /* personal_watch_icon.png */; };
+		CE9840AA1BC3BFD400720E10 /* chat_location_watch.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9840A91BC3BFD400720E10 /* chat_location_watch.png */; };
 		CE9B588B1BC21363004A208D /* location_home.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9B58891BC21363004A208D /* location_home.png */; };
 		CE9B588C1BC21363004A208D /* location_school.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9B588A1BC21363004A208D /* location_school.png */; };
 		CE9E4E091BC2C4E6008813DE /* OutSideAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9E4E081BC2C4E6008813DE /* OutSideAddressViewController.m */; };
@@ -223,6 +226,9 @@
 		CEB7E9E21B9A0B1000A6A479 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7E9E01B9A0B1000A6A479 /* line.png */; };
 		CEB7E9E31B9A0B1000A6A479 /* pick_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB7E9E11B9A0B1000A6A479 /* pick_bg.png */; };
 		CEB7E9E61B9A176900A6A479 /* CustomAddWatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */; };
+		CEB95B391BC412010009AFD2 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB95B381BC412010009AFD2 /* SearchResultViewController.m */; };
+		CEB95B3B1BC42C2D0009AFD2 /* app_set_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB95B3A1BC42C2D0009AFD2 /* app_set_icon.png */; };
+		CEB95B3E1BC42CC00009AFD2 /* UserNoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB95B3D1BC42CC00009AFD2 /* UserNoticeViewController.m */; };
 		CEC273B01BBC12930097DB2A /* AutoLinkManListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC273AF1BBC12930097DB2A /* AutoLinkManListViewController.m */; };
 		CEC273B31BBC22D80097DB2A /* no_seclected.png in Resources */ = {isa = PBXBuildFile; fileRef = CEC273B11BBC22D80097DB2A /* no_seclected.png */; };
 		CEC273B41BBC22D80097DB2A /* seclected.png in Resources */ = {isa = PBXBuildFile; fileRef = CEC273B21BBC22D80097DB2A /* seclected.png */; };
@@ -456,6 +462,9 @@
 		CE9424591BAE73C400922151 /* AddLinkManViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLinkManViewController.m; sourceTree = "<group>"; };
 		CE94245B1BAE876100922151 /* SetLinkNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetLinkNumberViewController.h; sourceTree = "<group>"; };
 		CE94245C1BAE876100922151 /* SetLinkNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetLinkNumberViewController.m; sourceTree = "<group>"; };
+		CE9840A51BC3BBA700720E10 /* personal_phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = personal_phone.png; sourceTree = "<group>"; };
+		CE9840A61BC3BBA700720E10 /* personal_watch_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = personal_watch_icon.png; sourceTree = "<group>"; };
+		CE9840A91BC3BFD400720E10 /* chat_location_watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chat_location_watch.png; sourceTree = "<group>"; };
 		CE9B58891BC21363004A208D /* location_home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_home.png; sourceTree = "<group>"; };
 		CE9B588A1BC21363004A208D /* location_school.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_school.png; sourceTree = "<group>"; };
 		CE9E4E071BC2C4E6008813DE /* OutSideAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutSideAddressViewController.h; sourceTree = "<group>"; };
@@ -638,6 +647,11 @@
 		CEB7E9E11B9A0B1000A6A479 /* pick_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pick_bg.png; sourceTree = "<group>"; };
 		CEB7E9E41B9A176900A6A479 /* CustomAddWatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAddWatchViewController.h; sourceTree = "<group>"; };
 		CEB7E9E51B9A176900A6A479 /* CustomAddWatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAddWatchViewController.m; sourceTree = "<group>"; };
+		CEB95B371BC412010009AFD2 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
+		CEB95B381BC412010009AFD2 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
+		CEB95B3A1BC42C2D0009AFD2 /* app_set_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_set_icon.png; sourceTree = "<group>"; };
+		CEB95B3C1BC42CC00009AFD2 /* UserNoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNoticeViewController.h; sourceTree = "<group>"; };
+		CEB95B3D1BC42CC00009AFD2 /* UserNoticeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNoticeViewController.m; sourceTree = "<group>"; };
 		CEC273AE1BBC12930097DB2A /* AutoLinkManListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLinkManListViewController.h; sourceTree = "<group>"; };
 		CEC273AF1BBC12930097DB2A /* AutoLinkManListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoLinkManListViewController.m; sourceTree = "<group>"; };
 		CEC273B11BBC22D80097DB2A /* no_seclected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_seclected.png; sourceTree = "<group>"; };
@@ -742,6 +756,8 @@
 				CE1D97CC1BA9C03B008AD527 /* ChangePasswordViewController.m */,
 				CE1D97CE1BA9C04C008AD527 /* MessageSettingViewController.h */,
 				CE1D97CF1BA9C04C008AD527 /* MessageSettingViewController.m */,
+				CEB95B3C1BC42CC00009AFD2 /* UserNoticeViewController.h */,
+				CEB95B3D1BC42CC00009AFD2 /* UserNoticeViewController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -812,6 +828,8 @@
 				CEB643F41BAB279600369A01 /* SetHouseInfoViewController.m */,
 				CE9E4E071BC2C4E6008813DE /* OutSideAddressViewController.h */,
 				CE9E4E081BC2C4E6008813DE /* OutSideAddressViewController.m */,
+				CEB95B371BC412010009AFD2 /* SearchResultViewController.h */,
+				CEB95B381BC412010009AFD2 /* SearchResultViewController.m */,
 			);
 			path = SchoolGuard;
 			sourceTree = "<group>";
@@ -1173,6 +1191,7 @@
 		CE49EA491B96256D005C00E4 /* right */ = {
 			isa = PBXGroup;
 			children = (
+				CEB95B3A1BC42C2D0009AFD2 /* app_set_icon.png */,
 				CE80E1FA1BB8BDA6006808E5 /* linkbook_up.png */,
 				CE1D97C61BA9A867008AD527 /* Detail_add_pic.png */,
 				775318C01BA81BFE00EA7ECC /* app.png */,
@@ -1445,6 +1464,9 @@
 		CEA607111B88ACB500C4DADE /* home */ = {
 			isa = PBXGroup;
 			children = (
+				CE9840A91BC3BFD400720E10 /* chat_location_watch.png */,
+				CE9840A51BC3BBA700720E10 /* personal_phone.png */,
+				CE9840A61BC3BBA700720E10 /* personal_watch_icon.png */,
 				CE9B58891BC21363004A208D /* location_home.png */,
 				CE9B588A1BC21363004A208D /* location_school.png */,
 				CEAA67B21BBECBDE00208BAC /* location_wifi.png */,
@@ -1628,6 +1650,7 @@
 				CE300B9E1B97FEAA003D71AF /* personal_baby.png in Resources */,
 				777FC0B01BA16E60005B8559 /* app_set_after_app.png in Resources */,
 				775318BD1BA81BDA00EA7ECC /* mother.png in Resources */,
+				CEB95B3B1BC42C2D0009AFD2 /* app_set_icon.png in Resources */,
 				77A7D08A1B9ED686004C621A /* chat_voice_record.png in Resources */,
 				77A7D0811B9ED686004C621A /* chat_animation3.png in Resources */,
 				CE300BAB1B983190003D71AF /* personal_watch.png in Resources */,
@@ -1710,6 +1733,7 @@
 				CE0516F41BB05412003B83C5 /* loading.png in Resources */,
 				CEB7E9E31B9A0B1000A6A479 /* pick_bg.png in Resources */,
 				77A7D0871B9ED686004C621A /* Chat_record_circle.png in Resources */,
+				CE9840A71BC3BBA700720E10 /* personal_phone.png in Resources */,
 				77D354241B87210D0055B0B7 /* Images.xcassets in Resources */,
 				775318C11BA81BFE00EA7ECC /* app.png in Resources */,
 				CE300BB51B983506003D71AF /* error.png in Resources */,
@@ -1721,7 +1745,9 @@
 				CEB114271B9F0D1C00E01851 /* default_icon.png in Resources */,
 				77A7D0901B9ED686004C621A /* headImage.jpeg in Resources */,
 				775318B51BA81BDA00EA7ECC /* custom_man.png in Resources */,
+				CE9840A81BC3BBA700720E10 /* personal_watch_icon.png in Resources */,
 				777FC0B11BA16E60005B8559 /* app_set_after_eliminate.png in Resources */,
+				CE9840AA1BC3BFD400720E10 /* chat_location_watch.png in Resources */,
 				77A7D0891B9ED686004C621A /* Chat_take_picture.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1751,6 +1777,7 @@
 				77E9AD861BA93CA1007FF34C /* LinkManListCell.m in Sources */,
 				775318861BA7AF4500EA7ECC /* WatchSettingViewController.m in Sources */,
 				777FC0C41BA1843E005B8559 /* FeedbackViewController.m in Sources */,
+				CEB95B391BC412010009AFD2 /* SearchResultViewController.m in Sources */,
 				77A7550D1B9D653F006F9B83 /* SchoolGuardViewController.m in Sources */,
 				CE9E4E091BC2C4E6008813DE /* OutSideAddressViewController.m in Sources */,
 				77D354191B87210D0055B0B7 /* AppDelegate.m in Sources */,
@@ -1814,6 +1841,7 @@
 				CEA606FF1B8897E900C4DADE /* UIAlertView+AFNetworking.m in Sources */,
 				CEA607211B88C4C900C4DADE /* IndexViewController.m in Sources */,
 				77A7D0961B9ED686004C621A /* UUMessageContentButton.m in Sources */,
+				CEB95B3E1BC42CC00009AFD2 /* UserNoticeViewController.m in Sources */,
 				77A7550C1B9D653F006F9B83 /* LocationViewController.m in Sources */,
 				CEA606E71B8897E900C4DADE /* SDWebImageDownloader.m in Sources */,
 				CEA606EC1B8897E900C4DADE /* UIImage+GIF.m in Sources */,
